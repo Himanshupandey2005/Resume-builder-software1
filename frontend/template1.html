@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume — Classic Template</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 220px 40px 20px;
+            gap: 20px;
+        }
+
+        /* ─── FLOATING TOOLBAR ─── */
+        #floatToolbar {
+            position: fixed;
+            display: none;
+            background: #16213e;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 6px 10px;
+            gap: 5px;
+            align-items: center;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            flex-wrap: wrap;
+        }
+
+        #floatToolbar.show { display: flex; }
+
+        .ft-btn {
+            padding: 5px 9px;
+            background: rgba(255,255,255,0.08);
+            color: white; border: none;
+            border-radius: 6px; font-size: 13px;
+            cursor: pointer; transition: background 0.2s;
+            line-height: 1; min-width: 28px;
+            text-align: center;
+        }
+
+        .ft-btn:hover { background: rgba(255,255,255,0.2); }
+        .ft-btn.active { background: #e94560; }
+
+        .ft-select {
+            padding: 4px 6px;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px; font-size: 12px;
+            cursor: pointer; outline: none;
+        }
+
+        .ft-select option { background: #16213e; color: white; }
+
+        .ft-color {
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer; padding: 2px;
+        }
+
+        .ft-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
+
+        /* ─── PAGE ─── */
+        .resume-page {
+            background: white;
+            width: 794px;
+            min-height: 1123px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            background: #1a1a2e;
+            padding: 36px 40px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .photo-placeholder {
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 3px dashed rgba(255,255,255,0.25);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; flex-shrink: 0;
+            color: rgba(255,255,255,0.4); font-size: 12px;
+            text-align: center; transition: all 0.3s;
+        }
+
+        .photo-placeholder:hover { border-color: #e94560; color: #e94560; }
+
+        .header-photo {
+            width: 110px; height: 110px;
+            border-radius: 50%; object-fit: cover;
+            border: 3px solid #e94560;
+            cursor: pointer; flex-shrink: 0; display: none;
+        }
+
+        .header-info { flex: 1; }
+
+        .resume-name {
+            font-size: 34px; font-weight: 700;
+            color: white; text-transform: uppercase;
+            letter-spacing: 2px; outline: none;
+        }
+
+        .resume-title {
+            font-size: 13px; color: rgba(255,255,255,0.55);
+            letter-spacing: 3px; text-transform: uppercase;
+            margin-top: 6px; outline: none;
+        }
+
+        /* ─── BODY ─── */
+        .page-body { display: grid; grid-template-columns: 255px 1fr; }
+
+        .left-col { background: #f5f5f7; padding: 26px 18px; }
+        .right-col { padding: 26px 22px; }
+
+        /* ─── SECTIONS ─── */
+        .section { margin-bottom: 22px; position: relative; }
+
+        .sec-title {
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: #e94560; border-bottom: 2px solid #e94560;
+            padding-bottom: 5px; margin-bottom: 11px; outline: none;
+            min-width: 20px;
+        }
+
+        .field { margin-bottom: 7px; position: relative; }
+
+        .fval {
+            font-size: 12px; color: #333; outline: none;
+            display: block; line-height: 1.55; min-width: 20px;
+        }
+
+        .fval:focus { background: rgba(233,69,96,0.04); border-radius: 3px; padding: 1px 3px; }
+
+        .contact-row {
+            display: flex; align-items: flex-start;
+            gap: 7px; margin-bottom: 8px; position: relative;
+        }
+
+        .c-icon { color: #e94560; font-size: 13px; flex-shrink: 0; }
+
+        .c-text {
+            font-size: 12px; color: #444; outline: none;
+            flex: 1; min-width: 20px; line-height: 1.4;
+        }
+
+        .c-text:focus { background: rgba(233,69,96,0.04); border-radius: 3px; }
+
+        .exp-item { margin-bottom: 14px; position: relative; }
+
+        .exp-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+        .exp-co { font-size: 13px; font-weight: 700; color: #1a1a2e; outline: none; min-width: 20px; }
+        .exp-date { font-size: 11px; color: #888; outline: none; white-space: nowrap; }
+        .exp-role { font-size: 12px; color: #e94560; margin-top: 2px; outline: none; min-width: 20px; }
+        .exp-desc { font-size: 12px; color: #555; margin-top: 5px; line-height: 1.65; outline: none; min-width: 20px; }
+        .exp-desc:focus { background: rgba(233,69,96,0.04); border-radius: 3px; padding: 1px 3px; }
+
+        /* ─── DELETE BUTTONS ─── */
+        .del-btn {
+            position: absolute; right: -8px; top: 0;
+            background: #e94560; color: white; border: none;
+            border-radius: 4px; width: 17px; height: 17px;
+            font-size: 11px; cursor: pointer; display: none;
+            align-items: center; justify-content: center;
+            z-index: 10; line-height: 1;
+        }
+
+        .field:hover > .del-btn,
+        .exp-item:hover > .del-btn,
+        .contact-row:hover > .del-btn { display: flex; }
+
+        .sec-del {
+            position: absolute; right: 0; top: -2px;
+            background: #e94560; color: white; border: none;
+            border-radius: 4px; width: 17px; height: 17px;
+            font-size: 11px; cursor: pointer; display: none;
+            align-items: center; justify-content: center;
+            z-index: 10; line-height: 1;
+        }
+
+        .section:hover > .sec-del { display: flex; }
+
+        /* ─── ADD BUTTONS ─── */
+        .add-btn {
+            display: flex; align-items: center; gap: 5px;
+            padding: 4px 9px; background: transparent;
+            border: 1.5px dashed #ccc; border-radius: 5px;
+            font-size: 10px; color: #bbb; cursor: pointer;
+            transition: all 0.3s; margin-top: 7px;
+        }
+
+        .add-btn:hover { border-color: #e94560; color: #e94560; }
+
+        /* ─── PAGE 2 BUTTON ─── */
+        .add-page-btn {
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.6);
+            border: 1.5px dashed rgba(255,255,255,0.2);
+            border-radius: 10px; font-size: 14px;
+            cursor: pointer; transition: all 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .add-page-btn:hover { border-color: #e94560; color: #e94560; background: rgba(233,69,96,0.08); }
+
+        /* ─── PAGE 2 ─── */
+        .page2 {
+            background: white;
+            width: 794px;
+            min-height: 1123px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+            padding: 40px;
+            position: relative;
+        }
+
+        .page2-del {
+            position: absolute; top: 12px; right: 12px;
+            background: #e94560; color: white; border: none;
+            border-radius: 6px; padding: 5px 12px;
+            font-size: 12px; cursor: pointer;
+        }
+
+        /* ─── TOOLBAR ─── */
+        .main-toolbar {
+            position: fixed; top: 20px; right: 20px;
+            background: #16213e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 14px; display: flex; flex-direction: column;
+            gap: 8px; z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5); width: 165px;
+        }
+
+        .tb-btn {
+            padding: 9px 14px; border: none; border-radius: 8px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; display: flex; align-items: center;
+            gap: 8px; width: 100%; font-family: 'Arial', sans-serif;
+        }
+
+        .tb-back { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); }
+        .tb-back:hover { background: rgba(255,255,255,0.14); }
+        .tb-theme { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); }
+        .tb-theme:hover { background: rgba(255,255,255,0.14); }
+        .tb-dl { background: #e94560; color: white; }
+        .tb-dl:hover { background: #c73652; }
+
+        .tb-divider { height: 1px; background: rgba(255,255,255,0.08); }
+
+        .theme-dots { display: none; flex-wrap: wrap; gap: 7px; padding: 3px 0; }
+        .theme-dots.show { display: flex; }
+
+        .tdot {
+            width: 26px; height: 26px; border-radius: 50%;
+            cursor: pointer; border: 2px solid rgba(255,255,255,0.15);
+            transition: transform 0.2s;
+        }
+
+        .tdot:hover { transform: scale(1.2); }
+
+        @media print {
+            body { background: white; padding: 0; gap: 0; }
+            .main-toolbar, #floatToolbar, .no-print { display: none !important; }
+            .resume-page, .page2 { box-shadow: none; page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── FLOATING TOOLBAR ─── -->
+<div id="floatToolbar" class="no-print">
+    <button class="ft-btn" onclick="fmt('bold')" title="Bold"><b>B</b></button>
+    <button class="ft-btn" onclick="fmt('italic')" title="Italic"><i>I</i></button>
+    <button class="ft-btn" onclick="fmt('underline')" title="Underline"><u>U</u></button>
+    <button class="ft-btn" onclick="fmt('strikeThrough')" title="Strike">S̶</button>
+    <div class="ft-divider"></div>
+    <select class="ft-select" onchange="setSize(this.value)">
+        <option value="">Size</option>
+        <option value="9px">9</option>
+        <option value="10px">10</option>
+        <option value="11px">11</option>
+        <option value="12px">12</option>
+        <option value="13px">13</option>
+        <option value="14px">14</option>
+        <option value="16px">16</option>
+        <option value="18px">18</option>
+        <option value="20px">20</option>
+        <option value="24px">24</option>
+        <option value="28px">28</option>
+        <option value="32px">32</option>
+        <option value="36px">36</option>
+    </select>
+    <select class="ft-select" onchange="setFont(this.value)">
+        <option value="">Font</option>
+        <option value="Arial">Arial</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Calibri">Calibri</option>
+        <option value="Courier New">Courier New</option>
+    </select>
+    <div class="ft-divider"></div>
+    <input class="ft-color" type="color" value="#333333" onchange="setColor(this.value)" title="Text Color">
+    <div class="ft-divider"></div>
+    <button class="ft-btn" onclick="fmt('removeFormat')" style="font-size:10px;">✕</button>
+</div>
+
+<!-- ─── MAIN TOOLBAR ─── -->
+<div class="main-toolbar no-print">
+    <button class="tb-btn tb-back" onclick="window.location.href='dashboard.html'">← Back</button>
+    <div class="tb-divider"></div>
+    <button class="tb-btn tb-theme" onclick="toggleTheme()">🎨 Theme</button>
+    <div class="theme-dots" id="themeDots">
+        <div class="tdot" style="background:#e94560" onclick="changeTheme('#e94560')"></div>
+        <div class="tdot" style="background:#2E75B6" onclick="changeTheme('#2E75B6')"></div>
+        <div class="tdot" style="background:#27ae60" onclick="changeTheme('#27ae60')"></div>
+        <div class="tdot" style="background:#f39c12" onclick="changeTheme('#f39c12')"></div>
+        <div class="tdot" style="background:#8e44ad" onclick="changeTheme('#8e44ad')"></div>
+        <div class="tdot" style="background:#0f3460" onclick="changeTheme('#0f3460')"></div>
+        <div class="tdot" style="background:#00b4d8" onclick="changeTheme('#00b4d8')"></div>
+        <div class="tdot" style="background:#c0392b" onclick="changeTheme('#c0392b')"></div>
+    </div>
+    <div class="tb-divider"></div>
+    <button class="tb-btn tb-dl" onclick="downloadPDF()">⬇ Download PDF</button>
+</div>
+
+<!-- ─── PAGE 1 ─── -->
+<div class="resume-page" id="page1">
+
+    <!-- Header -->
+    <div class="header" id="resumeHeader">
+        <div class="photo-placeholder no-print" id="photoPlaceholder" onclick="document.getElementById('photoInput').click()">+ Photo</div>
+        <img class="header-photo" id="photoPreview" src="" onclick="document.getElementById('photoInput').click()" alt="">
+        <input type="file" id="photoInput" accept="image/*" class="no-print" style="display:none" onchange="handlePhoto(this)">
+        <div class="header-info">
+            <div class="resume-name" contenteditable="true">YOUR NAME</div>
+            <div class="resume-title" contenteditable="true">Your Professional Title</div>
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="page-body">
+
+        <!-- LEFT -->
+        <div class="left-col">
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Contact</div>
+                <div id="contactList">
+                    <div class="contact-row">
+                        <span class="c-icon">📍</span>
+                        <span class="c-text" contenteditable="true">Your City, State</span>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    <div class="contact-row">
+                        <span class="c-icon">📧</span>
+                        <span class="c-text" contenteditable="true">your@email.com</span>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    <div class="contact-row">
+                        <span class="c-icon">📱</span>
+                        <span class="c-text" contenteditable="true">+91-XXXXXXXXXX</span>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    <div class="contact-row">
+                        <span class="c-icon">🔗</span>
+                        <span class="c-text" contenteditable="true">LinkedIn URL</span>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addContact()">+ Add</button>
+            </div>
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Skills</div>
+                <div id="skillsList">
+                    <div class="field">
+                        <div class="fval" contenteditable="true">HTML, CSS, JavaScript</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    <div class="field">
+                        <div class="fval" contenteditable="true">Node.js, Express.js</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    <div class="field">
+                        <div class="fval" contenteditable="true">MySQL, MongoDB</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addSkill()">+ Add</button>
+            </div>
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Languages</div>
+                <div id="langList">
+                    <div class="field">
+                        <div class="fval" contenteditable="true">Hindi (Native)</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    <div class="field">
+                        <div class="fval" contenteditable="true">English (Fluent)</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addLanguage()">+ Add</button>
+            </div>
+
+            <div id="leftCustom"></div>
+            <button class="add-btn no-print" style="width:100%;justify-content:center;" onclick="addLeftSection()">+ Add Section</button>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-col">
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Profile</div>
+                <div class="fval" contenteditable="true" style="line-height:1.75;color:#555;">Write your professional summary here. Describe your skills, experience, and what you bring to the table.</div>
+            </div>
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Work Experience</div>
+                <div id="expList">
+                    <div class="exp-item">
+                        <div class="exp-top">
+                            <div>
+                                <div class="exp-co" contenteditable="true">Company Name</div>
+                                <div class="exp-role" contenteditable="true">Your Role</div>
+                            </div>
+                            <div class="exp-date" contenteditable="true">2024 - Present</div>
+                        </div>
+                        <div class="exp-desc" contenteditable="true">Describe your responsibilities and achievements here.</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addExp()">+ Add Experience</button>
+            </div>
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Education</div>
+                <div id="eduList">
+                    <div class="exp-item">
+                        <div class="exp-top">
+                            <div>
+                                <div class="exp-co" contenteditable="true">College / University</div>
+                                <div class="exp-role" contenteditable="true">Degree Name</div>
+                            </div>
+                            <div class="exp-date" contenteditable="true">2022 - 2025</div>
+                        </div>
+                        <div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addEdu()">+ Add Education</button>
+            </div>
+
+            <div class="section">
+                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="sec-title" contenteditable="true">Projects</div>
+                <div id="projectList">
+                    <div class="exp-item">
+                        <div class="exp-top">
+                            <div>
+                                <div class="exp-co" contenteditable="true">Project Name</div>
+                                <div class="exp-role" contenteditable="true">Tech Stack</div>
+                            </div>
+                        </div>
+                        <div class="exp-desc" contenteditable="true">Describe your project, what it does, and key achievements.</div>
+                        <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addProject()">+ Add Project</button>
+            </div>
+
+            <div id="rightCustom"></div>
+            <button class="add-btn no-print" style="width:100%;justify-content:center;" onclick="addRightSection()">+ Add Section</button>
+
+        </div>
+    </div>
+</div>
+
+<!-- ─── ADD PAGE 2 BUTTON ─── -->
+<button class="add-page-btn no-print" id="addPageBtn" onclick="addPage2()">+ Add Page 2</button>
+
+<!-- ─── PAGE 2 (hidden initially) ─── -->
+<div class="page2 no-print-hide" id="page2" style="display:none;">
+    <button class="page2-del no-print" onclick="removePage2()">✕ Remove Page 2</button>
+
+    <div id="page2Sections">
+        <div class="section">
+            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+            <div class="sec-title" contenteditable="true" style="color:#e94560; border-bottom-color:#e94560;">Achievements</div>
+            <div class="fval" contenteditable="true" style="line-height:1.75; color:#555;">Write your achievements here...</div>
+        </div>
+    </div>
+
+    <button class="add-btn no-print" style="width:200px;justify-content:center;margin-top:16px;" onclick="addPage2Section()">+ Add Section</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'index.html';
+
+    let themeColor = '#e94560';
+    let savedRange = null;
+
+    // ─── FLOATING TOOLBAR ───
+    document.addEventListener('mouseup', (e) => {
+        if (e.target.closest('#floatToolbar')) return;
+        setTimeout(() => {
+            const sel = window.getSelection();
+            if (sel && sel.toString().length > 0) {
+                const rect = sel.getRangeAt(0).getBoundingClientRect();
+                const tb = document.getElementById('floatToolbar');
+                tb.style.top = (window.scrollY + rect.top - 55) + 'px';
+                tb.style.left = (window.scrollX + rect.left) + 'px';
+                tb.classList.add('show');
+                savedRange = sel.getRangeAt(0).cloneRange();
+            } else {
+                document.getElementById('floatToolbar').classList.remove('show');
+            }
+        }, 10);
+    });
+
+    document.addEventListener('mousedown', (e) => {
+        if (!e.target.closest('#floatToolbar')) {
+            document.getElementById('floatToolbar').classList.remove('show');
+        }
+    });
+
+    const restoreSel = () => {
+        if (savedRange) {
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(savedRange);
+        }
+    };
+
+    const fmt = (cmd) => { restoreSel(); document.execCommand(cmd, false, null); };
+
+    const setSize = (size) => {
+        if (!size) return;
+        restoreSel();
+        document.execCommand('fontSize', false, '7');
+        document.querySelectorAll('font[size="7"]').forEach(el => {
+            el.removeAttribute('size');
+            el.style.fontSize = size;
+        });
+    };
+
+    const setFont = (font) => {
+        if (!font) return;
+        restoreSel();
+        document.execCommand('fontName', false, font);
+    };
+
+    const setColor = (color) => { restoreSel(); document.execCommand('foreColor', false, color); };
+
+    // ─── PHOTO ───
+    const handlePhoto = (input) => {
+        const file = input.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('photoPreview').src = e.target.result;
+            document.getElementById('photoPreview').style.display = 'block';
+            document.getElementById('photoPlaceholder').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // ─── THEME ───
+    const toggleTheme = () => document.getElementById('themeDots').classList.toggle('show');
+
+    const changeTheme = (color) => {
+        themeColor = color;
+        document.getElementById('resumeHeader').style.background = color;
+        document.querySelectorAll('.sec-title').forEach(el => { el.style.color = color; el.style.borderBottomColor = color; });
+        document.querySelectorAll('.exp-role').forEach(el => { el.style.color = color; });
+        document.querySelectorAll('.c-icon').forEach(el => { el.style.color = color; });
+        document.getElementById('photoPreview').style.borderColor = color;
+        document.getElementById('themeDots').classList.remove('show');
+    };
+
+    // ─── ADD FUNCTIONS ───
+    const addContact = () => {
+        const d = document.createElement('div'); d.className = 'contact-row';
+        d.innerHTML = `<span class="c-icon" style="color:${themeColor}">📌</span><span class="c-text" contenteditable="true">New Info</span><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('contactList').appendChild(d);
+    };
+
+    const addSkill = () => {
+        const d = document.createElement('div'); d.className = 'field';
+        d.innerHTML = `<div class="fval" contenteditable="true">New Skill</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('skillsList').appendChild(d);
+    };
+
+    const addLanguage = () => {
+        const d = document.createElement('div'); d.className = 'field';
+        d.innerHTML = `<div class="fval" contenteditable="true">New Language</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('langList').appendChild(d);
+    };
+
+    const addExp = () => {
+        const d = document.createElement('div'); d.className = 'exp-item';
+        d.innerHTML = `<div class="exp-top"><div><div class="exp-co" contenteditable="true">Company Name</div><div class="exp-role" contenteditable="true" style="color:${themeColor}">Your Role</div></div><div class="exp-date" contenteditable="true">2024 - Present</div></div><div class="exp-desc" contenteditable="true">Describe responsibilities here.</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('expList').appendChild(d);
+    };
+
+    const addEdu = () => {
+        const d = document.createElement('div'); d.className = 'exp-item';
+        d.innerHTML = `<div class="exp-top"><div><div class="exp-co" contenteditable="true">College Name</div><div class="exp-role" contenteditable="true" style="color:${themeColor}">Degree Name</div></div><div class="exp-date" contenteditable="true">2022 - 2025</div></div><div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('eduList').appendChild(d);
+    };
+
+    const addProject = () => {
+        const d = document.createElement('div'); d.className = 'exp-item';
+        d.innerHTML = `<div class="exp-top"><div><div class="exp-co" contenteditable="true">Project Name</div><div class="exp-role" contenteditable="true" style="color:${themeColor}">Tech Stack</div></div></div><div class="exp-desc" contenteditable="true">Project description here.</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('projectList').appendChild(d);
+    };
+
+    const addLeftSection = () => {
+        const d = document.createElement('div'); d.className = 'section';
+        d.innerHTML = `<button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button><div class="sec-title" contenteditable="true" style="color:${themeColor};border-bottom-color:${themeColor}">New Section</div><div class="custom-wrap"><div class="field"><div class="fval" contenteditable="true">Content here...</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button></div></div><button class="add-btn no-print" onclick="addLeftItem(this)">+ Add Item</button>`;
+        document.getElementById('leftCustom').appendChild(d);
+    };
+
+    const addLeftItem = (btn) => {
+        const d = document.createElement('div'); d.className = 'field';
+        d.innerHTML = `<div class="fval" contenteditable="true">New Item</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        btn.previousElementSibling.appendChild(d);
+    };
+
+    const addRightSection = () => {
+        const d = document.createElement('div'); d.className = 'section';
+        d.innerHTML = `<button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button><div class="sec-title" contenteditable="true" style="color:${themeColor};border-bottom-color:${themeColor}">New Section</div><div class="custom-wrap"><div class="exp-item"><div class="exp-top"><div><div class="exp-co" contenteditable="true">Title</div><div class="exp-role" contenteditable="true" style="color:${themeColor}">Subtitle</div></div><div class="exp-date" contenteditable="true">Date</div></div><div class="exp-desc" contenteditable="true">Description here...</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button></div></div><button class="add-btn no-print" onclick="addRightItem(this)">+ Add Item</button>`;
+        document.getElementById('rightCustom').appendChild(d);
+    };
+
+    const addRightItem = (btn) => {
+        const d = document.createElement('div'); d.className = 'exp-item';
+        d.innerHTML = `<div class="exp-top"><div><div class="exp-co" contenteditable="true">Title</div><div class="exp-role" contenteditable="true" style="color:${themeColor}">Subtitle</div></div><div class="exp-date" contenteditable="true">Date</div></div><div class="exp-desc" contenteditable="true">Description here...</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+        btn.previousElementSibling.appendChild(d);
+    };
+
+    // ─── PAGE 2 ───
+    const addPage2 = () => {
+        document.getElementById('page2').style.display = 'block';
+        document.getElementById('addPageBtn').style.display = 'none';
+        document.getElementById('page2').style.display = 'block';
+        document.getElementById('page2').classList.remove('no-print-hide');
+    };
+
+    const removePage2 = () => {
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('addPageBtn').style.display = 'block';
+    };
+
+    const addPage2Section = () => {
+        const d = document.createElement('div'); d.className = 'section';
+        d.innerHTML = `<button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button><div class="sec-title" contenteditable="true" style="color:${themeColor};border-bottom-color:${themeColor}">New Section</div><div class="fval" contenteditable="true" style="line-height:1.75;color:#555;">Content here...</div>`;
+        document.getElementById('page2Sections').appendChild(d);
+    };
+
+    // ─── PDF DOWNLOAD ───
+    const downloadPDF = async () => {
+        document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
+        const page2 = document.getElementById('page2');
+        const page2Visible = page2.style.display !== 'none';
+
+        const opt = {
+            margin: 0, filename: 'resume.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false, scrollY: 0 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        const pages = [document.getElementById('page1')];
+        if (page2Visible) pages.push(page2);
+
+        let pdf = html2pdf().set(opt);
+
+        if (pages.length === 1) {
+            await pdf.from(pages[0]).save();
+        } else {
+            const worker = html2pdf().set(opt);
+            await worker.from(pages[0]).toPdf().get('pdf').then(async (pdfObj) => {
+                pdfObj.addPage();
+                const canvas = await html2pdf().set(opt).from(pages[1]).outputImg();
+                pdfObj.addImage(canvas, 'JPEG', 0, 0, 210, 297);
+            }).save();
+        }
+
+        document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+        if (document.getElementById('photoPreview').src) {
+            document.getElementById('photoPlaceholder').style.display = 'none';
+        }
+        if (!page2Visible) page2.style.display = 'none';
+    };
+</script>
+</body>
+</html>

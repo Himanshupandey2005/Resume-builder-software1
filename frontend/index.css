@@ -1,0 +1,662 @@
+/* ─── GOOGLE FONTS ─── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ─── CSS VARIABLES ─── */
+:root {
+    --primary: #1a1a2e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --light: #f5f5f7;
+    --white: #ffffff;
+    --gray: #8a8a9a;
+    --border: #e0e0e8;
+    --shadow: 0 8px 32px rgba(26,26,46,0.12);
+    --shadow-hover: 0 16px 48px rgba(26,26,46,0.2);
+    --radius: 16px;
+    --radius-sm: 8px;
+}
+
+/* ─── RESET & BASE ─── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--primary);
+    min-height: 100vh;
+}
+
+/* ─── LOGIN / REGISTER PAGE ─── */
+#loginForm, #registerForm {
+    background: var(--white);
+    width: 440px;
+    margin: 80px auto;
+    padding: 48px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+#loginForm::before, #registerForm::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+#loginForm h2, #registerForm h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+#loginForm p.subtitle, #registerForm p.subtitle {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 32px;
+}
+
+#loginForm input, #registerForm input {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+    background: var(--light);
+    color: var(--primary);
+}
+
+#loginForm input:focus, #registerForm input:focus {
+    border-color: var(--accent);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(233,69,96,0.08);
+}
+
+#loginForm input::placeholder, #registerForm input::placeholder {
+    color: var(--gray);
+}
+
+#loginForm button[onclick], #registerForm button[onclick] {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #c73652);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+#loginForm button[onclick]:hover, #registerForm button[onclick]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(233,69,96,0.35);
+}
+
+#loginForm > p, #registerForm > p {
+    text-align: center;
+    margin-top: 24px;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+#loginForm span, #registerForm span {
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+#loginForm span:hover, #registerForm span:hover {
+    color: #c73652;
+}
+
+/* ─── NAVBAR STYLE TOP BAR ─── */
+.top-bar {
+    background: var(--primary);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+
+.top-bar h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.top-bar span {
+    color: var(--accent);
+}
+
+/* ─── DASHBOARD ─── */
+#dashboard {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+#dashboard > h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+#dashboard > p {
+    color: var(--gray);
+    margin-bottom: 32px;
+    font-size: 15px;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+#dashboard > button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#dashboard > button:first-of-type {
+    background: linear-gradient(135deg, var(--accent), #c73652);
+    color: var(--white);
+    margin-right: 12px;
+}
+
+#dashboard > button:first-of-type:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(233,69,96,0.35);
+}
+
+#dashboard > button:last-of-type {
+    background: transparent;
+    color: var(--gray);
+    border: 1.5px solid var(--border);
+    margin-right: 0;
+}
+
+#dashboard > button:last-of-type:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ─── RESUME CARDS ─── */
+#resumeList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+#resumeList div {
+    background: var(--white);
+    padding: 28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 1.5px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+#resumeList div::before {
+    content: '📄';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 32px;
+    opacity: 0.15;
+}
+
+#resumeList div:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent);
+}
+
+#resumeList h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary);
+    font-size: 20px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+#resumeList button {
+    padding: 8px 18px;
+    margin-right: 8px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#resumeList button:first-of-type {
+    background: var(--accent2);
+    color: var(--white);
+}
+
+#resumeList button:first-of-type:hover {
+    background: #0a2540;
+    transform: translateY(-1px);
+}
+
+#resumeList button:last-of-type {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+}
+
+#resumeList button:last-of-type:hover {
+    background: var(--accent);
+    color: var(--white);
+}
+
+/* ─── BUILDER PAGE ─── */
+#builder {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+#builder > h1 {
+    grid-column: 1 / -1;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--primary);
+}
+
+#builder > button:first-of-type {
+    grid-column: 1 / -1;
+    width: fit-content;
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--gray);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+#builder > button:first-of-type:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ─── LEFT PANEL ─── */
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ─── TEMPLATE SELECTOR ─── */
+#templateSelector {
+    background: var(--white);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+#templateSelector h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 16px;
+}
+
+#templateSelector button {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    background: var(--light);
+    color: var(--primary);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+#templateSelector button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(233,69,96,0.04);
+}
+
+#templateSelector button:last-child {
+    margin-bottom: 0;
+}
+
+/* ─── PHOTO SECTION ─── */
+#photoSection {
+    background: var(--white);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+#photoSection h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 16px;
+}
+
+#photoSection input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--gray);
+    cursor: pointer;
+}
+
+#photoSection button {
+    width: 100%;
+    padding: 10px;
+    background: var(--accent2);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+#photoSection button:hover {
+    background: #0a2540;
+    transform: translateY(-1px);
+}
+
+/* ─── ADD SECTION FORM ─── */
+#addSection {
+    background: var(--white);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+#addSection h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 16px;
+}
+
+#addSection select, #addSection input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    background: var(--light);
+    color: var(--primary);
+    transition: all 0.3s;
+}
+
+#addSection select:focus, #addSection input:focus {
+    border-color: var(--accent);
+    background: var(--white);
+}
+
+#addSection button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--accent), #c73652);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+#addSection button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(233,69,96,0.35);
+}
+
+/* ─── RESUME PREVIEW ─── */
+#resumePreview {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px;
+    min-height: 600px;
+}
+
+#photoPreview {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 24px;
+    border: 3px solid var(--accent);
+}
+
+/* ─── SECTIONS LIST ─── */
+#sectionsList > div {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+#sectionsList > div:last-child {
+    border-bottom: none;
+}
+
+#sectionsList h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary);
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+#sectionsList input {
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    margin-right: 8px;
+    outline: none;
+    width: 160px;
+    transition: all 0.3s;
+}
+
+#sectionsList input:focus {
+    border-color: var(--accent);
+}
+
+#sectionsList button {
+    padding: 8px 14px;
+    margin-right: 6px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+#sectionsList p {
+    font-size: 14px;
+    color: #444;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--light);
+    line-height: 1.6;
+}
+
+/* ─── ATS SCORE ─── */
+#atsScore {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-top: 20px;
+}
+
+#atsScore h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+#atsScore ul {
+    margin-top: 16px;
+    padding-left: 0;
+    list-style: none;
+}
+
+#atsScore li {
+    padding: 8px 12px;
+    background: #fff8e1;
+    border-left: 3px solid #f39c12;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* ─── ACTION BUTTONS ─── */
+.action-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* ─── PDF & ATS BUTTONS ─── */
+#builder > button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* ─── TEMPLATE: CLASSIC ─── */
+.template-classic #sectionsList h3 {
+    color: #1F4E79;
+    font-family: 'Georgia', serif;
+    border-bottom: 2px solid #1F4E79;
+    padding-bottom: 6px;
+}
+
+.template-classic #sectionsList p {
+    font-size: 13px;
+    color: #333;
+}
+
+/* ─── TEMPLATE: MODERN ─── */
+.template-modern #sectionsList h3 {
+    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    background: rgba(233,69,96,0.06);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 4px solid var(--accent);
+}
+
+.template-modern #sectionsList p {
+    font-size: 14px;
+    padding-left: 12px;
+}
+
+/* ─── TEMPLATE: MINIMAL ─── */
+.template-minimal #sectionsList h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    color: var(--gray);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+.template-minimal #sectionsList p {
+    font-size: 13px;
+    color: #555;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+    #loginForm, #registerForm {
+        width: 90%;
+        margin: 40px auto;
+        padding: 32px 24px;
+    }
+
+    #builder {
+        grid-template-columns: 1fr;
+    }
+
+    #resumeList {
+        grid-template-columns: 1fr;
+    }
+}

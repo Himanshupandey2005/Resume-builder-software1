@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f0f4f8;
+            color: #1a1a2e;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            background: #0f0c29;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .nav-brand span { color: #e94560; }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px 14px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-back:hover { color: #e94560; border-color: #e94560; }
+
+        /* ─── LAYOUT ─── */
+        .builder-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+            align-items: start;
+        }
+
+        /* ─── LEFT PANEL ─── */
+        .left-panel { display: flex; flex-direction: column; gap: 16px; }
+
+        .panel-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid #e0e0e8;
+        }
+
+        .panel-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            margin-bottom: 14px;
+        }
+
+        /* Template buttons */
+        .template-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 11px 14px;
+            margin-bottom: 8px;
+            background: #f5f5f7;
+            border: 1.5px solid #e0e0e8;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: #1a1a2e;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .template-btn:last-child { margin-bottom: 0; }
+        .template-btn:hover { border-color: #e94560; color: #e94560; background: rgba(233,69,96,0.04); }
+        .template-btn i { font-size: 18px; }
+
+        /* Photo upload */
+        .photo-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e94560;
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 8px;
+            border: 1.5px dashed #e0e0e8;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #aaa;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 10px;
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-btn:hover { background: #0a2540; }
+
+        /* Section form */
+        .form-select, .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border: 1.5px solid #e0e0e8;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f5f7;
+            color: #1a1a2e;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-select:focus, .form-input:focus { border-color: #e94560; background: #fff; }
+
+        .add-section-btn {
+            width: 100%;
+            padding: 11px;
+            background: linear-gradient(135deg, #e94560, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-section-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(233,69,96,0.3); }
+
+        /* Action buttons */
+        .action-btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .btn-pdf { background: #27ae60; color: #fff; }
+        .btn-pdf:hover { background: #219a52; }
+        .btn-ats { background: #f5f5f7; color: #1a1a2e; border: 1.5px solid #e0e0e8; }
+        .btn-ats:hover { border-color: #0f3460; color: #0f3460; }
+
+        /* ATS Score */
+        #atsScore { margin-top: 12px; }
+        #atsScore h3 { font-size: 16px; margin-bottom: 10px; color: #1a1a2e; }
+
+        .ats-bar-bg {
+            background: #f0f4f8;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .ats-bar-fill { height: 100%; border-radius: 10px; transition: width 0.5s; }
+
+        #atsScore ul { list-style: none; padding: 0; }
+        #atsScore li {
+            padding: 8px 12px;
+            background: #fff8e1;
+            border-left: 3px solid #f39c12;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* ─── RIGHT PANEL — RESUME PREVIEW ─── */
+        #resumePreview {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #e0e0e8;
+            padding: 40px;
+            min-height: 700px;
+        }
+
+        #photoPreview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e94560;
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        /* ─── SECTIONS ─── */
+        #sectionsList > div {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        #sectionsList > div:last-child { border-bottom: none; }
+
+        #sectionsList h3 {
+            font-size: 18px;
+            color: #1a1a2e;
+            margin-bottom: 14px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ─── SECTION TOOLBAR ─── */
+        .section-toolbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .tool-btn {
+            padding: 6px 10px;
+            background: #f5f5f7;
+            border: 1px solid #e0e0e8;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:hover { border-color: #0f3460; color: #0f3460; }
+
+        .tool-select {
+            padding: 6px 10px;
+            background: #f5f5f7;
+            border: 1px solid #e0e0e8;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .tool-color {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e0e0e8;
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        /* ─── ITEM FORM ─── */
+        .item-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .item-input {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            border: 1.5px solid #e0e0e8;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f5f7;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .item-input:focus { border-color: #e94560; background: #fff; }
+
+        .item-add-btn {
+            padding: 8px 14px;
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .item-add-btn:hover { background: #0a2540; }
+
+        .item-del-btn {
+            padding: 8px 12px;
+            background: transparent;
+            color: #e94560;
+            border: 1px solid #e94560;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .item-del-btn:hover { background: #e94560; color: #fff; }
+
+        /* ─── SECTION CONTENT ─── */
+        .section-content p {
+            font-size: 14px;
+            color: #444;
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f7;
+            line-height: 1.6;
+        }
+
+        /* ─── TEMPLATES ─── */
+        .template-classic h3 { color: #1F4E79; font-family: 'Georgia', serif; border-bottom: 2px solid #1F4E79; padding-bottom: 6px; }
+        .template-classic p { font-size: 13px; color: #333; }
+
+        .template-modern h3 { color: #e94560; background: rgba(233,69,96,0.06); padding: 8px 12px; border-radius: 6px; border-left: 4px solid #e94560; }
+        .template-modern p { font-size: 14px; padding-left: 12px; }
+
+        .template-minimal h3 { font-family: 'DM Sans', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; color: #aaa; border-bottom: 1px solid #e0e0e8; padding-bottom: 8px; }
+        .template-minimal p { font-size: 13px; color: #555; }
+
+        @media (max-width: 900px) {
+            .builder-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="nav-brand">Resume<span>Builder</span></div>
+        <div class="nav-back" onclick="goBack()">
+            <i class="ti ti-arrow-left"></i> Dashboard
+        </div>
+    </div>
+
+    <div class="builder-layout">
+
+        <!-- ─── LEFT PANEL ─── -->
+        <div class="left-panel no-print">
+
+            <!-- Templates -->
+            <div class="panel-card">
+                <div class="panel-title">Templates</div>
+                <button class="template-btn" onclick="setTemplate('classic')"><i class="ti ti-layout-list"></i> Classic</button>
+                <button class="template-btn" onclick="setTemplate('modern')"><i class="ti ti-layout-sidebar"></i> Modern</button>
+                <button class="template-btn" onclick="setTemplate('minimal')"><i class="ti ti-layout-rows"></i> Minimal</button>
+            </div>
+
+            <!-- Photo Upload -->
+            <div class="panel-card">
+                <div class="panel-title">Profile Photo</div>
+                <img class="photo-preview" id="photoPreviewLeft" src="" alt="Photo">
+                <input class="file-input" type="file" id="photoInput" accept="image/*">
+                <button class="upload-btn" onclick="uploadPhoto()"><i class="ti ti-upload"></i> Upload Photo</button>
+            </div>
+
+            <!-- Add Section -->
+            <div class="panel-card">
+                <div class="panel-title">Add Section</div>
+                <select class="form-select" id="sectionType">
+                    <option value="education">Education</option>
+                    <option value="experience">Experience</option>
+                    <option value="skills">Skills</option>
+                    <option value="projects">Projects</option>
+                    <option value="certifications">Certifications</option>
+                    <option value="achievements">Achievements</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input class="form-input" type="text" id="sectionTitle" placeholder="Section Title">
+                <button class="add-section-btn" onclick="addSection()"><i class="ti ti-plus"></i> Add Section</button>
+            </div>
+
+            <!-- Actions -->
+            <div class="panel-card">
+                <div class="panel-title">Actions</div>
+                <button class="action-btn btn-pdf" onclick="downloadPDF()"><i class="ti ti-download"></i> Download PDF</button>
+                <button class="action-btn btn-ats" onclick="checkATS()"><i class="ti ti-chart-bar"></i> Check ATS Score</button>
+                <div id="atsScore"></div>
+            </div>
+
+        </div>
+
+        <!-- ─── RIGHT PANEL ─── -->
+        <div id="resumePreview">
+            <img id="photoPreview" src="" alt="Profile Photo">
+            <div id="sectionsList"></div>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="builder.js"></script>
+</body>
+</html>
