@@ -1,29 +1,37 @@
-const bcrypt=require('bcryptjs');//pass has karne ke liye use hota hai
-const jwt=require('jsonwebtoken');//token banane ke liye 
-const {findUserByEmail,createUser}=require('../models/usermodel');
+const bcrypt = require('bcryptjs');//pass has karne ke liye use hota hai
+const jwt = require('jsonwebtoken');//token banane ke liye 
+const { findUserByEmail, createUser } = require('../models/usermodel');
 //const { resourceLimits } = require('node:worker_threads');
-const register =(req,res)=>{
-    const {name,email,password}=req.body;//frontend se data lena 
+console.log("LOGIN HIT");
+console.log("BODY:", req.body);
+const register = (req, res) => {
+    const { name, email, password } = req.body;//frontend se data lena 
 
     //check karo user pahe se hai kya 
-    findUserByEmail(email,(err,user)=>{
+    findUserByEmail(email, (err, user) => {
         if (err) return res.status(500).json({ message: 'Server error' });
         if (user) return res.status(400).json({ message: 'Email already exists' });
+        console.log("DB CALLBACK HIT");
+        console.log("USER:", user);
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
 
-        bcrypt.hash(password,10,(err,hashedPassword)=>{
-            if(err) return res.status(400).json({
-                message:"server error"
+
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+            if (err) return res.status(400).json({
+                message: "server error"
             });
             //db me save karo new user ko
-            createUser(name,email,hashedPassword,(err,result)=>{
-                if(err) return res.status(500).json({
-                    message:"server error"
+            createUser(name, email, hashedPassword, (err, result) => {
+                if (err) return res.status(500).json({
+                    message: "server error"
                 });
-           
+
                 res.status(201).json({
-                   message:"user registerd successfully"
+                    message: "user registerd successfully"
                 });
-            
+
             });
         });
     });
@@ -58,4 +66,4 @@ const login = (req, res) => {
     });
 };
 
-module.exports={register,login};
+module.exports = { register, login };
