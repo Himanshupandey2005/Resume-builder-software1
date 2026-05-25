@@ -34,18 +34,27 @@ const login = async () => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
-    const res = await fetch('https://resume-builder-software1-backend.onrender.com/api/auth/login', {
+    const res = await fetch(`${API}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
     });
 
-    const data = await res.json();
+    const text = await res.text(); // safe step
+
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch (e) {
+        alert("Server error or empty response");
+        console.log("RAW RESPONSE:", text);
+        return;
+    }
 
     if (res.ok) {
-        localStorage.setItem('token', data.token); // token save karo
+        localStorage.setItem('token', data.token);
         alert('Login successful!');
-        window.location.href = 'dashboard.html'; // dashboard pe jao
+        window.location.href = 'dashboard.html';
     } else {
         alert(data.message);
     }
