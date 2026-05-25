@@ -1,4 +1,4 @@
-const API = 'http://localhost:5000/api'; // base URL
+const API = 'https://resume-builder-software1.onrender.com/api'; // base URL
 
 // ─── FORM TOGGLE ───
 const showRegister = () => {

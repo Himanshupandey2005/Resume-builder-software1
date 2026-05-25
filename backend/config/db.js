@@ -1,20 +1,20 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306   // 👈 Railway ke liye important
 });
 
-db.connect((err)=>{
-    if(err){
-        console.log('db connection failed:',err.message);
+db.connect((err) => {
+    if (err) {
+        console.log(' DB connection failed:', err.message);
         return;
     }
-    console.log('mysq connected Successfully!');
+    console.log('✅ MySQL connected successfully!');
 });
 
-module.exports=db;
+module.exports = db;
