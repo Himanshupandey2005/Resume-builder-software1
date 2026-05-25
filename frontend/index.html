@@ -651,7 +651,7 @@
                     </div>
                     <div class="section-item">
                         <div class="sec-num optional">7</div>
-                        <div>
+                        <div>https://resume-builder-software1-backend.onrender.com/api
                             <h4>Certifications</h4>
                             <p>Online courses, industry certifications. Add if relevant.</p>
                         </div>
@@ -685,7 +685,7 @@
     </div>
 
     <script>
-        const API = 'https://resume-builder-software1.onrender.com/api';
+        const API = 'https://resume-builder-software1-backend.onrender.com/api';
 
         const switchTab = (tab) => {
             const loginForm = document.getElementById('loginForm');
@@ -741,7 +741,7 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             if (!email || !password) return showMsg('Email aur password daalo!', 'error');
-            const res = await fetch('https://resume-builder-software1.onrender.com/api/auth/login', {
+            const res = await fetch('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

@@ -1,4 +1,4 @@
-const API = 'https://resume-builder-software1.onrender.com/api'; // base URL
+const API = 'https://resume-builder-software1-backend.onrender.com/api'; // base URL
 
 // ─── FORM TOGGLE ───
 const showRegister = () => {
@@ -34,7 +34,7 @@ const login = async () => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
-    const res = await fetch(`${API}/auth/login`, {
+    const res = await fetch('https://resume-builder-software1-backend.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

@@ -1,4 +1,4 @@
-const API = 'https://resume-builder-software1.onrender.com/api'; // base URL
+const API = 'https://resume-builder-software1-backend.onrender.com/api'; // base URL
 const token = localStorage.getItem('token'); // token lo
 
 // agar token nahi hai toh login pe bhejo
