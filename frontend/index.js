@@ -34,28 +34,36 @@ const login = async () => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
-    const res = await fetch(`${API}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-    });
-
-    const text = await res.text(); // safe step
-
-    let data;
     try {
-        data = JSON.parse(text);
-    } catch (e) {
-        alert("Server error or empty response");
-        console.log("RAW RESPONSE:", text);
-        return;
-    }
+        const res = await fetch(`${API}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
 
-    if (res.ok) {
-        localStorage.setItem('token', data.token);
-        alert('Login successful!');
-        window.location.href = 'dashboard.html';
-    } else {
-        alert(data.message);
+        const text = await res.text();
+
+        console.log("RAW RESPONSE:", text);
+
+        if (!text) {
+            alert("Empty response from server");
+            return;
+        }
+
+        const data = JSON.parse(text);
+
+        if (res.ok) {
+            localStorage.setItem('token', data.token);
+            alert('Login successful!');
+            window.location.href = 'dashboard.html';
+        } else {
+            alert(data.message);
+        }
+
+    } catch (error) {
+        console.log("LOGIN ERROR:", error);
+        alert("Something went wrong");
     }
 };
