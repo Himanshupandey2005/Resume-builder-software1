@@ -50,10 +50,14 @@ const register = async () => {
 };
 // ─── LOGIN ───
 const login = async () => {
+
+    alert("NEW LOGIN FUNCTION RUNNING");
+
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
     try {
+
         const res = await fetch(`${API}/auth/login`, {
             method: 'POST',
             headers: {
@@ -66,6 +70,8 @@ const login = async () => {
 
         console.log("RAW RESPONSE:", text);
 
+        alert(text);
+
         if (!text) {
             alert("Empty response from server");
             return;
@@ -74,15 +80,24 @@ const login = async () => {
         const data = JSON.parse(text);
 
         if (res.ok) {
+
             localStorage.setItem('token', data.token);
-            alert('Login successful!');
+
+            alert("Login successful!");
+
             window.location.href = 'dashboard.html';
+
         } else {
+
             alert(data.message);
+
         }
 
     } catch (error) {
+
         console.log("LOGIN ERROR:", error);
+
         alert("Something went wrong");
+
     }
 };
