@@ -17,18 +17,37 @@ const register = async () => {
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
 
-    const res = await fetch(`${API}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-    });
+    try {
+        const res = await fetch(`${API}/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password })
+        });
 
-    const data = await res.json();
-    alert(data.message);
+        const text = await res.text();
 
-    if (res.ok) showLogin(); // register ke baad login pe le jao
+        console.log("REGISTER RESPONSE:", text);
+
+        if (!text) {
+            alert("Empty response from server");
+            return;
+        }
+
+        const data = JSON.parse(text);
+
+        alert(data.message);
+
+        if (res.ok) {
+            showLogin();
+        }
+
+    } catch (error) {
+        console.log("REGISTER ERROR:", error);
+        alert("Something went wrong");
+    }
 };
-
 // ─── LOGIN ───
 const login = async () => {
     const email = document.getElementById('loginEmail').value;
