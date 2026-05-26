@@ -1,79 +1,190 @@
-const API = 'https://resume-builder-software1-backend.onrender.com/api'; // base URL
-const token = localStorage.getItem('token'); // token lo
+const API = 'https://resume-builder-software1-backend.onrender.com/api';
+const token = localStorage.getItem('token');
 
-// agar token nahi hai toh login pe bhejo
-if (!token) window.location.href = 'index.html';
+// token check
+if (!token) {
+    window.location.href = 'index.html';
+}
 
-// ─── RESUMES LOAD KARO ───
+// ─── RESUMES LOAD ───
 const loadResumes = async () => {
-    const res = await fetch(`${API}/resume`, {
-        headers: { 'authorization': token }
-    });
+    try {
 
-    const resumes = await res.json();
-    const resumeList = document.getElementById('resumeList');
-    resumeList.innerHTML = ''; // pehle clear karo
+        const res = await fetch(`${API}/resume`, {
+            headers: {
+                'authorization': token
+            }
+        });
 
-    if (resumes.length === 0) {
-        resumeList.innerHTML = '<p>Koi resume nahi hai — naya banao!</p>';
-        return;
-    }
+        const data = await res.json();
 
-    // har resume ka card banao
-    resumes.forEach(resume => {
-        resumeList.innerHTML += `
-            <div>
-                <h3>${resume.title}</h3>
-                <button onclick="openResume(${resume.id})">Edit</button>
-                <button onclick="deleteResume(${resume.id})">Delete</button>
-            </div>
+        console.log(data);
+
+        const resumeList = document.getElementById('resumeList');
+
+        // agar response array nahi hai
+        const resumes = Array.isArray(data) ? data : [];
+
+        resumeList.innerHTML = '';
+
+        if (!res.ok) {
+            resumeList.innerHTML = `
+                <p style="color:red;">
+                    Server Error (${res.status})
+                </p>
+            `;
+            return;
+        }
+
+        // empty state
+        if (resumes.length === 0) {
+            resumeList.innerHTML = `
+                <p>Koi resume nahi hai — naya banao!</p>
+            `;
+            return;
+        }
+
+        // cards
+        resumes.forEach(resume => {
+
+            const updatedDate = resume.updated_at
+                ? new Date(resume.updated_at).toLocaleDateString()
+                : 'No date';
+
+            resumeList.innerHTML += `
+                <div style="
+                    background:#16161f;
+                    padding:20px;
+                    border-radius:12px;
+                    margin-bottom:12px;
+                    border:1px solid rgba(255,255,255,0.08);
+                ">
+                    <h3 style="margin-bottom:10px;">
+                        ${resume.title || 'Untitled Resume'}
+                    </h3>
+
+                    <p style="
+                        color:rgba(255,255,255,0.5);
+                        margin-bottom:15px;
+                        font-size:13px;
+                    ">
+                        Updated: ${updatedDate}
+                    </p>
+
+                    <div style="display:flex; gap:10px;">
+                        
+                        <button onclick="openResume(${resume.id})"
+                            style="
+                                padding:8px 14px;
+                                border:none;
+                                border-radius:8px;
+                                background:#2563eb;
+                                color:white;
+                                cursor:pointer;
+                            ">
+                            Edit
+                        </button>
+
+                        <button onclick="deleteResume(${resume.id})"
+                            style="
+                                padding:8px 14px;
+                                border:none;
+                                border-radius:8px;
+                                background:#dc2626;
+                                color:white;
+                                cursor:pointer;
+                            ">
+                            Delete
+                        </button>
+
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById('resumeList').innerHTML = `
+            <p style="color:red;">
+                Failed to load resumes
+            </p>
         `;
-    });
+    }
 };
 
-// ─── NAYA RESUME BANANA ───
+// ─── CREATE RESUME ───
 const createResume = async () => {
+
     const title = prompt('Resume ka naam likho:');
+
     if (!title) return;
 
-    const res = await fetch(`${API}/resume`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': token
-        },
-        body: JSON.stringify({ title })
-    });
+    try {
 
-    const data = await res.json();
-    alert(data.message);
-    loadResumes(); // list refresh karo
+        const res = await fetch(`${API}/resume`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': token
+            },
+            body: JSON.stringify({ title })
+        });
+
+        const data = await res.json();
+
+        alert(data.message || 'Resume created');
+
+        loadResumes();
+
+    } catch (error) {
+
+        console.error(error);
+        alert('Resume create nahi hua');
+    }
 };
 
-// ─── RESUME DELETE KARNA ───
+// ─── DELETE RESUME ───
 const deleteResume = async (id) => {
+
     if (!confirm('Delete karna chahte ho?')) return;
 
-    const res = await fetch(`${API}/resume/${id}`, {
-        method: 'DELETE',
-        headers: { 'authorization': token }
-    });
+    try {
 
-    const data = await res.json();
-    alert(data.message);
-    loadResumes(); // list refresh karo
+        const res = await fetch(`${API}/resume/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'authorization': token
+            }
+        });
+
+        const data = await res.json();
+
+        alert(data.message || 'Resume deleted');
+
+        loadResumes();
+
+    } catch (error) {
+
+        console.error(error);
+        alert('Delete failed');
+    }
 };
 
-// ─── RESUME OPEN KARNA ───
+// ─── OPEN RESUME ───
 const openResume = (id) => {
+
     window.location.href = `templates/template1.html?id=${id}`;
 };
 
 // ─── LOGOUT ───
 const logout = () => {
-    localStorage.removeItem('token'); // token delete karo
-    window.location.href = 'index.html'; // login pe jao
+
+    localStorage.removeItem('token');
+
+    window.location.href = 'index.html';
 };
 
-// page load hote hi resumes load karo
+// load resumes
 loadResumes();
