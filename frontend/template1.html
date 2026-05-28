@@ -1,919 +1,1236 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resume — Classic Template</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0,user-scalable=yes">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<title>Resume Builder Pro</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #1a1a2e;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 220px 40px 20px;
-            gap: 20px;
-        }
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-        .resume-page,
-        .page2 {
-            background: white;
-            width: 794px;
-            min-height: 1123px;
-            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
-            position: relative;
-        }
+<style>
 
-        .page2 {
-            padding: 40px;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        /* TOOLBAR */
+body{
+font-family:Arial,sans-serif;
+background:#1a1a2e;
+overflow:auto;
+padding:20px;
+min-height:100vh;
+}
 
-        .main-toolbar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #16213e;
-            border-radius: 14px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 170px;
-            z-index: 9999;
-        }
+/* WRAPPER */
 
-        .tb-btn {
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            color: white;
-        }
+.resume-wrapper{
+width:max-content;
+margin:auto;
+cursor:grab;
+}
 
-        .tb-back,
-        .tb-theme {
-            background: rgba(255, 255, 255, 0.08);
-        }
+/* PAGE */
 
-        .tb-dl {
-            background: #e94560;
-        }
+.resume-page,
+.page2{
+width:794px;
+min-height:1123px;
+background:white;
+position:relative;
+box-shadow:0 0 25px rgba(0,0,0,0.4);
+overflow:hidden;
+margin-bottom:25px;
+}
 
-        .theme-dots {
-            display: none;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+/* TOOLBAR */
 
-        .theme-dots.show {
-            display: flex;
-        }
+.main-toolbar{
+position:fixed;
+top:15px;
+right:15px;
+z-index:99999;
+background:#16213e;
+padding:14px;
+border-radius:14px;
+display:flex;
+flex-direction:column;
+gap:10px;
+width:170px;
+}
 
-        .tdot {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+.tb-btn{
+padding:11px;
+border:none;
+border-radius:9px;
+cursor:pointer;
+font-weight:600;
+color:white;
+background:rgba(255,255,255,0.1);
+}
 
-        /* HEADER */
+.tb-btn:hover{
+opacity:.9;
+}
 
-        .header {
-            background: #1a1a2e;
-            padding: 36px 40px;
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
+.tb-dl{
+background:#e94560;
+}
 
-        .photo-placeholder {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: 3px dashed rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
+.theme-dots{
+display:none;
+flex-wrap:wrap;
+gap:8px;
+}
 
-        .header-photo {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: none;
-            border: 3px solid #e94560;
-        }
+.theme-dots.show{
+display:flex;
+}
 
-        .resume-name {
-            color: white;
-            font-size: 34px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            outline: none;
-        }
+.tdot{
+width:25px;
+height:25px;
+border-radius:50%;
+cursor:pointer;
+}
 
-        .resume-title {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            letter-spacing: 3px;
-            margin-top: 6px;
-            text-transform: uppercase;
-            outline: none;
-        }
+/* FLOAT TOOLBAR */
 
-        /* BODY */
+#floatToolbar{
+position:fixed;
+display:none;
+background:#16213e;
+padding:10px;
+border-radius:12px;
+gap:6px;
+z-index:999999;
+box-shadow:0 5px 20px rgba(0,0,0,.4);
+align-items:center;
+}
 
-        .page-body {
-            display: grid;
-            grid-template-columns: 255px 1fr;
-        }
+#floatToolbar.show{
+display:flex;
+}
 
-        .left-col {
-            background: #f5f5f7;
-            padding: 26px 18px;
-        }
+.ft-btn{
+border:none;
+padding:7px 10px;
+border-radius:6px;
+cursor:pointer;
+background:white;
+}
 
-        .right-col {
-            padding: 26px 22px;
-        }
+.ft-color{
+width:35px;
+height:35px;
+border:none;
+cursor:pointer;
+}
 
-        /* SECTION */
+/* HEADER */
 
-        .section {
-            margin-bottom: 22px;
-            position: relative;
-        }
+.header{
+background:#1a1a2e;
+padding:35px 40px;
+display:flex;
+align-items:center;
+gap:28px;
+}
 
-        .sec-title {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #e94560;
-            border-bottom: 2px solid #e94560;
-            padding-bottom: 5px;
-            margin-bottom: 12px;
-            outline: none;
-        }
+.photo-placeholder{
+width:110px;
+height:110px;
+border-radius:50%;
+border:3px dashed rgba(255,255,255,.4);
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+cursor:pointer;
+flex-shrink:0;
+}
 
-        .field,
-        .contact-row,
-        .exp-item {
-            position: relative;
-        }
+.header-photo{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+display:none;
+border:4px solid #e94560;
+}
 
-        .fval,
-        .c-text,
-        .exp-co,
-        .exp-role,
-        .exp-date,
-        .exp-desc {
-            outline: none;
-        }
+.resume-name{
+font-size:34px;
+font-weight:700;
+color:white;
+outline:none;
+}
 
-        .fval,
-        .c-text,
-        .exp-desc {
-            font-size: 12px;
-            color: #555;
-            line-height: 1.6;
-        }
+.resume-title{
+font-size:14px;
+letter-spacing:2px;
+margin-top:6px;
+color:rgba(255,255,255,.7);
+outline:none;
+}
 
-        .contact-row {
-            display: flex;
-            gap: 7px;
-            margin-bottom: 8px;
-        }
+/* BODY */
 
-        .c-icon {
-            color: #e94560;
-        }
+.page-body{
+display:grid;
+grid-template-columns:260px 1fr;
+}
 
-        .exp-item {
-            margin-bottom: 16px;
-        }
+.left-col{
+background:#f5f5f7;
+padding:28px 20px;
+}
 
-        .exp-top {
-            display: flex;
-            justify-content: space-between;
-        }
+.right-col{
+padding:28px 24px;
+}
 
-        .exp-co {
-            font-size: 13px;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
+/* SECTION */
 
-        .exp-role {
-            font-size: 12px;
-            color: #e94560;
-            margin-top: 2px;
-        }
+.section{
+margin-bottom:24px;
+position:relative;
+}
 
-        .exp-date {
-            font-size: 11px;
-            color: #888;
-        }
+.sec-title{
+font-size:11px;
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
+padding-bottom:6px;
+margin-bottom:12px;
+border-bottom:2px solid #e94560;
+color:#e94560;
+outline:none;
+}
 
-        .exp-desc {
-            margin-top: 5px;
-        }
+.field,
+.contact-row,
+.exp-item{
+position:relative;
+margin-bottom:10px;
+}
 
-        /* BUTTONS */
+.fval,
+.c-text,
+.exp-desc{
+font-size:12px;
+line-height:1.7;
+color:#444;
+outline:none;
+word-break:break-word;
+}
 
-        .add-btn {
-            padding: 6px 10px;
-            border: 1px dashed #ccc;
-            background: transparent;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 11px;
-            margin-top: 10px;
-        }
+.contact-row{
+display:flex;
+gap:8px;
+align-items:flex-start;
+}
 
-        .del-btn,
-        .sec-del {
-            position: absolute;
-            right: -8px;
-            top: 0;
-            width: 18px;
-            height: 18px;
-            border: none;
-            background: #e94560;
-            color: white;
-            border-radius: 4px;
-            display: none;
-            cursor: pointer;
-        }
+.c-icon{
+color:#e94560;
+margin-top:2px;
+}
 
-        .field:hover .del-btn,
-        .contact-row:hover .del-btn,
-        .exp-item:hover .del-btn,
-        .section:hover .sec-del {
-            display: block;
-        }
+.exp-item{
+margin-bottom:18px;
+}
 
-        .add-page-btn {
-            padding: 10px 24px;
-            border-radius: 10px;
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            cursor: pointer;
-        }
+.exp-top{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+}
 
-        .page2-del {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #e94560;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+.exp-co{
+font-size:13px;
+font-weight:700;
+color:#111;
+outline:none;
+}
 
-        /* FLOAT TOOLBAR */
+.exp-role{
+font-size:12px;
+color:#e94560;
+margin-top:3px;
+outline:none;
+}
 
-        #floatToolbar {
-            position: fixed;
-            display: none;
-            background: #16213e;
-            padding: 8px;
-            border-radius: 10px;
-            gap: 5px;
-            z-index: 9999;
-        }
+.exp-date{
+font-size:11px;
+color:#777;
+outline:none;
+}
 
-        #floatToolbar.show {
-            display: flex;
-        }
+.exp-desc{
+margin-top:5px;
+}
 
-        .ft-btn,
-        .ft-select,
-        .ft-color {
-            border: none;
-            border-radius: 5px;
-        }
+/* BUTTONS */
 
-        .ft-btn {
-            padding: 5px 8px;
-            cursor: pointer;
-        }
+.add-btn{
+padding:7px 11px;
+border:1px dashed #aaa;
+background:transparent;
+border-radius:6px;
+cursor:pointer;
+font-size:11px;
+margin-top:8px;
+}
 
-        .ft-select {
-            padding: 5px;
-        }
+.del-btn,
+.sec-del{
+position:absolute;
+right:-8px;
+top:-4px;
+width:19px;
+height:19px;
+border:none;
+border-radius:5px;
+background:#e94560;
+color:white;
+display:none;
+cursor:pointer;
+font-size:12px;
+}
 
-        .ft-color {
-            width: 30px;
-            height: 30px;
-        }
+.field:hover .del-btn,
+.contact-row:hover .del-btn,
+.exp-item:hover .del-btn,
+.section:hover .sec-del{
+display:block;
+}
 
-        @media print {
+/* MOBILE */
 
-            .main-toolbar,
-            .no-print,
-            #floatToolbar,
-            .add-page-btn {
-                display: none !important;
-            }
+@media(max-width:900px){
 
-            body {
-                background: white;
-                padding: 0;
-            }
+body{
+padding:12px;
+}
 
-            .resume-page,
-            .page2 {
-                box-shadow: none;
-                page-break-after: always;
-            }
-        }
-    </style>
+.resume-wrapper{
+overflow:auto;
+width:100%;
+}
+
+.resume-page,
+.page2{
+transform:scale(.55);
+transform-origin:top left;
+margin-bottom:-480px;
+}
+
+.main-toolbar{
+right:8px;
+top:8px;
+width:145px;
+}
+
+.tb-btn{
+font-size:12px;
+padding:9px;
+}
+
+}
+
+@media(max-width:600px){
+
+.resume-page,
+.page2{
+transform:scale(.45);
+margin-bottom:-620px;
+}
+
+}
+
+@media print{
+
+.main-toolbar,
+#floatToolbar,
+.no-print{
+display:none!important;
+}
+
+body{
+background:white;
+padding:0;
+}
+
+.resume-page,
+.page2{
+box-shadow:none;
+margin:0;
+}
+
+}
+
+</style>
 </head>
 
 <body>
 
-    <!-- FLOAT TOOLBAR -->
+<!-- FLOAT TOOLBAR -->
 
-    <div id="floatToolbar" class="no-print">
+<div id="floatToolbar">
 
-        <button class="ft-btn" onclick="fmt('bold')"><b>B</b></button>
+<button class="ft-btn"
+onclick="fmt('bold')"><b>B</b></button>
 
-        <button class="ft-btn" onclick="fmt('italic')"><i>I</i></button>
+<button class="ft-btn"
+onclick="fmt('italic')"><i>I</i></button>
 
-        <button class="ft-btn" onclick="fmt('underline')"><u>U</u></button>
+<button class="ft-btn"
+onclick="fmt('underline')"><u>U</u></button>
 
-        <select class="ft-select" onchange="setSize(this.value)">
-            <option value="">Size</option>
-            <option value="12px">12</option>
-            <option value="14px">14</option>
-            <option value="16px">16</option>
-            <option value="18px">18</option>
-            <option value="22px">22</option>
-            <option value="28px">28</option>
-        </select>
+<button class="ft-btn"
+onclick="changeFontSize(2)">A+</button>
 
-        <input class="ft-color" type="color" onchange="setColor(this.value)" />
+<button class="ft-btn"
+onclick="changeFontSize(-2)">A-</button>
 
-    </div>
+<input type="color"
+class="ft-color"
+onchange="changeTextColor(this.value)">
 
-    <!-- MAIN TOOLBAR -->
+</div>
 
-    <div class="main-toolbar no-print">
+<!-- MAIN TOOLBAR -->
 
-        <button class="tb-btn tb-back" onclick="window.location.href='dashboard.html'">
-            ← Back
-        </button>
+<div class="main-toolbar no-print">
 
-        <button class="tb-btn tb-theme" onclick="toggleTheme()">
-            🎨 Theme
-        </button>
+<button class="tb-btn"
+onclick="window.location.href='dashboard.html'">
+← Back
+</button>
 
-        <div class="theme-dots" id="themeDots">
+<button class="tb-btn"
+onclick="toggleTheme()">
+🎨 Theme
+</button>
 
-            <div class="tdot" style="background:#e94560" onclick="changeTheme('#e94560')"></div>
+<div class="theme-dots" id="themeDots">
 
-            <div class="tdot" style="background:#2E75B6" onclick="changeTheme('#2E75B6')"></div>
+<div class="tdot"
+style="background:#e94560"
+onclick="changeTheme('#e94560')"></div>
 
-            <div class="tdot" style="background:#27ae60" onclick="changeTheme('#27ae60')"></div>
+<div class="tdot"
+style="background:#2E75B6"
+onclick="changeTheme('#2E75B6')"></div>
 
-            <div class="tdot" style="background:#f39c12" onclick="changeTheme('#f39c12')"></div>
+<div class="tdot"
+style="background:#27ae60"
+onclick="changeTheme('#27ae60')"></div>
 
-        </div>
+<div class="tdot"
+style="background:#f39c12"
+onclick="changeTheme('#f39c12')"></div>
 
-        <button class="tb-btn tb-dl" onclick="downloadPDF()">
-            ⬇ Download PDF
-        </button>
+</div>
 
-    </div>
+<button class="tb-btn tb-dl"
+onclick="downloadPDF()">
+⬇ Download PDF
+</button>
 
-    <!-- PAGE 1 -->
+</div>
 
-    <div class="resume-page" id="page1">
+<!-- WRAPPER -->
 
-        <div class="header" id="resumeHeader">
+<div class="resume-wrapper" id="dragArea">
 
-            <div class="photo-placeholder no-print" id="photoPlaceholder"
-                onclick="document.getElementById('photoInput').click()">
-                + Photo
-            </div>
+<!-- PAGE 1 -->
 
-            <img class="header-photo" id="photoPreview" />
+<div class="resume-page" id="page1">
 
-            <input type="file" id="photoInput" accept="image/*" style="display:none"
-                onchange="handlePhoto(this)" />
+<div class="header" id="resumeHeader">
 
-            <div>
-                <div class="resume-name" contenteditable="true">
-                    YOUR NAME
-                </div>
+<div class="photo-placeholder no-print"
+id="photoPlaceholder"
+onclick="document.getElementById('photoInput').click()">
 
-                <div class="resume-title" contenteditable="true">
-                    Your Professional Title
-                </div>
-            </div>
++ Photo
 
-        </div>
+</div>
 
-        <div class="page-body">
+<img class="header-photo"
+id="photoPreview">
 
-            <!-- LEFT -->
+<input type="file"
+id="photoInput"
+accept="image/*"
+style="display:none"
+onchange="handlePhoto(this)">
 
-            <div class="left-col">
+<div>
 
-                <div class="section">
+<div class="resume-name"
+contenteditable="true">
+YOUR NAME
+</div>
 
-                    <button class="sec-del no-print"
-                        onclick="this.closest('.section').remove()">×</button>
+<div class="resume-title"
+contenteditable="true">
+Professional Title
+</div>
 
-                    <div class="sec-title" contenteditable="true">
-                        Contact
-                    </div>
+</div>
 
-                    <div id="contactList">
+</div>
 
-                        <div class="contact-row">
+<div class="page-body">
 
-                            <span class="c-icon">📧</span>
+<!-- LEFT -->
 
-                            <span class="c-text" contenteditable="true">
-                                your@email.com
-                            </span>
+<div class="left-col">
 
-                            <button class="del-btn no-print"
-                                onclick="this.parentElement.remove()">×</button>
+<!-- CONTACT -->
 
-                        </div>
+<div class="section">
 
-                    </div>
+<button class="sec-del no-print"
+onclick="this.closest('.section').remove()">
+×
+</button>
 
-                    <button class="add-btn no-print" onclick="addContact()">
-                        + Add
-                    </button>
+<div class="sec-title"
+contenteditable="true">
+Contact
+</div>
 
-                </div>
+<div id="contactList">
 
-                <div class="section">
+<div class="contact-row">
 
-                    <button class="sec-del no-print"
-                        onclick="this.closest('.section').remove()">×</button>
+<span class="c-icon">📧</span>
 
-                    <div class="sec-title" contenteditable="true">
-                        Skills
-                    </div>
+<span class="c-text"
+contenteditable="true">
+your@email.com
+</span>
 
-                    <div id="skillsList">
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-                        <div class="field">
+</div>
 
-                            <div class="fval" contenteditable="true">
-                                HTML, CSS, JavaScript
-                            </div>
+</div>
 
-                            <button class="del-btn no-print"
-                                onclick="this.parentElement.remove()">×</button>
+<button class="add-btn no-print"
+onclick="addContact()">
++ Add
+</button>
 
-                        </div>
+</div>
 
-                    </div>
+<!-- SKILLS -->
 
-                    <button class="add-btn no-print" onclick="addSkill()">
-                        + Add
-                    </button>
+<div class="section">
 
-                </div>
+<button class="sec-del no-print"
+onclick="this.closest('.section').remove()">
+×
+</button>
 
-            </div>
+<div class="sec-title"
+contenteditable="true">
+Skills
+</div>
 
-            <!-- RIGHT -->
+<div id="skillsList">
 
-            <div class="right-col">
+<div class="field">
 
-                <div class="section">
+<div class="fval"
+contenteditable="true">
+HTML, CSS, JavaScript
+</div>
 
-                    <button class="sec-del no-print"
-                        onclick="this.closest('.section').remove()">×</button>
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-                    <div class="sec-title" contenteditable="true">
-                        Profile
-                    </div>
+</div>
 
-                    <div class="fval" contenteditable="true">
-                        Write your professional summary here.
-                    </div>
+</div>
 
-                </div>
+<button class="add-btn no-print"
+onclick="addSkill()">
++ Add
+</button>
 
-                <div class="section">
+</div>
 
-                    <button class="sec-del no-print"
-                        onclick="this.closest('.section').remove()">×</button>
+<!-- LANGUAGES -->
 
-                    <div class="sec-title" contenteditable="true">
-                        Work Experience
-                    </div>
+<div class="section">
 
-                    <div id="expList">
+<button class="sec-del no-print"
+onclick="this.closest('.section').remove()">
+×
+</button>
 
-                        <div class="exp-item">
+<div class="sec-title"
+contenteditable="true">
+Languages
+</div>
 
-                            <div class="exp-top">
+<div id="langList">
 
-                                <div>
+<div class="field">
 
-                                    <div class="exp-co" contenteditable="true">
-                                        Company Name
-                                    </div>
+<div class="fval"
+contenteditable="true">
+Hindi, English
+</div>
 
-                                    <div class="exp-role" contenteditable="true">
-                                        Your Role
-                                    </div>
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-                                </div>
+</div>
 
-                                <div class="exp-date" contenteditable="true">
-                                    2024 - Present
-                                </div>
+</div>
 
-                            </div>
+<button class="add-btn no-print"
+onclick="addLanguage()">
++ Add
+</button>
 
-                            <div class="exp-desc" contenteditable="true">
-                                Describe responsibilities here.
-                            </div>
+</div>
 
-                            <button class="del-btn no-print"
-                                onclick="this.parentElement.remove()">×</button>
+</div>
 
-                        </div>
+<!-- RIGHT -->
 
-                    </div>
+<div class="right-col">
 
-                    <button class="add-btn no-print" onclick="addExp()">
-                        + Add Experience
-                    </button>
+<!-- PROFILE -->
 
-                </div>
+<div class="section">
 
-            </div>
+<button class="sec-del no-print"
+onclick="this.closest('.section').remove()">
+×
+</button>
 
-        </div>
+<div class="sec-title"
+contenteditable="true">
+Profile
+</div>
 
-    </div>
+<div class="fval"
+contenteditable="true">
+Write your professional summary here...
+</div>
 
-    <!-- PAGE 2 BUTTON -->
+</div>
 
-    <button class="add-page-btn no-print" id="addPageBtn" onclick="addPage2()">
-        + Add Page 2
-    </button>
+<!-- EXPERIENCE -->
 
-    <!-- PAGE 2 -->
+<div class="section">
 
-    <div class="page2" id="page2" style="display:none;">
+<button class="sec-del no-print"
+onclick="this.closest('.section').remove()">
+×
+</button>
 
-        <button class="page2-del no-print" onclick="removePage2()">
-            ✕ Remove Page 2
-        </button>
+<div class="sec-title"
+contenteditable="true">
+Work Experience
+</div>
 
-        <div id="page2Sections">
+<div id="expList">
 
-            <div class="section">
+<div class="exp-item">
 
-                <button class="sec-del no-print"
-                    onclick="this.closest('.section').remove()">×</button>
+<div class="exp-top">
 
-                <div class="sec-title" contenteditable="true">
-                    Achievements
-                </div>
+<div>
 
-                <div class="fval" contenteditable="true">
-                    Write achievements here...
-                </div>
+<div class="exp-co"
+contenteditable="true">
+Company Name
+</div>
 
-            </div>
+<div class="exp-role"
+contenteditable="true">
+Frontend Developer
+</div>
 
-        </div>
+</div>
 
-    </div>
+<div class="exp-date"
+contenteditable="true">
+2024 - Present
+</div>
 
-    <!-- SCRIPTS -->
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<div class="exp-desc"
+contenteditable="true">
+Describe your work here...
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-    <script>
+</div>
 
-        const token = localStorage.getItem('token');
+</div>
 
-        if (!token) {
-            window.location.href = '../index.html';
-        }
+<button class="add-btn no-print"
+onclick="addExp()">
++ Add Experience
+</button>
 
-        let themeColor = '#e94560';
-        let savedRange = null;
+</div>
 
-        // FLOAT TOOLBAR
+<!-- EDUCATION -->
 
-        document.addEventListener('mouseup', () => {
+<div class="section">
 
-            setTimeout(() => {
+<button class="sec-del no-print"
+onclick="this.closest('.section').remove()">
+×
+</button>
 
-                const sel = window.getSelection();
+<div class="sec-title"
+contenteditable="true">
+Education
+</div>
 
-                if (sel.toString().length > 0) {
+<div id="eduList">
 
-                    savedRange = sel.getRangeAt(0);
+<div class="exp-item">
 
-                    const rect = savedRange.getBoundingClientRect();
+<div class="exp-top">
 
-                    const tb = document.getElementById('floatToolbar');
+<div>
 
-                    tb.style.top = (window.scrollY + rect.top - 50) + 'px';
+<div class="exp-co"
+contenteditable="true">
+College Name
+</div>
 
-                    tb.style.left = (window.scrollX + rect.left) + 'px';
+<div class="exp-role"
+contenteditable="true">
+B.Tech CSE
+</div>
 
-                    tb.classList.add('show');
+</div>
 
-                }
+<div class="exp-date"
+contenteditable="true">
+2021 - 2025
+</div>
 
-            }, 10);
+</div>
 
-        });
+<div class="exp-desc"
+contenteditable="true">
+CGPA: 8.2
+</div>
 
-        document.addEventListener('mousedown', (e) => {
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-            if (!e.target.closest('#floatToolbar')) {
+</div>
 
-                document.getElementById('floatToolbar').classList.remove('show');
+</div>
 
-            }
+<button class="add-btn no-print"
+onclick="addEducation()">
++ Add Education
+</button>
 
-        });
+</div>
 
-        function restoreSel() {
+</div>
 
-            if (!savedRange) return;
+</div>
 
-            const sel = window.getSelection();
+</div>
 
-            sel.removeAllRanges();
+<!-- PAGE 2 -->
 
-            sel.addRange(savedRange);
+<div class="page2"
+id="page2"
+style="padding:40px;display:none;">
 
-        }
+<div class="section">
 
-        function fmt(cmd) {
+<div class="sec-title"
+contenteditable="true">
+Achievements
+</div>
 
-            restoreSel();
+<div class="fval"
+contenteditable="true">
+Write achievements here...
+</div>
 
-            document.execCommand(cmd, false, null);
+</div>
 
-        }
+</div>
 
-        function setColor(color) {
+</div>
 
-            restoreSel();
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-            document.execCommand('foreColor', false, color);
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        }
+<script>
 
-        function setSize(size) {
+let themeColor='#e94560';
+let savedRange=null;
 
-            restoreSel();
+/* FLOAT TOOLBAR */
 
-            document.execCommand('fontSize', false, '7');
+document.addEventListener('mouseup',showToolbar);
+document.addEventListener('touchend',showToolbar);
 
-            document.querySelectorAll('font[size="7"]').forEach(el => {
+function showToolbar(){
 
-                el.removeAttribute('size');
+setTimeout(()=>{
 
-                el.style.fontSize = size;
+const sel=window.getSelection();
 
-            });
+if(sel.toString().length>0){
 
-        }
+savedRange=sel.getRangeAt(0);
 
-        // PHOTO
+const rect=savedRange.getBoundingClientRect();
 
-        function handlePhoto(input) {
+const tb=document.getElementById('floatToolbar');
 
-            const file = input.files[0];
+tb.style.top=(window.scrollY+rect.top-55)+'px';
 
-            if (!file) return;
+tb.style.left=(window.scrollX+rect.left)+'px';
 
-            const reader = new FileReader();
+tb.classList.add('show');
 
-            reader.onload = (e) => {
+}
 
-                const img = document.getElementById('photoPreview');
+},10);
 
-                img.src = e.target.result;
+}
 
-                img.style.display = 'block';
+document.addEventListener('mousedown',(e)=>{
 
-                img.style.borderColor = themeColor;
+if(!e.target.closest('#floatToolbar')){
 
-                document.getElementById('photoPlaceholder').style.display = 'none';
+document.getElementById('floatToolbar')
+.classList.remove('show');
 
-            };
+}
 
-            reader.readAsDataURL(file);
+});
 
-        }
+function restoreSel(){
 
-        // THEME
+if(!savedRange)return;
 
-        function toggleTheme() {
+const sel=window.getSelection();
 
-            document.getElementById('themeDots').classList.toggle('show');
+sel.removeAllRanges();
 
-        }
+sel.addRange(savedRange);
 
-        function changeTheme(color) {
+}
 
-            themeColor = color;
+function fmt(cmd){
 
-            document.getElementById('resumeHeader').style.background = color;
+restoreSel();
 
-            document.querySelectorAll('.sec-title').forEach(el => {
+document.execCommand(cmd,false,null);
 
-                el.style.color = color;
+}
 
-                el.style.borderBottomColor = color;
+function changeTextColor(color){
 
-            });
+restoreSel();
 
-            document.querySelectorAll('.exp-role').forEach(el => {
+document.execCommand('foreColor',false,color);
 
-                el.style.color = color;
+}
 
-            });
+function changeFontSize(change){
 
-            document.querySelectorAll('.c-icon').forEach(el => {
+restoreSel();
 
-                el.style.color = color;
+const sel=window.getSelection();
 
-            });
+if(!sel.rangeCount)return;
 
-            const img = document.getElementById('photoPreview');
+let node=sel.anchorNode;
 
-            if (img) {
+if(node.nodeType===3){
+node=node.parentElement;
+}
 
-                img.style.borderColor = color;
+const current=parseInt(
+window.getComputedStyle(node).fontSize
+);
 
-            }
+node.style.fontSize=
+(current+change)+'px';
 
-        }
+}
 
-        // ADD FUNCTIONS
+/* PHOTO */
 
-        function addContact() {
+function handlePhoto(input){
 
-            document.getElementById('contactList').insertAdjacentHTML('beforeend', `
-                <div class="contact-row">
-                    <span class="c-icon" style="color:${themeColor}">📌</span>
-                    <span class="c-text" contenteditable="true">New Contact</span>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            `);
+const file=input.files[0];
 
-        }
+if(!file)return;
 
-        function addSkill() {
+const reader=new FileReader();
 
-            document.getElementById('skillsList').insertAdjacentHTML('beforeend', `
-                <div class="field">
-                    <div class="fval" contenteditable="true">New Skill</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            `);
+reader.onload=(e)=>{
 
-        }
+const img=document.getElementById('photoPreview');
 
-        function addExp() {
+img.src=e.target.result;
 
-            document.getElementById('expList').insertAdjacentHTML('beforeend', `
-                <div class="exp-item">
+img.style.display='block';
 
-                    <div class="exp-top">
+document.getElementById('photoPlaceholder')
+.style.display='none';
 
-                        <div>
+};
 
-                            <div class="exp-co" contenteditable="true">
-                                Company Name
-                            </div>
+reader.readAsDataURL(file);
 
-                            <div class="exp-role"
-                                contenteditable="true"
-                                style="color:${themeColor}">
-                                Your Role
-                            </div>
+}
 
-                        </div>
+/* THEME */
 
-                        <div class="exp-date" contenteditable="true">
-                            2024 - Present
-                        </div>
+function toggleTheme(){
 
-                    </div>
+document.getElementById('themeDots')
+.classList.toggle('show');
 
-                    <div class="exp-desc" contenteditable="true">
-                        Describe responsibilities here.
-                    </div>
+}
 
-                    <button class="del-btn no-print"
-                        onclick="this.parentElement.remove()">
-                        ×
-                    </button>
+function changeTheme(color){
 
-                </div>
-            `);
+themeColor=color;
 
-        }
+document.getElementById('resumeHeader')
+.style.background=color;
 
-        // PAGE 2
+document.querySelectorAll('.sec-title')
+.forEach(el=>{
 
-        function addPage2() {
+el.style.color=color;
+el.style.borderBottomColor=color;
 
-            document.getElementById('page2').style.display = 'block';
+});
 
-            document.getElementById('addPageBtn').style.display = 'none';
+document.querySelectorAll('.exp-role')
+.forEach(el=>{
 
-        }
+el.style.color=color;
 
-        function removePage2() {
+});
 
-            document.getElementById('page2').style.display = 'none';
+document.querySelectorAll('.c-icon')
+.forEach(el=>{
 
-            document.getElementById('addPageBtn').style.display = 'inline-block';
+el.style.color=color;
 
-        }
+});
 
-        // FIXED PDF DOWNLOAD
+document.querySelector('.tb-dl')
+.style.background=color;
 
-        async function downloadPDF() {
+}
 
-            const noPrintEls = document.querySelectorAll('.no-print');
+/* ADD FUNCTIONS */
 
-            noPrintEls.forEach(el => el.style.display = 'none');
+function addContact(){
 
-            const { jsPDF } = window.jspdf;
+document.getElementById('contactList')
+.insertAdjacentHTML('beforeend',`
 
-            const pdf = new jsPDF('p', 'mm', 'a4');
+<div class="contact-row">
 
-            const pages = [document.getElementById('page1')];
+<span class="c-icon"
+style="color:${themeColor}">
+📌
+</span>
 
-            const page2 = document.getElementById('page2');
+<span class="c-text"
+contenteditable="true">
+New Contact
+</span>
 
-            if (page2.style.display !== 'none') {
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-                pages.push(page2);
+</div>
 
-            }
+`);
 
-            for (let i = 0; i < pages.length; i++) {
+}
 
-                const canvas = await html2canvas(pages[i], {
-                    scale: 2,
-                    useCORS: true
-                });
+function addSkill(){
 
-                const imgData = canvas.toDataURL('image/jpeg', 1);
+document.getElementById('skillsList')
+.insertAdjacentHTML('beforeend',`
 
-                if (i !== 0) pdf.addPage();
+<div class="field">
 
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+<div class="fval"
+contenteditable="true">
+New Skill
+</div>
 
-            }
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
 
-            pdf.save('resume.pdf');
+</div>
 
-            noPrintEls.forEach(el => el.style.display = '');
+`);
 
-        }
+}
 
-    </script>
+function addLanguage(){
+
+document.getElementById('langList')
+.insertAdjacentHTML('beforeend',`
+
+<div class="field">
+
+<div class="fval"
+contenteditable="true">
+New Language
+</div>
+
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
+
+</div>
+
+`);
+
+}
+
+function addExp(){
+
+document.getElementById('expList')
+.insertAdjacentHTML('beforeend',`
+
+<div class="exp-item">
+
+<div class="exp-top">
+
+<div>
+
+<div class="exp-co"
+contenteditable="true">
+Company Name
+</div>
+
+<div class="exp-role"
+contenteditable="true"
+style="color:${themeColor}">
+Your Role
+</div>
+
+</div>
+
+<div class="exp-date"
+contenteditable="true">
+2024 - Present
+</div>
+
+</div>
+
+<div class="exp-desc"
+contenteditable="true">
+Describe responsibilities...
+</div>
+
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
+
+</div>
+
+`);
+
+}
+
+function addEducation(){
+
+document.getElementById('eduList')
+.insertAdjacentHTML('beforeend',`
+
+<div class="exp-item">
+
+<div class="exp-top">
+
+<div>
+
+<div class="exp-co"
+contenteditable="true">
+College Name
+</div>
+
+<div class="exp-role"
+contenteditable="true">
+Degree
+</div>
+
+</div>
+
+<div class="exp-date"
+contenteditable="true">
+2020 - 2024
+</div>
+
+</div>
+
+<div class="exp-desc"
+contenteditable="true">
+Education details...
+</div>
+
+<button class="del-btn no-print"
+onclick="this.parentElement.remove()">
+×
+</button>
+
+</div>
+
+`);
+
+}
+
+/* PDF */
+
+async function downloadPDF(){
+
+const noPrintEls=
+document.querySelectorAll('.no-print');
+
+noPrintEls.forEach(el=>{
+el.style.display='none';
+});
+
+const {jsPDF}=window.jspdf;
+
+const pdf=new jsPDF('p','mm','a4');
+
+const canvas=
+await html2canvas(
+document.getElementById('page1'),
+{
+scale:2,
+useCORS:true
+}
+);
+
+const imgData=
+canvas.toDataURL('image/jpeg',1);
+
+pdf.addImage(
+imgData,
+'JPEG',
+0,
+0,
+210,
+297
+);
+
+pdf.save('resume.pdf');
+
+noPrintEls.forEach(el=>{
+el.style.display='';
+});
+
+}
+
+/* DRAG */
+
+const dragArea=document.getElementById('dragArea');
+
+let isDown=false;
+let startX;
+let scrollLeft;
+
+dragArea.addEventListener('mousedown',(e)=>{
+
+isDown=true;
+
+startX=e.pageX-dragArea.offsetLeft;
+
+scrollLeft=window.scrollX;
+
+dragArea.style.cursor='grabbing';
+
+});
+
+dragArea.addEventListener('mouseleave',()=>{
+
+isDown=false;
+
+dragArea.style.cursor='grab';
+
+});
+
+dragArea.addEventListener('mouseup',()=>{
+
+isDown=false;
+
+dragArea.style.cursor='grab';
+
+});
+
+dragArea.addEventListener('mousemove',(e)=>{
+
+if(!isDown)return;
+
+e.preventDefault();
+
+const x=e.pageX-dragArea.offsetLeft;
+
+const walk=(x-startX)*2;
+
+window.scrollTo(scrollLeft-walk,window.scrollY);
+
+});
+
+</script>
 
 </body>
-
 </html>

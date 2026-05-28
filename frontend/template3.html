@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Builder — Template 3 Executive</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Arial', sans-serif;
@@ -19,7 +24,7 @@
             background: white;
             width: 794px;
             min-height: 1123px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
             display: grid;
             grid-template-columns: 240px 1fr;
         }
@@ -41,513 +46,824 @@
         }
 
         .sidebar-photo-placeholder {
-            width: 100px; height: 100px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.08);
-            border: 3px dashed rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 3px dashed rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            color: rgba(255,255,255,0.35);
-            font-size: 12px; text-align: center;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 12px;
+            text-align: center;
             margin-bottom: 16px;
         }
 
         .sidebar-photo {
-            width: 100px; height: 100px;
-            border-radius: 50%; object-fit: cover;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
             border: 3px solid #27ae60;
-            cursor: pointer; display: none;
+            cursor: pointer;
+            display: none;
             margin-bottom: 16px;
         }
 
         .sidebar-name {
-            font-size: 15px; font-weight: 700;
-            color: white; letter-spacing: 1px;
-            text-transform: uppercase; outline: none;
-            margin-bottom: 6px; width: 100%;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            outline: none;
+            margin-bottom: 6px;
+            width: 100%;
         }
 
-        .sidebar-name:focus { background: rgba(255,255,255,0.05); border-radius: 4px; }
+        .sidebar-name:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
 
         .sidebar-title {
-            font-size: 10px; color: rgba(255,255,255,0.4);
-            letter-spacing: 2px; text-transform: uppercase;
-            outline: none; width: 100%;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            outline: none;
+            width: 100%;
         }
 
-        .sidebar-title:focus { background: rgba(255,255,255,0.05); border-radius: 4px; }
+        .sidebar-title:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
 
-        .sidebar-content { padding: 24px 18px; flex: 1; }
+        .sidebar-content {
+            padding: 24px 18px;
+            flex: 1;
+        }
 
-        .sidebar-section { margin-bottom: 22px; position: relative; }
+        .sidebar-section {
+            margin-bottom: 22px;
+            position: relative;
+        }
 
         .sidebar-section-title {
-            font-size: 9px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 2px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             color: #27ae60;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 5px; margin-bottom: 10px; outline: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            outline: none;
         }
 
-        .sidebar-field { margin-bottom: 7px; position: relative; }
+        .sidebar-field {
+            margin-bottom: 7px;
+            position: relative;
+        }
 
         .sidebar-field-value {
-            font-size: 11px; color: rgba(255,255,255,0.55);
-            outline: none; display: block; line-height: 1.5;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.55);
+            outline: none;
+            display: block;
+            line-height: 1.5;
         }
 
-        .sidebar-field-value:focus { background: rgba(255,255,255,0.05); border-radius: 4px; padding: 2px 4px; }
+        .sidebar-field-value:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
 
         .sidebar-contact-item {
-            display: flex; align-items: flex-start;
-            gap: 7px; margin-bottom: 9px; position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+            margin-bottom: 9px;
+            position: relative;
         }
 
-        .sidebar-contact-icon { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+        .sidebar-contact-icon {
+            font-size: 11px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
 
         .sidebar-contact-text {
-            font-size: 11px; color: rgba(255,255,255,0.5);
-            outline: none; flex: 1; line-height: 1.4;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            outline: none;
+            flex: 1;
+            line-height: 1.4;
         }
 
-        .sidebar-contact-text:focus { background: rgba(255,255,255,0.05); border-radius: 4px; }
+        .sidebar-contact-text:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
 
         /* ─── CONTENT ─── */
-        .content { padding: 28px 24px; }
+        .content {
+            padding: 28px 24px;
+        }
 
-        .section { margin-bottom: 22px; position: relative; }
+        .section {
+            margin-bottom: 22px;
+            position: relative;
+        }
 
         .section-title {
-            font-size: 10px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 2px;
-            color: #27ae60; border-bottom: 2px solid #27ae60;
-            padding-bottom: 5px; margin-bottom: 12px; outline: none;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #27ae60;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 5px;
+            margin-bottom: 12px;
+            outline: none;
         }
 
-        .exp-item { margin-bottom: 16px; position: relative; }
+        .exp-item {
+            margin-bottom: 16px;
+            position: relative;
+        }
 
         .exp-header {
-            display: flex; justify-content: space-between;
-            align-items: flex-start; margin-bottom: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3px;
         }
 
-        .exp-company { font-size: 13px; font-weight: 700; color: #1a1a2e; outline: none; }
-        .exp-company:focus { background: rgba(39,174,96,0.06); border-radius: 4px; }
+        .exp-company {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a2e;
+            outline: none;
+        }
+
+        .exp-company:focus {
+            background: rgba(39, 174, 96, 0.06);
+            border-radius: 4px;
+        }
 
         .exp-date {
-            font-size: 10px; color: #888; outline: none;
-            white-space: nowrap; background: #f0f4f8;
-            padding: 2px 7px; border-radius: 4px;
+            font-size: 10px;
+            color: #888;
+            outline: none;
+            white-space: nowrap;
+            background: #f0f4f8;
+            padding: 2px 7px;
+            border-radius: 4px;
         }
 
-        .exp-role { font-size: 11px; color: #27ae60; margin-bottom: 5px; outline: none; }
-        .exp-role:focus { background: rgba(39,174,96,0.06); border-radius: 4px; }
+        .exp-role {
+            font-size: 11px;
+            color: #27ae60;
+            margin-bottom: 5px;
+            outline: none;
+        }
 
-        .exp-desc { font-size: 11px; color: #555; line-height: 1.7; outline: none; }
-        .exp-desc:focus { background: rgba(39,174,96,0.04); border-radius: 4px; padding: 2px 4px; }
+        .exp-role:focus {
+            background: rgba(39, 174, 96, 0.06);
+            border-radius: 4px;
+        }
 
-        .field { margin-bottom: 7px; position: relative; }
+        .exp-desc {
+            font-size: 11px;
+            color: #555;
+            line-height: 1.7;
+            outline: none;
+        }
 
-        .field-value { font-size: 11px; color: #444; outline: none; display: block; line-height: 1.6; }
-        .field-value:focus { background: rgba(39,174,96,0.04); border-radius: 4px; padding: 2px 4px; }
+        .exp-desc:focus {
+            background: rgba(39, 174, 96, 0.04);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+
+        .field {
+            margin-bottom: 7px;
+            position: relative;
+        }
+
+        .field-value {
+            font-size: 11px;
+            color: #444;
+            outline: none;
+            display: block;
+            line-height: 1.6;
+        }
+
+        .field-value:focus {
+            background: rgba(39, 174, 96, 0.04);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
 
         /* ─── DELETE BUTTONS ─── */
         .delete-btn {
-            position: absolute; right: -8px; top: 0;
-            background: #e94560; color: white; border: none;
-            border-radius: 4px; width: 16px; height: 16px;
-            font-size: 11px; cursor: pointer; display: none;
-            align-items: center; justify-content: center;
-            z-index: 10; line-height: 1;
+            position: absolute;
+            right: -8px;
+            top: 0;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 16px;
+            height: 16px;
+            font-size: 11px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            line-height: 1;
         }
 
-        .field:hover > .delete-btn,
-        .exp-item:hover > .delete-btn,
-        .sidebar-field:hover > .delete-btn,
-        .sidebar-contact-item:hover > .delete-btn { display: flex; }
+        .field:hover>.delete-btn,
+        .exp-item:hover>.delete-btn,
+        .sidebar-field:hover>.delete-btn,
+        .sidebar-contact-item:hover>.delete-btn {
+            display: flex;
+        }
 
         .section-del-btn {
-            position: absolute; right: 0; top: -2px;
-            background: #e94560; color: white; border: none;
-            border-radius: 4px; width: 16px; height: 16px;
-            font-size: 11px; cursor: pointer; display: none;
-            align-items: center; justify-content: center;
-            z-index: 10; line-height: 1;
+            position: absolute;
+            right: 0;
+            top: -2px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 16px;
+            height: 16px;
+            font-size: 11px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            line-height: 1;
         }
 
-        .section:hover > .section-del-btn { display: flex; }
+        .section:hover>.section-del-btn {
+            display: flex;
+        }
 
         .sidebar-section-del-btn {
-            position: absolute; right: 0; top: -2px;
-            background: #e94560; color: white; border: none;
-            border-radius: 4px; width: 16px; height: 16px;
-            font-size: 11px; cursor: pointer; display: none;
-            align-items: center; justify-content: center;
-            z-index: 10; line-height: 1;
+            position: absolute;
+            right: 0;
+            top: -2px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 16px;
+            height: 16px;
+            font-size: 11px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            line-height: 1;
         }
 
-        .sidebar-section:hover > .sidebar-section-del-btn { display: flex; }
+        .sidebar-section:hover>.sidebar-section-del-btn {
+            display: flex;
+        }
 
         /* ─── ADD BUTTONS ─── */
         .add-btn-sidebar {
-            display: flex; align-items: center; gap: 5px;
-            padding: 4px 8px; background: transparent;
-            border: 1px dashed rgba(255,255,255,0.15);
-            border-radius: 5px; font-size: 10px;
-            color: rgba(255,255,255,0.3); cursor: pointer;
-            transition: all 0.3s; margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: transparent;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 6px;
         }
 
-        .add-btn-sidebar:hover { border-color: #27ae60; color: #27ae60; }
+        .add-btn-sidebar:hover {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
 
         .add-btn-right {
-            display: flex; align-items: center; gap: 5px;
-            padding: 5px 10px; background: transparent;
-            border: 1.5px dashed #ddd; border-radius: 6px;
-            font-size: 10px; color: #bbb; cursor: pointer;
-            transition: all 0.3s; margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background: transparent;
+            border: 1.5px dashed #ddd;
+            border-radius: 6px;
+            font-size: 10px;
+            color: #bbb;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
         }
 
-        .add-btn-right:hover { border-color: #27ae60; color: #27ae60; }
+        .add-btn-right:hover {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
 
         /* ─── TOOLBAR ─── */
         .toolbar {
-            position: fixed; top: 20px; right: 20px;
-            background: #1a202c; border-radius: 12px;
-            padding: 14px; display: flex; flex-direction: column;
-            gap: 8px; z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4); width: 160px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a202c;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            width: 160px;
         }
 
         .toolbar-btn {
-            padding: 9px 14px; border: none; border-radius: 8px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; display: flex; align-items: center;
-            gap: 8px; width: 100%;
+            padding: 9px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
         }
 
-        .btn-back { background: rgba(255,255,255,0.08); color: white; }
-        .btn-back:hover { background: rgba(255,255,255,0.15); }
-        .btn-color { background: rgba(255,255,255,0.08); color: white; }
-        .btn-color:hover { background: rgba(255,255,255,0.15); }
-        .btn-download { background: #27ae60; color: white; }
-        .btn-download:hover { background: #219a52; }
+        .btn-back {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
 
-        .toolbar-divider { height: 1px; background: rgba(255,255,255,0.1); }
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
-        .color-options { display: none; flex-wrap: wrap; gap: 8px; padding: 4px 0; }
-        .color-options.show { display: flex; }
+        .btn-color {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .btn-color:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-download {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #219a52;
+        }
+
+        .toolbar-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .color-options {
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .color-options.show {
+            display: flex;
+        }
 
         .color-dot {
-            width: 24px; height: 24px; border-radius: 50%;
-            cursor: pointer; border: 2px solid rgba(255,255,255,0.2);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.2s;
         }
 
-        .color-dot:hover { transform: scale(1.2); }
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
 
         @media print {
-            .toolbar { display: none !important; }
-            .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            .resume { box-shadow: none; }
+            .toolbar {
+                display: none !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .resume {
+                box-shadow: none;
+            }
+        }
+
+        /* ─── MOBILE RESPONSIVE ─── */
+        /* ─── MOBILE RESPONSIVE ─── */
+        @media (max-width: 768px) {
+
+            body {
+                padding: 110px 8px 20px 8px !important;
+                display: block;
+                overflow-x: auto;
+                background: #f0f4f8;
+            }
+
+            .resume {
+                width: 794px !important;
+                min-width: 794px;
+                transform: scale(0.48);
+                transform-origin: top left;
+                margin: 0 auto;
+            }
+
+            /* toolbar top fixed */
+            .toolbar {
+                position: fixed !important;
+                top: 10px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                right: auto !important;
+                bottom: auto !important;
+
+                width: auto !important;
+                flex-direction: row !important;
+                align-items: center;
+                justify-content: center;
+
+                padding: 10px !important;
+                gap: 8px !important;
+
+                z-index: 9999;
+            }
+
+            .toolbar-btn {
+                width: auto !important;
+                font-size: 11px !important;
+                padding: 8px 10px !important;
+            }
+
+            .toolbar-divider {
+                display: none;
+            }
+
+            .color-options {
+                position: absolute;
+                top: 55px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #1a202c;
+                padding: 10px;
+                border-radius: 10px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+                z-index: 10000;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<!-- ─── TOOLBAR ─── -->
-<div class="toolbar no-print">
-    <button class="toolbar-btn btn-back" onclick="window.location.href='dashboard.html'">← Back</button>
-    <div class="toolbar-divider"></div>
-    <button class="toolbar-btn btn-color" onclick="toggleColors()">🎨 Theme</button>
-    <div class="color-options" id="colorOptions">
-        <div class="color-dot" style="background:#27ae60" onclick="changeTheme('#27ae60','#1a202c','#2d3748')"></div>
-        <div class="color-dot" style="background:#e94560" onclick="changeTheme('#e94560','#1a1a2e','#2d2d42')"></div>
-        <div class="color-dot" style="background:#2E75B6" onclick="changeTheme('#2E75B6','#0f2744','#1a3a5c')"></div>
-        <div class="color-dot" style="background:#8e44ad" onclick="changeTheme('#8e44ad','#2d1b4e','#3d2460')"></div>
-        <div class="color-dot" style="background:#f39c12" onclick="changeTheme('#f39c12','#2d1f0a','#3d2a10')"></div>
-        <div class="color-dot" style="background:#00b4d8" onclick="changeTheme('#00b4d8','#012a36','#013a4a')"></div>
-    </div>
-    <div class="toolbar-divider"></div>
-    <button class="toolbar-btn btn-download" onclick="downloadPDF()">⬇ Download PDF</button>
-</div>
-
-<!-- ─── RESUME ─── -->
-<div class="resume" id="resume">
-
-    <!-- ─── SIDEBAR ─── -->
-    <div class="sidebar" id="sidebar">
-
-        <!-- Photo + Name -->
-        <div class="sidebar-photo-section" id="sidebarPhotoSection">
-            <div class="sidebar-photo-placeholder no-print" id="photoPlaceholder" onclick="document.getElementById('photoInput').click()">+ Photo</div>
-            <img class="sidebar-photo" id="photoPreview" src="" onclick="document.getElementById('photoInput').click()" alt="Profile">
-            <input type="file" id="photoInput" accept="image/*" class="no-print" style="display:none" onchange="handlePhoto(this)">
-            <div class="sidebar-name" contenteditable="true">YOUR NAME</div>
-            <div class="sidebar-title" contenteditable="true">Professional Title</div>
+    <!-- ─── TOOLBAR ─── -->
+    <div class="toolbar no-print">
+        <button class="toolbar-btn btn-back" onclick="window.location.href='dashboard.html'">← Back</button>
+        <div class="toolbar-divider"></div>
+        <button class="toolbar-btn btn-color" onclick="toggleColors()">🎨 Theme</button>
+        <div class="color-options" id="colorOptions">
+            <div class="color-dot" style="background:#27ae60" onclick="changeTheme('#27ae60','#1a202c','#2d3748')">
+            </div>
+            <div class="color-dot" style="background:#e94560" onclick="changeTheme('#e94560','#1a1a2e','#2d2d42')">
+            </div>
+            <div class="color-dot" style="background:#2E75B6" onclick="changeTheme('#2E75B6','#0f2744','#1a3a5c')">
+            </div>
+            <div class="color-dot" style="background:#8e44ad" onclick="changeTheme('#8e44ad','#2d1b4e','#3d2460')">
+            </div>
+            <div class="color-dot" style="background:#f39c12" onclick="changeTheme('#f39c12','#2d1f0a','#3d2a10')">
+            </div>
+            <div class="color-dot" style="background:#00b4d8" onclick="changeTheme('#00b4d8','#012a36','#013a4a')">
+            </div>
         </div>
-
-        <!-- Sidebar Content -->
-        <div class="sidebar-content">
-
-            <!-- Contact -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-del-btn no-print" onclick="this.closest('.sidebar-section').remove()">×</button>
-                <div class="sidebar-section-title" contenteditable="true">Contact</div>
-                <div id="contactList">
-                    <div class="sidebar-contact-item">
-                        <span class="sidebar-contact-icon">📍</span>
-                        <span class="sidebar-contact-text" contenteditable="true">Your City, State</span>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-contact-item">
-                        <span class="sidebar-contact-icon">📧</span>
-                        <span class="sidebar-contact-text" contenteditable="true">your@email.com</span>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-contact-item">
-                        <span class="sidebar-contact-icon">📱</span>
-                        <span class="sidebar-contact-text" contenteditable="true">+91-XXXXXXXXXX</span>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-contact-item">
-                        <span class="sidebar-contact-icon">🔗</span>
-                        <span class="sidebar-contact-text" contenteditable="true">LinkedIn URL</span>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-contact-item">
-                        <span class="sidebar-contact-icon">💻</span>
-                        <span class="sidebar-contact-text" contenteditable="true">GitHub URL</span>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                </div>
-                <button class="add-btn-sidebar no-print" onclick="addContact()">+ Add</button>
-            </div>
-
-            <!-- Skills -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-del-btn no-print" onclick="this.closest('.sidebar-section').remove()">×</button>
-                <div class="sidebar-section-title" contenteditable="true">Skills</div>
-                <div id="skillsList">
-                    <div class="sidebar-field">
-                        <div class="sidebar-field-value" contenteditable="true">HTML, CSS, JavaScript</div>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-field">
-                        <div class="sidebar-field-value" contenteditable="true">Node.js, Express.js</div>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-field">
-                        <div class="sidebar-field-value" contenteditable="true">MySQL, MongoDB</div>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-field">
-                        <div class="sidebar-field-value" contenteditable="true">Python, DSA</div>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                </div>
-                <button class="add-btn-sidebar no-print" onclick="addSkill()">+ Add</button>
-            </div>
-
-            <!-- Languages -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-del-btn no-print" onclick="this.closest('.sidebar-section').remove()">×</button>
-                <div class="sidebar-section-title" contenteditable="true">Languages</div>
-                <div id="langList">
-                    <div class="sidebar-field">
-                        <div class="sidebar-field-value" contenteditable="true">Hindi (Native)</div>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                    <div class="sidebar-field">
-                        <div class="sidebar-field-value" contenteditable="true">English (Fluent)</div>
-                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                </div>
-                <button class="add-btn-sidebar no-print" onclick="addLanguage()">+ Add</button>
-            </div>
-
-            <!-- Sidebar Custom Sections -->
-            <div id="sidebarCustomSections"></div>
-            <button class="add-btn-sidebar no-print" style="width:100%; justify-content:center;" onclick="addSidebarSection()">+ Add Section</button>
-
-        </div>
+        <div class="toolbar-divider"></div>
+        <button class="toolbar-btn btn-download" onclick="downloadPDF()">⬇ Download PDF</button>
     </div>
 
-    <!-- ─── CONTENT ─── -->
-    <div class="content">
+    <!-- ─── RESUME ─── -->
+    <div class="resume" id="resume">
 
-        <!-- Profile -->
-        <div class="section">
-            <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="section-title" contenteditable="true">Profile</div>
-            <div class="field-value" contenteditable="true" style="line-height:1.8; color:#555;">
-                Write your professional summary here. Describe your skills, experience, and what value you bring. Keep it concise and impactful.
+        <!-- ─── SIDEBAR ─── -->
+        <div class="sidebar" id="sidebar">
+
+            <!-- Photo + Name -->
+            <div class="sidebar-photo-section" id="sidebarPhotoSection">
+                <div class="sidebar-photo-placeholder no-print" id="photoPlaceholder"
+                    onclick="document.getElementById('photoInput').click()">+ Photo</div>
+                <img class="sidebar-photo" id="photoPreview" src=""
+                    onclick="document.getElementById('photoInput').click()" alt="Profile">
+                <input type="file" id="photoInput" accept="image/*" class="no-print" style="display:none"
+                    onchange="handlePhoto(this)">
+                <div class="sidebar-name" contenteditable="true">YOUR NAME</div>
+                <div class="sidebar-title" contenteditable="true">Professional Title</div>
             </div>
-        </div>
 
-        <!-- Experience -->
-        <div class="section">
-            <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="section-title" contenteditable="true">Work Experience</div>
-            <div id="expList">
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <div class="exp-company" contenteditable="true">Company Name</div>
-                            <div class="exp-role" contenteditable="true">Your Role</div>
+            <!-- Sidebar Content -->
+            <div class="sidebar-content">
+
+                <!-- Contact -->
+                <div class="sidebar-section">
+                    <button class="sidebar-section-del-btn no-print"
+                        onclick="this.closest('.sidebar-section').remove()">×</button>
+                    <div class="sidebar-section-title" contenteditable="true">Contact</div>
+                    <div id="contactList">
+                        <div class="sidebar-contact-item">
+                            <span class="sidebar-contact-icon">📍</span>
+                            <span class="sidebar-contact-text" contenteditable="true">Your City, State</span>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
                         </div>
-                        <div class="exp-date" contenteditable="true">2024 - Present</div>
-                    </div>
-                    <div class="exp-desc" contenteditable="true">Describe your responsibilities and achievements here. Focus on impact and results you delivered.</div>
-                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn-right no-print" onclick="addExperience()">+ Add Experience</button>
-        </div>
-
-        <!-- Education -->
-        <div class="section">
-            <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="section-title" contenteditable="true">Education</div>
-            <div id="eduList">
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <div class="exp-company" contenteditable="true">College / University</div>
-                            <div class="exp-role" contenteditable="true">Degree Name</div>
+                        <div class="sidebar-contact-item">
+                            <span class="sidebar-contact-icon">📧</span>
+                            <span class="sidebar-contact-text" contenteditable="true">your@email.com</span>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
                         </div>
-                        <div class="exp-date" contenteditable="true">2022 - 2025</div>
-                    </div>
-                    <div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div>
-                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn-right no-print" onclick="addEducation()">+ Add Education</button>
-        </div>
-
-        <!-- Projects -->
-        <div class="section">
-            <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="section-title" contenteditable="true">Projects</div>
-            <div id="projectList">
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <div class="exp-company" contenteditable="true">Project Name</div>
-                            <div class="exp-role" contenteditable="true">Tech Stack Used</div>
+                        <div class="sidebar-contact-item">
+                            <span class="sidebar-contact-icon">📱</span>
+                            <span class="sidebar-contact-text" contenteditable="true">+91-XXXXXXXXXX</span>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
                         </div>
-                        <div class="exp-date" contenteditable="true">2024</div>
+                        <div class="sidebar-contact-item">
+                            <span class="sidebar-contact-icon">🔗</span>
+                            <span class="sidebar-contact-text" contenteditable="true">LinkedIn URL</span>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                        <div class="sidebar-contact-item">
+                            <span class="sidebar-contact-icon">💻</span>
+                            <span class="sidebar-contact-text" contenteditable="true">GitHub URL</span>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
                     </div>
-                    <div class="exp-desc" contenteditable="true">Describe your project here. What problem it solves, what technologies you used, and key achievements.</div>
-                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    <button class="add-btn-sidebar no-print" onclick="addContact()">+ Add</button>
                 </div>
+
+                <!-- Skills -->
+                <div class="sidebar-section">
+                    <button class="sidebar-section-del-btn no-print"
+                        onclick="this.closest('.sidebar-section').remove()">×</button>
+                    <div class="sidebar-section-title" contenteditable="true">Skills</div>
+                    <div id="skillsList">
+                        <div class="sidebar-field">
+                            <div class="sidebar-field-value" contenteditable="true">HTML, CSS, JavaScript</div>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                        <div class="sidebar-field">
+                            <div class="sidebar-field-value" contenteditable="true">Node.js, Express.js</div>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                        <div class="sidebar-field">
+                            <div class="sidebar-field-value" contenteditable="true">MySQL, MongoDB</div>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                        <div class="sidebar-field">
+                            <div class="sidebar-field-value" contenteditable="true">Python, DSA</div>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                    </div>
+                    <button class="add-btn-sidebar no-print" onclick="addSkill()">+ Add</button>
+                </div>
+
+                <!-- Languages -->
+                <div class="sidebar-section">
+                    <button class="sidebar-section-del-btn no-print"
+                        onclick="this.closest('.sidebar-section').remove()">×</button>
+                    <div class="sidebar-section-title" contenteditable="true">Languages</div>
+                    <div id="langList">
+                        <div class="sidebar-field">
+                            <div class="sidebar-field-value" contenteditable="true">Hindi (Native)</div>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                        <div class="sidebar-field">
+                            <div class="sidebar-field-value" contenteditable="true">English (Fluent)</div>
+                            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                    </div>
+                    <button class="add-btn-sidebar no-print" onclick="addLanguage()">+ Add</button>
+                </div>
+
+                <!-- Sidebar Custom Sections -->
+                <div id="sidebarCustomSections"></div>
+                <button class="add-btn-sidebar no-print" style="width:100%; justify-content:center;"
+                    onclick="addSidebarSection()">+ Add Section</button>
+
             </div>
-            <button class="add-btn-right no-print" onclick="addProject()">+ Add Project</button>
         </div>
 
-        <!-- Certifications -->
-        <div class="section">
-            <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="section-title" contenteditable="true">Certifications</div>
-            <div id="certList">
-                <div class="field">
-                    <div class="field-value" contenteditable="true">Certification Name — Issuer (Year)</div>
-                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+        <!-- ─── CONTENT ─── -->
+        <div class="content">
+
+            <!-- Profile -->
+            <div class="section">
+                <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="section-title" contenteditable="true">Profile</div>
+                <div class="field-value" contenteditable="true" style="line-height:1.8; color:#555;">
+                    Write your professional summary here. Describe your skills, experience, and what value you bring.
+                    Keep it concise and impactful.
                 </div>
             </div>
-            <button class="add-btn-right no-print" onclick="addCert()">+ Add Certification</button>
+
+            <!-- Experience -->
+            <div class="section">
+                <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="section-title" contenteditable="true">Work Experience</div>
+                <div id="expList">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-company" contenteditable="true">Company Name</div>
+                                <div class="exp-role" contenteditable="true">Your Role</div>
+                            </div>
+                            <div class="exp-date" contenteditable="true">2024 - Present</div>
+                        </div>
+                        <div class="exp-desc" contenteditable="true">Describe your responsibilities and achievements
+                            here. Focus on impact and results you delivered.</div>
+                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn-right no-print" onclick="addExperience()">+ Add Experience</button>
+            </div>
+
+            <!-- Education -->
+            <div class="section">
+                <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="section-title" contenteditable="true">Education</div>
+                <div id="eduList">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-company" contenteditable="true">College / University</div>
+                                <div class="exp-role" contenteditable="true">Degree Name</div>
+                            </div>
+                            <div class="exp-date" contenteditable="true">2022 - 2025</div>
+                        </div>
+                        <div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div>
+                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn-right no-print" onclick="addEducation()">+ Add Education</button>
+            </div>
+
+            <!-- Projects -->
+            <div class="section">
+                <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="section-title" contenteditable="true">Projects</div>
+                <div id="projectList">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-company" contenteditable="true">Project Name</div>
+                                <div class="exp-role" contenteditable="true">Tech Stack Used</div>
+                            </div>
+                            <div class="exp-date" contenteditable="true">2024</div>
+                        </div>
+                        <div class="exp-desc" contenteditable="true">Describe your project here. What problem it solves,
+                            what technologies you used, and key achievements.</div>
+                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn-right no-print" onclick="addProject()">+ Add Project</button>
+            </div>
+
+            <!-- Certifications -->
+            <div class="section">
+                <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
+                <div class="section-title" contenteditable="true">Certifications</div>
+                <div id="certList">
+                    <div class="field">
+                        <div class="field-value" contenteditable="true">Certification Name — Issuer (Year)</div>
+                        <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                </div>
+                <button class="add-btn-right no-print" onclick="addCert()">+ Add Certification</button>
+            </div>
+
+            <!-- Right Custom Sections -->
+            <div id="rightCustomSections"></div>
+            <button class="add-btn-right no-print" style="width:100%; justify-content:center;"
+                onclick="addRightSection()">+ Add Section</button>
+
         </div>
-
-        <!-- Right Custom Sections -->
-        <div id="rightCustomSections"></div>
-        <button class="add-btn-right no-print" style="width:100%; justify-content:center;" onclick="addRightSection()">+ Add Section</button>
-
     </div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-    // ─── TOKEN CHECK ───
-    const token = localStorage.getItem('token');
-    if (!token) window.location.href = 'index.html';
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // ─── TOKEN CHECK ───
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'index.html';
 
-    let accentColor = '#27ae60';
+        let accentColor = '#27ae60';
 
-    // ─── PHOTO ───
-    const handlePhoto = (input) => {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            document.getElementById('photoPreview').src = e.target.result;
-            document.getElementById('photoPreview').style.display = 'block';
-            document.getElementById('photoPlaceholder').style.display = 'none';
+        // ─── PHOTO ───
+        const handlePhoto = (input) => {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('photoPreview').src = e.target.result;
+                document.getElementById('photoPreview').style.display = 'block';
+                document.getElementById('photoPlaceholder').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
         };
-        reader.readAsDataURL(file);
-    };
 
-    // ─── THEME ───
-    const toggleColors = () => {
-        document.getElementById('colorOptions').classList.toggle('show');
-    };
+        // ─── THEME ───
+        const toggleColors = () => {
+            document.getElementById('colorOptions').classList.toggle('show');
+        };
 
-    const changeTheme = (accent, darkBg, sidebarBg) => {
-        accentColor = accent;
-        document.getElementById('sidebar').style.background = sidebarBg;
-        document.getElementById('sidebarPhotoSection').style.background = darkBg;
-        document.getElementById('photoPreview').style.borderColor = accent;
+        const changeTheme = (accent, darkBg, sidebarBg) => {
+            accentColor = accent;
+            document.getElementById('sidebar').style.background = sidebarBg;
+            document.getElementById('sidebarPhotoSection').style.background = darkBg;
+            document.getElementById('photoPreview').style.borderColor = accent;
 
-        document.querySelectorAll('.section-title').forEach(el => {
-            el.style.color = accent;
-            el.style.borderBottomColor = accent;
-        });
-        document.querySelectorAll('.sidebar-section-title').forEach(el => {
-            el.style.color = accent;
-        });
-        document.querySelectorAll('.exp-role').forEach(el => { el.style.color = accent; });
-        document.getElementById('colorOptions').classList.remove('show');
-    };
+            document.querySelectorAll('.section-title').forEach(el => {
+                el.style.color = accent;
+                el.style.borderBottomColor = accent;
+            });
+            document.querySelectorAll('.sidebar-section-title').forEach(el => {
+                el.style.color = accent;
+            });
+            document.querySelectorAll('.exp-role').forEach(el => { el.style.color = accent; });
+            document.getElementById('colorOptions').classList.remove('show');
+        };
 
-    // ─── ADD CONTACT ───
-    const addContact = () => {
-        const div = document.createElement('div');
-        div.className = 'sidebar-contact-item';
-        div.innerHTML = `
+        // ─── ADD CONTACT ───
+        const addContact = () => {
+            const div = document.createElement('div');
+            div.className = 'sidebar-contact-item';
+            div.innerHTML = `
             <span class="sidebar-contact-icon">📌</span>
             <span class="sidebar-contact-text" contenteditable="true">New Info</span>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('contactList').appendChild(div);
-    };
+            document.getElementById('contactList').appendChild(div);
+        };
 
-    // ─── ADD SKILL ───
-    const addSkill = () => {
-        const div = document.createElement('div');
-        div.className = 'sidebar-field';
-        div.innerHTML = `
+        // ─── ADD SKILL ───
+        const addSkill = () => {
+            const div = document.createElement('div');
+            div.className = 'sidebar-field';
+            div.innerHTML = `
             <div class="sidebar-field-value" contenteditable="true">New Skill</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('skillsList').appendChild(div);
-    };
+            document.getElementById('skillsList').appendChild(div);
+        };
 
-    // ─── ADD LANGUAGE ───
-    const addLanguage = () => {
-        const div = document.createElement('div');
-        div.className = 'sidebar-field';
-        div.innerHTML = `
+        // ─── ADD LANGUAGE ───
+        const addLanguage = () => {
+            const div = document.createElement('div');
+            div.className = 'sidebar-field';
+            div.innerHTML = `
             <div class="sidebar-field-value" contenteditable="true">New Language</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('langList').appendChild(div);
-    };
+            document.getElementById('langList').appendChild(div);
+        };
 
-    // ─── ADD EXPERIENCE ───
-    const addExperience = () => {
-        const div = document.createElement('div');
-        div.className = 'exp-item';
-        div.innerHTML = `
+        // ─── ADD EXPERIENCE ───
+        const addExperience = () => {
+            const div = document.createElement('div');
+            div.className = 'exp-item';
+            div.innerHTML = `
             <div class="exp-header">
                 <div>
                     <div class="exp-company" contenteditable="true">Company Name</div>
@@ -558,14 +874,14 @@
             <div class="exp-desc" contenteditable="true">Describe your responsibilities here.</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('expList').appendChild(div);
-    };
+            document.getElementById('expList').appendChild(div);
+        };
 
-    // ─── ADD EDUCATION ───
-    const addEducation = () => {
-        const div = document.createElement('div');
-        div.className = 'exp-item';
-        div.innerHTML = `
+        // ─── ADD EDUCATION ───
+        const addEducation = () => {
+            const div = document.createElement('div');
+            div.className = 'exp-item';
+            div.innerHTML = `
             <div class="exp-header">
                 <div>
                     <div class="exp-company" contenteditable="true">College Name</div>
@@ -576,14 +892,14 @@
             <div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('eduList').appendChild(div);
-    };
+            document.getElementById('eduList').appendChild(div);
+        };
 
-    // ─── ADD PROJECT ───
-    const addProject = () => {
-        const div = document.createElement('div');
-        div.className = 'exp-item';
-        div.innerHTML = `
+        // ─── ADD PROJECT ───
+        const addProject = () => {
+            const div = document.createElement('div');
+            div.className = 'exp-item';
+            div.innerHTML = `
             <div class="exp-header">
                 <div>
                     <div class="exp-company" contenteditable="true">Project Name</div>
@@ -594,25 +910,25 @@
             <div class="exp-desc" contenteditable="true">Project description here.</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('projectList').appendChild(div);
-    };
+            document.getElementById('projectList').appendChild(div);
+        };
 
-    // ─── ADD CERT ───
-    const addCert = () => {
-        const div = document.createElement('div');
-        div.className = 'field';
-        div.innerHTML = `
+        // ─── ADD CERT ───
+        const addCert = () => {
+            const div = document.createElement('div');
+            div.className = 'field';
+            div.innerHTML = `
             <div class="field-value" contenteditable="true">Certification Name — Issuer (Year)</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        document.getElementById('certList').appendChild(div);
-    };
+            document.getElementById('certList').appendChild(div);
+        };
 
-    // ─── ADD SIDEBAR CUSTOM SECTION ───
-    const addSidebarSection = () => {
-        const div = document.createElement('div');
-        div.className = 'sidebar-section';
-        div.innerHTML = `
+        // ─── ADD SIDEBAR CUSTOM SECTION ───
+        const addSidebarSection = () => {
+            const div = document.createElement('div');
+            div.className = 'sidebar-section';
+            div.innerHTML = `
             <button class="sidebar-section-del-btn no-print" onclick="this.closest('.sidebar-section').remove()">×</button>
             <div class="sidebar-section-title" contenteditable="true" style="color:${accentColor}">New Section</div>
             <div class="sidebar-custom-items">
@@ -623,25 +939,25 @@
             </div>
             <button class="add-btn-sidebar no-print" onclick="addSidebarItem(this)">+ Add</button>
         `;
-        document.getElementById('sidebarCustomSections').appendChild(div);
-    };
+            document.getElementById('sidebarCustomSections').appendChild(div);
+        };
 
-    // ─── ADD SIDEBAR ITEM ───
-    const addSidebarItem = (btn) => {
-        const div = document.createElement('div');
-        div.className = 'sidebar-field';
-        div.innerHTML = `
+        // ─── ADD SIDEBAR ITEM ───
+        const addSidebarItem = (btn) => {
+            const div = document.createElement('div');
+            div.className = 'sidebar-field';
+            div.innerHTML = `
             <div class="sidebar-field-value" contenteditable="true">New Item</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        btn.previousElementSibling.appendChild(div);
-    };
+            btn.previousElementSibling.appendChild(div);
+        };
 
-    // ─── ADD RIGHT CUSTOM SECTION ───
-    const addRightSection = () => {
-        const div = document.createElement('div');
-        div.className = 'section';
-        div.innerHTML = `
+        // ─── ADD RIGHT CUSTOM SECTION ───
+        const addRightSection = () => {
+            const div = document.createElement('div');
+            div.className = 'section';
+            div.innerHTML = `
             <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
             <div class="section-title" contenteditable="true" style="color:${accentColor}; border-bottom-color:${accentColor}">New Section</div>
             <div class="custom-items">
@@ -659,14 +975,14 @@
             </div>
             <button class="add-btn-right no-print" onclick="addRightItem(this)">+ Add Item</button>
         `;
-        document.getElementById('rightCustomSections').appendChild(div);
-    };
+            document.getElementById('rightCustomSections').appendChild(div);
+        };
 
-    // ─── ADD RIGHT ITEM ───
-    const addRightItem = (btn) => {
-        const div = document.createElement('div');
-        div.className = 'exp-item';
-        div.innerHTML = `
+        // ─── ADD RIGHT ITEM ───
+        const addRightItem = (btn) => {
+            const div = document.createElement('div');
+            div.className = 'exp-item';
+            div.innerHTML = `
             <div class="exp-header">
                 <div>
                     <div class="exp-company" contenteditable="true">Item Title</div>
@@ -677,28 +993,29 @@
             <div class="exp-desc" contenteditable="true">Description here...</div>
             <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
         `;
-        btn.previousElementSibling.appendChild(div);
-    };
-
-    // ─── PDF DOWNLOAD ───
-    const downloadPDF = () => {
-        document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
-        const element = document.getElementById('resume');
-        const options = {
-            margin: 0,
-            filename: 'resume.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false, scrollY: 0 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            btn.previousElementSibling.appendChild(div);
         };
-        html2pdf().set(options).from(element).save().then(() => {
-            document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
-            if (document.getElementById('photoPreview').src) {
-                document.getElementById('photoPlaceholder').style.display = 'none';
-            }
-        });
-    };
-</script>
+
+        // ─── PDF DOWNLOAD ───
+        const downloadPDF = () => {
+            document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
+            const element = document.getElementById('resume');
+            const options = {
+                margin: 0,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(options).from(element).save().then(() => {
+                document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+                if (document.getElementById('photoPreview').src) {
+                    document.getElementById('photoPlaceholder').style.display = 'none';
+                }
+            });
+        };
+    </script>
 
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-const API = 'https://resume-builder-software1.onrender.com/api';
+const API = 'https://resume-builder-software1.onrender.comh/api';
 const token = localStorage.getItem('token');
 const resumeId = new URLSearchParams(window.location.search).get('id');
 
