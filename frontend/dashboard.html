@@ -332,8 +332,7 @@
         }
 
         /* ─── SIDEBAR ─── */
-        .sidebar {}
-
+       
         .sidebar-section {
             margin-bottom: 24px;
         }
@@ -974,7 +973,7 @@
                 // SAFE ARRAY CHECK
                 if (!Array.isArray(resumes)) {
 
-                    console.error("Array nahi aaya:", resumes);
+                    console.error("Array not found:", resumes);
 
                     document.getElementById('resumeList').innerHTML = `
                 <div style="
@@ -1151,7 +1150,7 @@
                     .trim();
 
             if (!title) {
-                alert('Resume ka naam likho!');
+                alert('Resume Name!');
                 return;
             }
 
@@ -1186,14 +1185,14 @@
 
                 console.error(error);
 
-                alert('Resume create nahi hua');
+                alert('Resume not created');
             }
         };
 
         // DELETE
         const deleteResume = async (id) => {
 
-            if (!confirm('Delete karna chahte ho?')) {
+            if (!confirm('Do you want to delete ?')) {
                 return;
             }
 

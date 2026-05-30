@@ -1,681 +1,527 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume — Modern Template</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #0f0c29;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 220px 40px 20px;
-            gap: 20px;
-        }
-
-        /* ─── FLOATING TOOLBAR ─── */
-        #floatToolbar {
-            position: fixed; display: none;
-            background: #16213e;
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 10px; padding: 6px 10px;
-            gap: 5px; align-items: center;
-            z-index: 9999;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            flex-wrap: wrap;
-        }
-
-        #floatToolbar.show { display: flex; }
-
-        .ft-btn {
-            padding: 5px 9px; background: rgba(255,255,255,0.08);
-            color: white; border: none; border-radius: 6px;
-            font-size: 13px; cursor: pointer; transition: background 0.2s;
-            line-height: 1; min-width: 28px; text-align: center;
-        }
-
-        .ft-btn:hover { background: rgba(255,255,255,0.2); }
-
-        .ft-select {
-            padding: 4px 6px; background: rgba(255,255,255,0.08);
-            color: white; border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 6px; font-size: 12px; cursor: pointer; outline: none;
-        }
-
-        .ft-select option { background: #16213e; color: white; }
-        .ft-color { width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 2px; }
-        .ft-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
-
-        /* ─── PAGE ─── */
-        .resume-page {
-            background: white;
-            width: 794px;
-            min-height: 1123px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
-        }
-
-        /* ─── TOP BAR ─── */
-        .top-accent { height: 6px; background: #2E75B6; }
-
-        /* ─── HEADER ─── */
-        .header {
-            padding: 32px 40px 24px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .photo-wrap { flex-shrink: 0; }
-
-        .photo-placeholder {
-            width: 90px; height: 90px;
-            border-radius: 50%;
-            background: #f5f5f7;
-            border: 3px dashed #ddd;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; color: #bbb; font-size: 12px; text-align: center;
-            transition: all 0.3s;
-        }
-
-        .photo-placeholder:hover { border-color: #2E75B6; color: #2E75B6; }
-
-        .header-photo {
-            width: 90px; height: 90px;
-            border-radius: 50%; object-fit: cover;
-            border: 3px solid #2E75B6;
-            cursor: pointer; display: none;
-        }
-
-        .header-info { flex: 1; }
-
-        .resume-name {
-            font-size: 30px; font-weight: 700;
-            color: #1a1a2e; letter-spacing: 1px;
-            outline: none; min-width: 20px;
-        }
-
-        .resume-subtitle {
-            font-size: 13px; color: #2E75B6;
-            letter-spacing: 2px; text-transform: uppercase;
-            margin-top: 4px; outline: none; min-width: 20px;
-        }
-
-        /* ─── CONTACT BAR ─── */
-        .contact-bar {
-            background: #f0f6ff;
-            padding: 10px 40px;
-            display: flex; flex-wrap: wrap; gap: 16px;
-            border-bottom: 1px solid #e0eaf8;
-        }
-
-        .contact-chip {
-            display: flex; align-items: center;
-            gap: 6px; font-size: 12px; color: #444;
-            position: relative;
-        }
-
-        .chip-icon { color: #2E75B6; font-size: 13px; }
-
-        .chip-text { outline: none; min-width: 20px; }
-        .chip-text:focus { background: rgba(46,117,182,0.08); border-radius: 3px; }
-
-        .chip-del {
-            position: absolute; right: -14px; top: -2px;
-            background: #e94560; color: white; border: none;
-            border-radius: 50%; width: 14px; height: 14px;
-            font-size: 9px; cursor: pointer; display: none;
-            align-items: center; justify-content: center; line-height: 1;
-        }
-
-        .contact-chip:hover .chip-del { display: flex; }
-
-        /* ─── BODY ─── */
-        .page-body { padding: 28px 40px; }
-
-        /* ─── SECTION ─── */
-        .section { margin-bottom: 24px; position: relative; }
-
-        .sec-title {
-            font-size: 14px; font-weight: 700;
-            color: #2E75B6;
-            border-bottom: 2px solid #2E75B6;
-            padding-bottom: 5px; margin-bottom: 12px;
-            outline: none; min-width: 20px;
-        }
-
-        .field { margin-bottom: 8px; position: relative; }
-
-        .fval {
-            font-size: 13px; color: #333; outline: none;
-            display: block; line-height: 1.6; min-width: 20px;
-        }
-
-        .fval:focus { background: rgba(46,117,182,0.04); border-radius: 3px; padding: 1px 3px; }
-
-        .exp-item { margin-bottom: 16px; position: relative; }
-
-        .exp-top { display: flex; justify-content: space-between; align-items: flex-start; }
-
-        .exp-co { font-size: 14px; font-weight: 700; color: #1a1a2e; outline: none; min-width: 20px; }
-        .exp-date {
-            font-size: 11px; color: #2E75B6; outline: none;
-            white-space: nowrap; background: #e8f0fb;
-            padding: 2px 8px; border-radius: 4px;
-        }
-
-        .exp-role { font-size: 12px; color: #555; font-style: italic; margin-top: 2px; outline: none; min-width: 20px; }
-        .exp-desc { font-size: 13px; color: #555; margin-top: 5px; line-height: 1.7; outline: none; min-width: 20px; }
-        .exp-desc:focus { background: rgba(46,117,182,0.04); border-radius: 3px; padding: 1px 3px; }
-
-        /* Skills tags */
-        .skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-
-        .skill-tag {
-            background: #e8f0fb; color: #1a4a8a;
-            padding: 4px 12px; border-radius: 20px;
-            font-size: 12px; outline: none; min-width: 20px;
-            position: relative; cursor: text;
-        }
-
-        .skill-tag:focus { background: #d0e4f7; }
-
-        .skill-tag-del {
-            position: absolute; right: -6px; top: -6px;
-            background: #e94560; color: white; border: none;
-            border-radius: 50%; width: 14px; height: 14px;
-            font-size: 9px; cursor: pointer; display: none;
-            align-items: center; justify-content: center; line-height: 1;
-        }
-
-        .skill-tag:hover .skill-tag-del { display: flex; }
-
-        /* ─── DELETE BUTTONS ─── */
-        .del-btn {
-            position: absolute; right: -8px; top: 0;
-            background: #e94560; color: white; border: none;
-            border-radius: 4px; width: 17px; height: 17px;
-            font-size: 11px; cursor: pointer; display: none;
-            align-items: center; justify-content: center;
-            z-index: 10; line-height: 1;
-        }
-
-        .field:hover > .del-btn,
-        .exp-item:hover > .del-btn { display: flex; }
-
-        .sec-del {
-            position: absolute; right: 0; top: -2px;
-            background: #e94560; color: white; border: none;
-            border-radius: 4px; width: 17px; height: 17px;
-            font-size: 11px; cursor: pointer; display: none;
-            align-items: center; justify-content: center;
-            z-index: 10; line-height: 1;
-        }
-
-        .section:hover > .sec-del { display: flex; }
-
-        /* ─── ADD BUTTONS ─── */
-        .add-btn {
-            display: flex; align-items: center; gap: 5px;
-            padding: 4px 9px; background: transparent;
-            border: 1.5px dashed #ccc; border-radius: 5px;
-            font-size: 10px; color: #bbb; cursor: pointer;
-            transition: all 0.3s; margin-top: 7px;
-        }
-
-        .add-btn:hover { border-color: #2E75B6; color: #2E75B6; }
-
-        /* ─── ADD PAGE ─── */
-        .add-page-btn {
-            padding: 10px 24px;
-            background: rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.6);
-            border: 1.5px dashed rgba(255,255,255,0.2);
-            border-radius: 10px; font-size: 14px;
-            cursor: pointer; transition: all 0.3s;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .add-page-btn:hover { border-color: #2E75B6; color: #2E75B6; background: rgba(46,117,182,0.1); }
-
-        /* ─── PAGE 2 ─── */
-        .page2 {
-            background: white;
-            width: 794px;
-            min-height: 1123px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
-            position: relative;
-        }
-
-        .page2-top { height: 6px; background: #2E75B6; }
-
-        .page2-body { padding: 32px 40px; }
-
-        .page2-del {
-            position: absolute; top: 16px; right: 16px;
-            background: #e94560; color: white; border: none;
-            border-radius: 6px; padding: 5px 12px;
-            font-size: 12px; cursor: pointer;
-        }
-
-        /* ─── MAIN TOOLBAR ─── */
-        .main-toolbar {
-            position: fixed; top: 20px; right: 20px;
-            background: #16213e;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 14px; display: flex; flex-direction: column;
-            gap: 8px; z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5); width: 165px;
-        }
-
-        .tb-btn {
-            padding: 9px 14px; border: none; border-radius: 8px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; display: flex; align-items: center;
-            gap: 8px; width: 100%; font-family: 'Arial', sans-serif;
-        }
-
-        .tb-back { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); }
-        .tb-back:hover { background: rgba(255,255,255,0.14); }
-        .tb-theme { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); }
-        .tb-theme:hover { background: rgba(255,255,255,0.14); }
-        .tb-dl { background: #2E75B6; color: white; }
-        .tb-dl:hover { background: #1a5fa0; }
-
-        .tb-divider { height: 1px; background: rgba(255,255,255,0.08); }
-
-        .theme-dots { display: none; flex-wrap: wrap; gap: 7px; padding: 3px 0; }
-        .theme-dots.show { display: flex; }
-
-        .tdot {
-            width: 26px; height: 26px; border-radius: 50%;
-            cursor: pointer; border: 2px solid rgba(255,255,255,0.15);
-            transition: transform 0.2s;
-        }
-
-        .tdot:hover { transform: scale(1.2); }
-
-        @media print {
-            body { background: white; padding: 0; gap: 0; }
-            .main-toolbar, #floatToolbar, .no-print { display: none !important; }
-            .resume-page, .page2 { box-shadow: none; page-break-after: always; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Resume — Modern Template</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Arial',sans-serif;background:#0f0c29;display:flex;flex-direction:column;align-items:center;padding:20px 200px 40px 20px;gap:20px}
+@media(max-width:900px){body{padding:10px 10px 80px 10px}}
+#floatToolbar{position:fixed;display:none;background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:6px 10px;gap:5px;align-items:center;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.5);flex-wrap:wrap}
+#floatToolbar.show{display:flex}
+.ft-btn{padding:5px 9px;background:rgba(255,255,255,0.08);color:white;border:none;border-radius:6px;font-size:13px;cursor:pointer;transition:background 0.2s;line-height:1;min-width:28px;text-align:center}
+.ft-btn:hover{background:rgba(255,255,255,0.2)}
+.ft-select{padding:4px 6px;background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font-size:12px;cursor:pointer;outline:none}
+.ft-select option{background:#16213e;color:white}
+.ft-color{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);cursor:pointer;padding:2px}
+.ft-divider{width:1px;height:20px;background:rgba(255,255,255,0.15)}
+.resume-page{background:white;width:794px;min-height:1123px;box-shadow:0 4px 32px rgba(0,0,0,0.4)}
+@media(max-width:900px){.resume-page{width:100%;min-height:auto}}
+.top-accent{height:6px;background:#2E75B6}
+.header{padding:20px 24px 18px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:16px}
+@media(max-width:600px){.header{padding:14px 16px 14px;gap:12px}}
+.photo-wrap{flex-shrink:0}
+.photo-placeholder{width:80px;height:80px;border-radius:50%;background:#f5f5f7;border:3px dashed #ddd;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#bbb;font-size:11px;text-align:center;transition:all 0.3s}
+@media(max-width:600px){.photo-placeholder{width:60px;height:60px;font-size:9px}}
+.photo-placeholder:hover{border-color:#2E75B6;color:#2E75B6}
+.header-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #2E75B6;cursor:pointer;display:none}
+@media(max-width:600px){.header-photo{width:60px;height:60px}}
+.header-info{flex:1;min-width:0}
+.resume-name{font-size:26px;font-weight:700;color:#1a1a2e;letter-spacing:1px;outline:none;min-width:20px;word-break:break-word}
+@media(max-width:600px){.resume-name{font-size:18px}}
+.resume-subtitle{font-size:12px;color:#2E75B6;letter-spacing:2px;text-transform:uppercase;margin-top:4px;outline:none;min-width:20px}
+@media(max-width:600px){.resume-subtitle{font-size:10px;letter-spacing:1px}}
+.contact-bar{background:#f0f6ff;padding:8px 24px;display:flex;flex-wrap:wrap;gap:10px;border-bottom:1px solid #e0eaf8}
+@media(max-width:600px){.contact-bar{padding:8px 16px;gap:6px}}
+.contact-chip{display:flex;align-items:center;gap:5px;font-size:11px;color:#444;position:relative}
+@media(max-width:600px){.contact-chip{font-size:10px}}
+.chip-icon{color:#2E75B6;font-size:12px}
+.chip-text{outline:none;min-width:20px}
+.chip-text:focus{background:rgba(46,117,182,0.08);border-radius:3px}
+.chip-del{position:absolute;right:-14px;top:-2px;background:#e94560;color:white;border:none;border-radius:50%;width:14px;height:14px;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1}
+.contact-chip:hover .chip-del{display:flex}
+.page-body{padding:20px 24px}
+@media(max-width:600px){.page-body{padding:12px 16px}}
+.section{margin-bottom:20px;position:relative;border:1px solid transparent;border-radius:6px;transition:border-color 0.2s}
+.section.drag-over{border:2px dashed #2E75B6;background:#f0f6ff}
+.section.dragging{opacity:0.4;border:2px dashed #aaa}
+.drag-handle{position:absolute;left:-22px;top:50%;transform:translateY(-50%);cursor:grab;color:#ccc;font-size:16px;display:none;user-select:none;padding:4px}
+.drag-handle:active{cursor:grabbing}
+.section:hover .drag-handle{display:block}
+@media(max-width:900px){.drag-handle{display:block;left:-18px;font-size:14px}}
+.sec-title{font-size:14px;font-weight:700;color:#2E75B6;border-bottom:2px solid #2E75B6;padding-bottom:5px;margin-bottom:12px;outline:none;min-width:20px}
+@media(max-width:600px){.sec-title{font-size:13px}}
+.field{margin-bottom:8px;position:relative}
+.fval{font-size:13px;color:#333;outline:none;display:block;line-height:1.6;min-width:20px}
+@media(max-width:600px){.fval{font-size:12px}}
+.fval:focus{background:rgba(46,117,182,0.04);border-radius:3px;padding:1px 3px}
+.exp-item{margin-bottom:14px;position:relative}
+.exp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.exp-co{font-size:14px;font-weight:700;color:#1a1a2e;outline:none;min-width:20px}
+@media(max-width:600px){.exp-co{font-size:13px}}
+.exp-date{font-size:11px;color:#2E75B6;outline:none;white-space:nowrap;background:#e8f0fb;padding:2px 8px;border-radius:4px;flex-shrink:0}
+.exp-role{font-size:12px;color:#555;font-style:italic;margin-top:2px;outline:none;min-width:20px}
+.exp-desc{font-size:13px;color:#555;margin-top:5px;line-height:1.7;outline:none;min-width:20px}
+@media(max-width:600px){.exp-desc{font-size:12px}}
+.exp-desc:focus{background:rgba(46,117,182,0.04);border-radius:3px;padding:1px 3px}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{background:#e8f0fb;color:#1a4a8a;padding:4px 12px;border-radius:20px;font-size:12px;outline:none;min-width:20px;position:relative;cursor:text}
+.skill-tag:focus{background:#d0e4f7}
+.skill-tag-del{position:absolute;right:-6px;top:-6px;background:#e94560;color:white;border:none;border-radius:50%;width:14px;height:14px;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1}
+.skill-tag:hover .skill-tag-del{display:flex}
+.del-btn{position:absolute;right:-8px;top:0;background:#e94560;color:white;border:none;border-radius:4px;width:17px;height:17px;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:10;line-height:1}
+.field:hover>.del-btn,.exp-item:hover>.del-btn{display:flex}
+.sec-del{position:absolute;right:0;top:-2px;background:#e94560;color:white;border:none;border-radius:4px;width:17px;height:17px;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:10;line-height:1}
+.section:hover>.sec-del{display:flex}
+.add-btn{display:flex;align-items:center;gap:5px;padding:4px 9px;background:transparent;border:1.5px dashed #ccc;border-radius:5px;font-size:10px;color:#bbb;cursor:pointer;transition:all 0.3s;margin-top:7px}
+.add-btn:hover{border-color:#2E75B6;color:#2E75B6}
+.add-page-btn{padding:10px 24px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1.5px dashed rgba(255,255,255,0.2);border-radius:10px;font-size:14px;cursor:pointer;transition:all 0.3s;font-family:'Arial',sans-serif}
+.add-page-btn:hover{border-color:#2E75B6;color:#2E75B6;background:rgba(46,117,182,0.1)}
+.page2{background:white;width:794px;min-height:1123px;box-shadow:0 4px 32px rgba(0,0,0,0.4);position:relative}
+@media(max-width:900px){.page2{width:100%;min-height:auto}}
+.page2-top{height:6px;background:#2E75B6}
+.page2-body{padding:24px}
+@media(max-width:600px){.page2-body{padding:16px}}
+.page2-del{position:absolute;top:16px;right:16px;background:#e94560;color:white;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer}
+/* Link Modal */
+#linkModal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;display:none;align-items:center;justify-content:center}
+#linkModal.show{display:flex}
+.modal-box{background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:24px;width:340px;display:flex;flex-direction:column;gap:12px}
+@media(max-width:400px){.modal-box{width:92vw;padding:18px}}
+.modal-box h3{color:white;font-size:15px;font-weight:600}
+.modal-input{padding:9px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:white;font-size:13px;outline:none;font-family:'Arial',sans-serif}
+.modal-input::placeholder{color:rgba(255,255,255,0.35)}
+.modal-row{display:flex;gap:8px}
+.modal-btn{flex:1;padding:9px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Arial',sans-serif}
+.modal-cancel{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7)}
+.modal-ok{background:#2E75B6;color:white}
+.main-toolbar{position:fixed;top:20px;right:20px;background:#16213e;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.5);width:155px}
+@media(max-width:900px){
+  .main-toolbar{top:auto;bottom:0;left:0;right:0;width:100%;border-radius:14px 14px 0 0;flex-direction:row;flex-wrap:wrap;padding:10px 12px;gap:6px;justify-content:center}
+  .tb-btn{font-size:11px;padding:7px 10px;flex:1;min-width:70px;justify-content:center}
+  .theme-dots{order:10;width:100%;padding:4px 0}
+}
+.tb-btn{padding:9px 14px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:8px;width:100%;font-family:'Arial',sans-serif}
+.tb-back{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.8)}
+.tb-back:hover{background:rgba(255,255,255,0.14)}
+.tb-theme{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.8)}
+.tb-theme:hover{background:rgba(255,255,255,0.14)}
+.tb-link{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.8)}
+.tb-link:hover{background:rgba(255,255,255,0.14)}
+.tb-dl{background:#2E75B6;color:white}
+.tb-dl:hover{background:#1a5fa0}
+.tb-divider{height:1px;background:rgba(255,255,255,0.08)}
+@media(max-width:900px){.tb-divider{display:none}}
+.theme-dots{display:none;flex-wrap:wrap;gap:7px;padding:3px 0}
+.theme-dots.show{display:flex}
+.tdot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,0.15);transition:transform 0.2s}
+.tdot:hover{transform:scale(1.2)}
+@media print{
+  body{background:white;padding:0;gap:0}
+  .main-toolbar,#floatToolbar,#linkModal,.no-print{display:none !important}
+  .resume-page,.page2{box-shadow:none;page-break-after:always;width:210mm}
+  .drag-handle{display:none !important}
+}
+</style>
 </head>
 <body>
 
-<!-- ─── FLOATING TOOLBAR ─── -->
+<!-- FLOATING TOOLBAR -->
 <div id="floatToolbar" class="no-print">
-    <button class="ft-btn" onclick="fmt('bold')"><b>B</b></button>
-    <button class="ft-btn" onclick="fmt('italic')"><i>I</i></button>
-    <button class="ft-btn" onclick="fmt('underline')"><u>U</u></button>
-    <button class="ft-btn" onclick="fmt('strikeThrough')">S̶</button>
-    <div class="ft-divider"></div>
-    <select class="ft-select" onchange="setSize(this.value)">
-        <option value="">Size</option>
-        <option value="9px">9</option><option value="10px">10</option>
-        <option value="11px">11</option><option value="12px">12</option>
-        <option value="13px">13</option><option value="14px">14</option>
-        <option value="16px">16</option><option value="18px">18</option>
-        <option value="20px">20</option><option value="24px">24</option>
-        <option value="28px">28</option><option value="32px">32</option>
-    </select>
-    <select class="ft-select" onchange="setFont(this.value)">
-        <option value="">Font</option>
-        <option value="Arial">Arial</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Georgia">Georgia</option>
-        <option value="Verdana">Verdana</option>
-        <option value="Calibri">Calibri</option>
-    </select>
-    <div class="ft-divider"></div>
-    <input class="ft-color" type="color" value="#333333" onchange="setColor(this.value)">
-    <div class="ft-divider"></div>
-    <button class="ft-btn" onclick="fmt('removeFormat')" style="font-size:10px;">✕</button>
+  <button class="ft-btn" onclick="fmt('bold')"><b>B</b></button>
+  <button class="ft-btn" onclick="fmt('italic')"><i>I</i></button>
+  <button class="ft-btn" onclick="fmt('underline')"><u>U</u></button>
+  <button class="ft-btn" onclick="fmt('strikeThrough')">S̶</button>
+  <div class="ft-divider"></div>
+  <select class="ft-select" onchange="setSize(this.value)">
+    <option value="">Size</option>
+    <option value="9px">9</option><option value="10px">10</option>
+    <option value="11px">11</option><option value="12px">12</option>
+    <option value="13px">13</option><option value="14px">14</option>
+    <option value="16px">16</option><option value="18px">18</option>
+    <option value="20px">20</option><option value="24px">24</option>
+  </select>
+  <select class="ft-select" onchange="setFont(this.value)">
+    <option value="">Font</option>
+    <option value="Arial">Arial</option>
+    <option value="Times New Roman">Times New Roman</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Verdana">Verdana</option>
+  </select>
+  <div class="ft-divider"></div>
+  <input class="ft-color" type="color" value="#333333" onchange="setColor(this.value)">
+  <button class="ft-btn" onclick="fmt('removeFormat')" style="font-size:10px;">✕</button>
 </div>
 
-<!-- ─── MAIN TOOLBAR ─── -->
+<!-- LINK MODAL -->
+<div id="linkModal">
+  <div class="modal-box">
+    <h3>🔗 Add Link to Contact Bar</h3>
+    <select class="modal-input" id="linkIcon">
+      <option value="🔗">🔗 Link (generic)</option>
+      <option value="💼">💼 LinkedIn</option>
+      <option value="💻">💻 GitHub</option>
+      <option value="🌐">🌐 Website / Portfolio</option>
+      <option value="📧">📧 Email</option>
+      <option value="🐦">🐦 Twitter / X</option>
+    </select>
+    <input class="modal-input" id="linkLabel" placeholder="Display text (e.g. linkedin.com/in/yourname)" />
+    <input class="modal-input" id="linkUrl" placeholder="URL (e.g. https://linkedin.com/in/...)" />
+    <div class="modal-row">
+      <button class="modal-btn modal-cancel" onclick="closeLinkModal()">Cancel</button>
+      <button class="modal-btn modal-ok" onclick="insertLink()">Add Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN TOOLBAR -->
 <div class="main-toolbar no-print">
-    <button class="tb-btn tb-back" onclick="window.location.href='dashboard.html'">← Back</button>
-    <div class="tb-divider"></div>
-    <button class="tb-btn tb-theme" onclick="toggleTheme()">🎨 Theme</button>
-    <div class="theme-dots" id="themeDots">
-        <div class="tdot" style="background:#2E75B6" onclick="changeTheme('#2E75B6')"></div>
-        <div class="tdot" style="background:#e94560" onclick="changeTheme('#e94560')"></div>
-        <div class="tdot" style="background:#27ae60" onclick="changeTheme('#27ae60')"></div>
-        <div class="tdot" style="background:#f39c12" onclick="changeTheme('#f39c12')"></div>
-        <div class="tdot" style="background:#8e44ad" onclick="changeTheme('#8e44ad')"></div>
-        <div class="tdot" style="background:#0f3460" onclick="changeTheme('#0f3460')"></div>
-        <div class="tdot" style="background:#00b4d8" onclick="changeTheme('#00b4d8')"></div>
-        <div class="tdot" style="background:#c0392b" onclick="changeTheme('#c0392b')"></div>
-    </div>
-    <div class="tb-divider"></div>
-    <button class="tb-btn tb-dl" onclick="downloadPDF()">⬇ Download PDF</button>
+  <button class="tb-btn tb-back" onclick="window.location.href='dashboard.html'">← Back</button>
+  <div class="tb-divider"></div>
+  <button class="tb-btn tb-theme" onclick="toggleTheme()">🎨 Theme</button>
+  <div class="theme-dots" id="themeDots">
+    <div class="tdot" style="background:#2E75B6" onclick="changeTheme('#2E75B6')"></div>
+    <div class="tdot" style="background:#e94560" onclick="changeTheme('#e94560')"></div>
+    <div class="tdot" style="background:#27ae60" onclick="changeTheme('#27ae60')"></div>
+    <div class="tdot" style="background:#f39c12" onclick="changeTheme('#f39c12')"></div>
+    <div class="tdot" style="background:#8e44ad" onclick="changeTheme('#8e44ad')"></div>
+    <div class="tdot" style="background:#0f3460" onclick="changeTheme('#0f3460')"></div>
+    <div class="tdot" style="background:#00b4d8" onclick="changeTheme('#00b4d8')"></div>
+    <div class="tdot" style="background:#c0392b" onclick="changeTheme('#c0392b')"></div>
+  </div>
+  <div class="tb-divider"></div>
+  <button class="tb-btn tb-link" onclick="openLinkModal()">🔗 Add Link</button>
+  <div class="tb-divider"></div>
+  <button class="tb-btn tb-dl" onclick="downloadPDF()">⬇ Download PDF</button>
 </div>
 
-<!-- ─── PAGE 1 ─── -->
+<!-- PAGE 1 -->
 <div class="resume-page" id="page1">
-    <div class="top-accent" id="topAccent"></div>
+  <div class="top-accent" id="topAccent"></div>
+  <div class="header">
+    <div class="photo-wrap">
+      <div class="photo-placeholder no-print" id="photoPlaceholder" onclick="document.getElementById('photoInput').click()">+ Photo</div>
+      <img class="header-photo" id="photoPreview" src="" onclick="document.getElementById('photoInput').click()" alt="">
+      <input type="file" id="photoInput" accept="image/*" class="no-print" style="display:none" onchange="handlePhoto(this)">
+    </div>
+    <div class="header-info">
+      <div class="resume-name" contenteditable="true">YOUR NAME</div>
+      <div class="resume-subtitle" contenteditable="true" id="resumeSubtitle">Professional Title</div>
+    </div>
+  </div>
 
-    <!-- Header -->
-    <div class="header">
-        <div class="photo-wrap">
-            <div class="photo-placeholder no-print" id="photoPlaceholder" onclick="document.getElementById('photoInput').click()">+ Photo</div>
-            <img class="header-photo" id="photoPreview" src="" onclick="document.getElementById('photoInput').click()" alt="">
-            <input type="file" id="photoInput" accept="image/*" class="no-print" style="display:none" onchange="handlePhoto(this)">
-        </div>
-        <div class="header-info">
-            <div class="resume-name" contenteditable="true">YOUR NAME</div>
-            <div class="resume-subtitle" contenteditable="true" id="resumeSubtitle">Professional Title</div>
-        </div>
+  <div class="contact-bar" id="contactBar">
+    <div class="contact-chip"><span class="chip-icon">📍</span><span class="chip-text" contenteditable="true">Your City, State</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button></div>
+    <div class="contact-chip"><span class="chip-icon">📧</span><span class="chip-text" contenteditable="true">your@email.com</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button></div>
+    <div class="contact-chip"><span class="chip-icon">📱</span><span class="chip-text" contenteditable="true">+91-XXXXXXXXXX</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button></div>
+    <div class="contact-chip"><span class="chip-icon">🔗</span><span class="chip-text" contenteditable="true">LinkedIn</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button></div>
+    <div class="contact-chip"><span class="chip-icon">💻</span><span class="chip-text" contenteditable="true">GitHub</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button></div>
+  </div>
+
+  <div class="page-body" id="sectionsContainer" style="padding-left:36px">
+
+    <div class="section" draggable="true">
+      <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
+      <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+      <div class="sec-title" contenteditable="true">Career Objective</div>
+      <div class="fval" contenteditable="true" style="line-height:1.8;color:#555;">Write your career objective here. Describe what you are looking for and what value you bring to the organization.</div>
     </div>
 
-    <!-- Contact Bar -->
-    <div class="contact-bar" id="contactBar">
-        <div class="contact-chip">
-            <span class="chip-icon">📍</span>
-            <span class="chip-text" contenteditable="true">Your City, State</span>
-            <button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>
+    <div class="section" draggable="true">
+      <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
+      <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+      <div class="sec-title" contenteditable="true">Education</div>
+      <div id="eduList">
+        <div class="exp-item">
+          <div class="exp-top">
+            <div><div class="exp-co" contenteditable="true">College / University Name</div><div class="exp-role" contenteditable="true">Bachelor's Degree — BCA / B.Tech / B.Sc</div></div>
+            <div class="exp-date" contenteditable="true">2022 - 2025</div>
+          </div>
+          <div class="exp-desc" contenteditable="true">CGPA: 7.8 / 10</div>
+          <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
         </div>
-        <div class="contact-chip">
-            <span class="chip-icon">📧</span>
-            <span class="chip-text" contenteditable="true">your@email.com</span>
-            <button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>
-        </div>
-        <div class="contact-chip">
-            <span class="chip-icon">📱</span>
-            <span class="chip-text" contenteditable="true">+91-XXXXXXXXXX</span>
-            <button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>
-        </div>
-        <div class="contact-chip">
-            <span class="chip-icon">🔗</span>
-            <span class="chip-text" contenteditable="true">LinkedIn</span>
-            <button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>
-        </div>
-        <div class="contact-chip">
-            <span class="chip-icon">💻</span>
-            <span class="chip-text" contenteditable="true">GitHub</span>
-            <button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>
-        </div>
+      </div>
+      <button class="add-btn no-print" onclick="addEdu()">+ Add Education</button>
     </div>
 
-    <!-- Body -->
-    <div class="page-body">
-
-        <div class="section">
-            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="sec-title" contenteditable="true">Career Objective</div>
-            <div class="fval" contenteditable="true" style="line-height:1.8;color:#555;">Write your career objective here. Describe what you are looking for and what value you bring to the organization.</div>
-        </div>
-
-        <div class="section">
-            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="sec-title" contenteditable="true">Education</div>
-            <div id="eduList">
-                <div class="exp-item">
-                    <div class="exp-top">
-                        <div>
-                            <div class="exp-co" contenteditable="true">College / University Name</div>
-                            <div class="exp-role" contenteditable="true">Bachelor's Degree — BCA / B.Tech / B.Sc</div>
-                        </div>
-                        <div class="exp-date" contenteditable="true">2022 - 2025</div>
-                    </div>
-                    <div class="exp-desc" contenteditable="true">CGPA: 7.8 / 10</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn no-print" onclick="addEdu()">+ Add Education</button>
-        </div>
-
-        <div class="section">
-            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="sec-title" contenteditable="true">Skills</div>
-            <div class="skills-wrap" id="skillsWrap">
-                <div class="skill-tag" contenteditable="true">HTML/CSS<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
-                <div class="skill-tag" contenteditable="true">JavaScript<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
-                <div class="skill-tag" contenteditable="true">Node.js<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
-                <div class="skill-tag" contenteditable="true">MySQL<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
-                <div class="skill-tag" contenteditable="true">Python<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
-                <div class="skill-tag" contenteditable="true">Git/GitHub<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
-            </div>
-            <button class="add-btn no-print" onclick="addSkill()">+ Add Skill</button>
-        </div>
-
-        <div class="section">
-            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="sec-title" contenteditable="true">Projects</div>
-            <div id="projectList">
-                <div class="exp-item">
-                    <div class="exp-top">
-                        <div>
-                            <div class="exp-co" contenteditable="true">Project Name</div>
-                            <div class="exp-role" contenteditable="true">Tech Stack: Node.js, MySQL, HTML/CSS</div>
-                        </div>
-                        <div class="exp-date" contenteditable="true">2024</div>
-                    </div>
-                    <div class="exp-desc" contenteditable="true">Describe your project here. What problem it solves, what technologies you used, and what key achievements you had.</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn no-print" onclick="addProject()">+ Add Project</button>
-        </div>
-
-        <div class="section">
-            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="sec-title" contenteditable="true">Certifications</div>
-            <div id="certList">
-                <div class="field">
-                    <div class="fval" contenteditable="true">SQL for Data Analytics — Coursera (2024)</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-                <div class="field">
-                    <div class="fval" contenteditable="true">Python Basics — HackerRank (2024)</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn no-print" onclick="addCert()">+ Add Certification</button>
-        </div>
-
-        <div class="section">
-            <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="sec-title" contenteditable="true">Achievements</div>
-            <div id="achieveList">
-                <div class="field">
-                    <div class="fval" contenteditable="true">Solved 100+ SQL and DSA problems on LeetCode and HackerRank</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn no-print" onclick="addAchieve()">+ Add Achievement</button>
-        </div>
-
-        <div id="customSections"></div>
-        <button class="add-btn no-print" style="width:100%;justify-content:center;" onclick="addSection()">+ Add Section</button>
-
+    <div class="section" draggable="true">
+      <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
+      <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+      <div class="sec-title" contenteditable="true">Skills</div>
+      <div class="skills-wrap" id="skillsWrap">
+        <div class="skill-tag" contenteditable="true">HTML/CSS<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
+        <div class="skill-tag" contenteditable="true">JavaScript<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
+        <div class="skill-tag" contenteditable="true">Node.js<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
+        <div class="skill-tag" contenteditable="true">MySQL<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
+        <div class="skill-tag" contenteditable="true">Python<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
+        <div class="skill-tag" contenteditable="true">Git/GitHub<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button></div>
+      </div>
+      <button class="add-btn no-print" onclick="addSkill()">+ Add Skill</button>
     </div>
+
+    <div class="section" draggable="true">
+      <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
+      <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+      <div class="sec-title" contenteditable="true">Projects</div>
+      <div id="projectList">
+        <div class="exp-item">
+          <div class="exp-top">
+            <div><div class="exp-co" contenteditable="true">Project Name</div><div class="exp-role" contenteditable="true">Tech Stack: Node.js, MySQL, HTML/CSS</div></div>
+            <div class="exp-date" contenteditable="true">2024</div>
+          </div>
+          <div class="exp-desc" contenteditable="true">Describe your project here. What problem it solves, what technologies you used, and what key achievements you had.</div>
+          <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
+        </div>
+      </div>
+      <button class="add-btn no-print" onclick="addProject()">+ Add Project</button>
+    </div>
+
+    <div class="section" draggable="true">
+      <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
+      <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+      <div class="sec-title" contenteditable="true">Certifications</div>
+      <div id="certList">
+        <div class="field"><div class="fval" contenteditable="true">SQL for Data Analytics — Coursera (2024)</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button></div>
+        <div class="field"><div class="fval" contenteditable="true">Python Basics — HackerRank (2024)</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button></div>
+      </div>
+      <button class="add-btn no-print" onclick="addCert()">+ Add Certification</button>
+    </div>
+
+    <div class="section" draggable="true">
+      <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
+      <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+      <div class="sec-title" contenteditable="true">Achievements</div>
+      <div id="achieveList">
+        <div class="field"><div class="fval" contenteditable="true">Solved 100+ SQL and DSA problems on LeetCode and HackerRank</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button></div>
+      </div>
+      <button class="add-btn no-print" onclick="addAchieve()">+ Add Achievement</button>
+    </div>
+
+    <div id="customSections"></div>
+    <button class="add-btn no-print" style="width:100%;justify-content:center;" onclick="addSection()">+ Add Section</button>
+  </div>
 </div>
 
-<!-- ─── ADD PAGE 2 BUTTON ─── -->
 <button class="add-page-btn no-print" id="addPageBtn" onclick="addPage2()">+ Add Page 2</button>
 
-<!-- ─── PAGE 2 ─── -->
 <div class="page2" id="page2" style="display:none;">
-    <div class="page2-top" id="page2Accent"></div>
-    <button class="page2-del no-print" onclick="removePage2()">✕ Remove Page 2</button>
-    <div class="page2-body">
-        <div id="page2Sections">
-            <div class="section">
-                <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
-                <div class="sec-title" contenteditable="true">Work Experience</div>
-                <div class="exp-item">
-                    <div class="exp-top">
-                        <div>
-                            <div class="exp-co" contenteditable="true">Company Name</div>
-                            <div class="exp-role" contenteditable="true">Your Role</div>
-                        </div>
-                        <div class="exp-date" contenteditable="true">2024 - Present</div>
-                    </div>
-                    <div class="exp-desc" contenteditable="true">Describe your work here.</div>
-                    <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
+  <div class="page2-top" id="page2Accent"></div>
+  <button class="page2-del no-print" onclick="removePage2()">✕ Remove Page 2</button>
+  <div class="page2-body" style="padding-left:36px">
+    <div id="page2Sections">
+      <div class="section" draggable="true">
+        <span class="drag-handle no-print">⠿</span>
+        <button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button>
+        <div class="sec-title" contenteditable="true">Work Experience</div>
+        <div class="exp-item">
+          <div class="exp-top">
+            <div><div class="exp-co" contenteditable="true">Company Name</div><div class="exp-role" contenteditable="true">Your Role</div></div>
+            <div class="exp-date" contenteditable="true">2024 - Present</div>
+          </div>
+          <div class="exp-desc" contenteditable="true">Describe your work here.</div>
+          <button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>
         </div>
-        <button class="add-btn no-print" style="width:200px;justify-content:center;margin-top:16px;" onclick="addPage2Section()">+ Add Section</button>
+      </div>
     </div>
+    <button class="add-btn no-print" style="width:200px;justify-content:center;margin-top:16px;" onclick="addPage2Section()">+ Add Section</button>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
-    if (!token) window.location.href = 'index.html';
+const token = localStorage.getItem('token');
+if(!token) window.location.href='index.html';
 
-    let themeColor = '#2E75B6';
-    let savedRange = null;
+let themeColor='#2E75B6';
+let savedRange=null;
+let dragSrc=null;
 
-    // ─── FLOATING TOOLBAR ───
-    document.addEventListener('mouseup', (e) => {
-        if (e.target.closest('#floatToolbar')) return;
-        setTimeout(() => {
-            const sel = window.getSelection();
-            if (sel && sel.toString().length > 0) {
-                const rect = sel.getRangeAt(0).getBoundingClientRect();
-                const tb = document.getElementById('floatToolbar');
-                tb.style.top = (window.scrollY + rect.top - 55) + 'px';
-                tb.style.left = (window.scrollX + rect.left) + 'px';
-                tb.classList.add('show');
-                savedRange = sel.getRangeAt(0).cloneRange();
-            } else {
-                document.getElementById('floatToolbar').classList.remove('show');
-            }
-        }, 10);
-    });
+// ─── DRAG & DROP ───
+function initDrag(container){
+  container.addEventListener('dragstart',e=>{
+    dragSrc=e.target.closest('.section');
+    if(!dragSrc)return;
+    setTimeout(()=>dragSrc.classList.add('dragging'),0);
+    e.dataTransfer.effectAllowed='move';
+  });
+  container.addEventListener('dragend',()=>{
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('dragging','drag-over'));
+    dragSrc=null;
+  });
+  container.addEventListener('dragover',e=>{
+    e.preventDefault();
+    const target=e.target.closest('.section');
+    if(!target||target===dragSrc)return;
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('drag-over'));
+    target.classList.add('drag-over');
+    e.dataTransfer.dropEffect='move';
+  });
+  container.addEventListener('dragleave',e=>{
+    const t=e.target.closest('.section');
+    if(t)t.classList.remove('drag-over');
+  });
+  container.addEventListener('drop',e=>{
+    e.preventDefault();
+    const target=e.target.closest('.section');
+    if(!target||target===dragSrc)return;
+    target.classList.remove('drag-over');
+    const all=[...container.querySelectorAll(':scope > .section')];
+    const si=all.indexOf(dragSrc),ti=all.indexOf(target);
+    if(si<ti)target.after(dragSrc);else target.before(dragSrc);
+  });
 
-    document.addEventListener('mousedown', (e) => {
-        if (!e.target.closest('#floatToolbar')) document.getElementById('floatToolbar').classList.remove('show');
-    });
+  // Touch drag
+  let touchDrag=null,touchClone=null,lastOver=null;
+  container.addEventListener('touchstart',e=>{
+    const handle=e.target.closest('.drag-handle');
+    if(!handle)return;
+    touchDrag=handle.closest('.section');
+    if(!touchDrag)return;
+    touchClone=touchDrag.cloneNode(true);
+    touchClone.style.cssText='position:fixed;opacity:0.7;pointer-events:none;z-index:9999;background:white;border:2px dashed '+themeColor+';border-radius:6px;width:'+touchDrag.offsetWidth+'px;box-shadow:0 4px 20px rgba(0,0,0,0.2);';
+    document.body.appendChild(touchClone);
+    touchDrag.classList.add('dragging');
+    e.preventDefault();
+  },{passive:false});
+  container.addEventListener('touchmove',e=>{
+    if(!touchDrag)return;
+    e.preventDefault();
+    const t=e.touches[0];
+    touchClone.style.left=(t.clientX-touchDrag.offsetWidth/2)+'px';
+    touchClone.style.top=(t.clientY-30)+'px';
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    const over=el?el.closest('.section'):null;
+    if(lastOver&&lastOver!==touchDrag)lastOver.classList.remove('drag-over');
+    if(over&&over!==touchDrag){over.classList.add('drag-over');lastOver=over;}
+  },{passive:false});
+  container.addEventListener('touchend',()=>{
+    if(!touchDrag)return;
+    if(touchClone){touchClone.remove();touchClone=null;}
+    touchDrag.classList.remove('dragging');
+    if(lastOver&&lastOver!==touchDrag){
+      lastOver.classList.remove('drag-over');
+      const all=[...container.querySelectorAll(':scope > .section')];
+      const si=all.indexOf(touchDrag),ti=all.indexOf(lastOver);
+      if(si<ti)lastOver.after(touchDrag);else lastOver.before(touchDrag);
+      lastOver=null;
+    }
+    touchDrag=null;
+  });
+}
 
-    const restoreSel = () => {
-        if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
-    };
+initDrag(document.getElementById('sectionsContainer'));
 
-    const fmt = (cmd) => { restoreSel(); document.execCommand(cmd, false, null); };
+// ─── FLOATING TOOLBAR ───
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('#floatToolbar'))return;
+  setTimeout(()=>{
+    const sel=window.getSelection();
+    if(sel&&sel.toString().length>0){
+      const rect=sel.getRangeAt(0).getBoundingClientRect();
+      const tb=document.getElementById('floatToolbar');
+      tb.style.top=(window.scrollY+rect.top-55)+'px';
+      tb.style.left=(window.scrollX+rect.left)+'px';
+      tb.classList.add('show');
+      savedRange=sel.getRangeAt(0).cloneRange();
+    }else document.getElementById('floatToolbar').classList.remove('show');
+  },10);
+});
+document.addEventListener('mousedown',e=>{
+  if(!e.target.closest('#floatToolbar'))document.getElementById('floatToolbar').classList.remove('show');
+});
+const restoreSel=()=>{if(savedRange){const s=window.getSelection();s.removeAllRanges();s.addRange(savedRange);}};
+const fmt=cmd=>{restoreSel();document.execCommand(cmd,false,null);};
+const setSize=size=>{if(!size)return;restoreSel();document.execCommand('fontSize',false,'7');document.querySelectorAll('font[size="7"]').forEach(el=>{el.removeAttribute('size');el.style.fontSize=size;});};
+const setFont=font=>{if(!font)return;restoreSel();document.execCommand('fontName',false,font);};
+const setColor=color=>{restoreSel();document.execCommand('foreColor',false,color);};
 
-    const setSize = (size) => {
-        if (!size) return; restoreSel();
-        document.execCommand('fontSize', false, '7');
-        document.querySelectorAll('font[size="7"]').forEach(el => { el.removeAttribute('size'); el.style.fontSize = size; });
-    };
+// ─── PHOTO ───
+const handlePhoto=input=>{
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    document.getElementById('photoPreview').src=e.target.result;
+    document.getElementById('photoPreview').style.display='block';
+    document.getElementById('photoPlaceholder').style.display='none';
+  };
+  reader.readAsDataURL(file);
+};
 
-    const setFont = (font) => { if (!font) return; restoreSel(); document.execCommand('fontName', false, font); };
-    const setColor = (color) => { restoreSel(); document.execCommand('foreColor', false, color); };
+// ─── THEME ───
+const toggleTheme=()=>document.getElementById('themeDots').classList.toggle('show');
+const changeTheme=color=>{
+  themeColor=color;
+  document.getElementById('topAccent').style.background=color;
+  document.getElementById('page2Accent').style.background=color;
+  document.querySelectorAll('.sec-title').forEach(el=>{el.style.color=color;el.style.borderBottomColor=color;});
+  document.querySelectorAll('.resume-subtitle').forEach(el=>{el.style.color=color;});
+  document.querySelectorAll('.exp-date').forEach(el=>{el.style.color=color;el.style.background=color+'22';});
+  document.querySelectorAll('.chip-icon').forEach(el=>{el.style.color=color;});
+  document.querySelectorAll('.skill-tag').forEach(el=>{el.style.background=color+'22';el.style.color=color;});
+  document.getElementById('photoPreview').style.borderColor=color;
+  document.getElementById('themeDots').classList.remove('show');
+};
 
-    // ─── PHOTO ───
-    const handlePhoto = (input) => {
-        const file = input.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            document.getElementById('photoPreview').src = e.target.result;
-            document.getElementById('photoPreview').style.display = 'block';
-            document.getElementById('photoPlaceholder').style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-    };
+// ─── LINK MODAL ───
+const openLinkModal=()=>{
+  document.getElementById('linkLabel').value='';
+  document.getElementById('linkUrl').value='';
+  document.getElementById('linkModal').classList.add('show');
+};
+const closeLinkModal=()=>document.getElementById('linkModal').classList.remove('show');
+const insertLink=()=>{
+  const icon=document.getElementById('linkIcon').value;
+  const label=document.getElementById('linkLabel').value.trim()||'My Link';
+  const url=document.getElementById('linkUrl').value.trim();
+  const d=document.createElement('div');
+  d.className='contact-chip';
+  if(url){
+    d.innerHTML=`<span class="chip-icon" style="color:${themeColor}">${icon}</span><a href="${url}" target="_blank" class="chip-text" style="color:#2E75B6;text-decoration:none;">${label}</a><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>`;
+  } else {
+    d.innerHTML=`<span class="chip-icon" style="color:${themeColor}">${icon}</span><span class="chip-text" contenteditable="true">${label}</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>`;
+  }
+  document.getElementById('contactBar').appendChild(d);
+  closeLinkModal();
+};
+// Close modal on backdrop click
+document.getElementById('linkModal').addEventListener('click',e=>{if(e.target===document.getElementById('linkModal'))closeLinkModal();});
 
-    // ─── THEME ───
-    const toggleTheme = () => document.getElementById('themeDots').classList.toggle('show');
+// ─── ADD FUNCTIONS ───
+const addSkill=()=>{const d=document.createElement('div');d.className='skill-tag';d.contentEditable='true';d.style.background=themeColor+'22';d.style.color=themeColor;d.innerHTML=`New Skill<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button>`;document.getElementById('skillsWrap').appendChild(d);d.focus();};
+const addEdu=()=>{const d=document.createElement('div');d.className='exp-item';d.innerHTML=`<div class="exp-top"><div><div class="exp-co" contenteditable="true">College Name</div><div class="exp-role" contenteditable="true">Degree Name</div></div><div class="exp-date" contenteditable="true" style="color:${themeColor};background:${themeColor}22">2022 - 2025</div></div><div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;document.getElementById('eduList').appendChild(d);};
+const addProject=()=>{const d=document.createElement('div');d.className='exp-item';d.innerHTML=`<div class="exp-top"><div><div class="exp-co" contenteditable="true">Project Name</div><div class="exp-role" contenteditable="true">Tech Stack</div></div><div class="exp-date" contenteditable="true" style="color:${themeColor};background:${themeColor}22">2024</div></div><div class="exp-desc" contenteditable="true">Project description here.</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;document.getElementById('projectList').appendChild(d);};
+const addCert=()=>{const d=document.createElement('div');d.className='field';d.innerHTML=`<div class="fval" contenteditable="true">Certification Name — Issuer (Year)</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;document.getElementById('certList').appendChild(d);};
+const addAchieve=()=>{const d=document.createElement('div');d.className='field';d.innerHTML=`<div class="fval" contenteditable="true">Achievement here...</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;document.getElementById('achieveList').appendChild(d);};
+const addSection=(container)=>{
+  const c=container||document.getElementById('customSections');
+  const d=document.createElement('div');d.className='section';d.draggable=true;
+  d.innerHTML=`<span class="drag-handle no-print">⠿</span><button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button><div class="sec-title" contenteditable="true" style="color:${themeColor};border-bottom-color:${themeColor}">New Section</div><div class="fval" contenteditable="true" style="line-height:1.8;color:#555;">Content here...</div>`;
+  c.appendChild(d);
+};
 
-    const changeTheme = (color) => {
-        themeColor = color;
-        document.getElementById('topAccent').style.background = color;
-        document.getElementById('page2Accent').style.background = color;
-        document.querySelectorAll('.sec-title').forEach(el => { el.style.color = color; el.style.borderBottomColor = color; });
-        document.querySelectorAll('.resume-subtitle').forEach(el => { el.style.color = color; });
-        document.querySelectorAll('.exp-date').forEach(el => { el.style.color = color; el.style.background = color + '22'; });
-        document.querySelectorAll('.chip-icon').forEach(el => { el.style.color = color; });
-        document.querySelectorAll('.skill-tag').forEach(el => { el.style.background = color + '22'; el.style.color = color; });
-        document.getElementById('photoPreview').style.borderColor = color;
-        document.getElementById('themeDots').classList.remove('show');
-    };
+// ─── PAGE 2 ───
+const addPage2=()=>{
+  document.getElementById('page2').style.display='block';
+  document.getElementById('addPageBtn').style.display='none';
+  initDrag(document.getElementById('page2Sections'));
+};
+const removePage2=()=>{document.getElementById('page2').style.display='none';document.getElementById('addPageBtn').style.display='block';};
+const addPage2Section=()=>addSection(document.getElementById('page2Sections'));
 
-    // ─── ADD FUNCTIONS ───
-    const addContact = () => {
-        const d = document.createElement('div'); d.className = 'contact-chip';
-        d.innerHTML = `<span class="chip-icon" style="color:${themeColor}">📌</span><span class="chip-text" contenteditable="true">New Info</span><button class="chip-del" onclick="this.closest('.contact-chip').remove()">×</button>`;
-        document.getElementById('contactBar').appendChild(d);
-    };
-
-    const addSkill = () => {
-        const d = document.createElement('div');
-        d.className = 'skill-tag'; d.contentEditable = 'true';
-        d.style.background = themeColor + '22'; d.style.color = themeColor;
-        d.innerHTML = `New Skill<button class="skill-tag-del" onclick="this.parentElement.remove()">×</button>`;
-        document.getElementById('skillsWrap').appendChild(d);
-    };
-
-    const addEdu = () => {
-        const d = document.createElement('div'); d.className = 'exp-item';
-        d.innerHTML = `<div class="exp-top"><div><div class="exp-co" contenteditable="true">College Name</div><div class="exp-role" contenteditable="true">Degree Name</div></div><div class="exp-date" contenteditable="true" style="color:${themeColor};background:${themeColor}22">2022 - 2025</div></div><div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
-        document.getElementById('eduList').appendChild(d);
-    };
-
-    const addProject = () => {
-        const d = document.createElement('div'); d.className = 'exp-item';
-        d.innerHTML = `<div class="exp-top"><div><div class="exp-co" contenteditable="true">Project Name</div><div class="exp-role" contenteditable="true">Tech Stack</div></div><div class="exp-date" contenteditable="true" style="color:${themeColor};background:${themeColor}22">2024</div></div><div class="exp-desc" contenteditable="true">Project description here.</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
-        document.getElementById('projectList').appendChild(d);
-    };
-
-    const addCert = () => {
-        const d = document.createElement('div'); d.className = 'field';
-        d.innerHTML = `<div class="fval" contenteditable="true">Certification Name — Issuer (Year)</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
-        document.getElementById('certList').appendChild(d);
-    };
-
-    const addAchieve = () => {
-        const d = document.createElement('div'); d.className = 'field';
-        d.innerHTML = `<div class="fval" contenteditable="true">Achievement here...</div><button class="del-btn no-print" onclick="this.parentElement.remove()">×</button>`;
-        document.getElementById('achieveList').appendChild(d);
-    };
-
-    const addSection = () => {
-        const d = document.createElement('div'); d.className = 'section';
-        d.innerHTML = `<button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button><div class="sec-title" contenteditable="true" style="color:${themeColor};border-bottom-color:${themeColor}">New Section</div><div class="fval" contenteditable="true" style="line-height:1.8;color:#555;">Content here...</div>`;
-        document.getElementById('customSections').appendChild(d);
-    };
-
-    // ─── PAGE 2 ───
-    const addPage2 = () => {
-        document.getElementById('page2').style.display = 'block';
-        document.getElementById('addPageBtn').style.display = 'none';
-    };
-
-    const removePage2 = () => {
-        document.getElementById('page2').style.display = 'none';
-        document.getElementById('addPageBtn').style.display = 'block';
-    };
-
-    const addPage2Section = () => {
-        const d = document.createElement('div'); d.className = 'section';
-        d.innerHTML = `<button class="sec-del no-print" onclick="this.closest('.section').remove()">×</button><div class="sec-title" contenteditable="true" style="color:${themeColor};border-bottom-color:${themeColor}">New Section</div><div class="fval" contenteditable="true" style="line-height:1.8;color:#555;">Content here...</div>`;
-        document.getElementById('page2Sections').appendChild(d);
-    };
-
-    // ─── PDF ───
-    const downloadPDF = () => {
-        document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
-        const opt = { margin: 0, filename: 'resume.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false, scrollY: 0 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-        const page2Visible = document.getElementById('page2').style.display !== 'none';
-        const pages = [document.getElementById('page1')];
-        if (page2Visible) pages.push(document.getElementById('page2'));
-        html2pdf().set(opt).from(pages[0]).save().then(() => {
-            document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
-            if (document.getElementById('photoPreview').src) document.getElementById('photoPlaceholder').style.display = 'none';
-            if (!page2Visible) document.getElementById('page2').style.display = 'none';
-        });
-    };
+// ─── PDF ───
+const downloadPDF=()=>{
+  document.querySelectorAll('.no-print').forEach(el=>el.style.display='none');
+  document.getElementById('linkModal').style.display='none';
+  const opt={margin:0,filename:'resume.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+  const page2Visible=document.getElementById('page2').style.display!=='none';
+  html2pdf().set(opt).from(document.getElementById('page1')).save().then(()=>{
+    document.querySelectorAll('.no-print').forEach(el=>el.style.display='');
+    if(document.getElementById('photoPreview').src)document.getElementById('photoPlaceholder').style.display='none';
+    if(!page2Visible)document.getElementById('page2').style.display='none';
+    if(document.getElementById('addPageBtn'))document.getElementById('addPageBtn').style.display=page2Visible?'none':'block';
+  });
+};
 </script>
 </body>
 </html>

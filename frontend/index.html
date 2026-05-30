@@ -1013,7 +1013,7 @@
             const name = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
-            if (!name || !email || !password) return showMsg('Saare fields bharo!', 'error');
+            if (!name || !email || !password) return showMsg('Plese enter all feilds !', 'error');
             const res = await fetch(`${API}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1021,7 +1021,7 @@
             });
             const data = await res.json();
             if (res.ok) {
-                showMsg('Account ban gaya! Ab login karo ✅', 'success');
+                showMsg('Account created ✅', 'success');
                 setTimeout(() => switchTab('login'), 1500);
             } else {
                 showMsg(data.message, 'error');
@@ -1033,7 +1033,7 @@
             const password = document.getElementById('loginPassword').value;
 
             if (!email || !password) {
-                return showMsg('Email aur password daalo!', 'error');
+                return showMsg('Enter Email and Password !', 'error');
             }
 
             try {
@@ -1050,7 +1050,7 @@
                 console.log("RAW RESPONSE:", text);
 
                 if (!text) {
-                    return showMsg('Server se empty response aaya', 'error');
+                    return showMsg('Got empty response from server ', 'error');
                 }
 
                 const data = JSON.parse(text);
@@ -1058,7 +1058,7 @@
                 if (res.ok) {
                     localStorage.setItem('token', data.token);
 
-                    showMsg('Login successful! Redirect ho raha hai... ✅', 'success');
+                    showMsg('Login successful! being redirect... ✅', 'success');
 
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';

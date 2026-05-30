@@ -16,10 +16,7 @@ const loadResumes = async () => {
             }
         });
 
-        const data = await res.json();
-
-        console.log(data);
-
+        
         const resumeList = document.getElementById('resumeList');
 
         // agar response array nahi hai

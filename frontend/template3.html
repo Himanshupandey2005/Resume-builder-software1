@@ -112,6 +112,42 @@
             position: relative;
         }
 
+        /* drag styles */
+        .sidebar-section.dragging { opacity: 0.4; }
+        .sidebar-section.drag-over { outline: 2px dashed #27ae60; border-radius: 4px; background: rgba(39,174,96,0.08); }
+        .section.dragging { opacity: 0.4; }
+        .section.drag-over { outline: 2px dashed #27ae60; border-radius: 4px; background: rgba(39,174,96,0.04); }
+
+        .drag-handle {
+            position: absolute;
+            left: -18px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: grab;
+            color: rgba(255,255,255,0.25);
+            font-size: 14px;
+            display: none;
+            user-select: none;
+            padding: 3px;
+        }
+        .drag-handle:active { cursor: grabbing; }
+        .sidebar-section:hover .drag-handle { display: block; }
+
+        .right-drag-handle {
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: grab;
+            color: #ccc;
+            font-size: 14px;
+            display: none;
+            user-select: none;
+            padding: 3px;
+        }
+        .right-drag-handle:active { cursor: grabbing; }
+        .section:hover .right-drag-handle { display: block; }
+
         .sidebar-section-title {
             font-size: 9px;
             font-weight: 700;
@@ -170,9 +206,19 @@
             border-radius: 4px;
         }
 
+        .sidebar-contact-link {
+            font-size: 11px;
+            color: #27ae60;
+            flex: 1;
+            line-height: 1.4;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
         /* ─── CONTENT ─── */
         .content {
             padding: 28px 24px;
+            padding-left: 36px;
         }
 
         .section {
@@ -384,6 +430,44 @@
             color: #27ae60;
         }
 
+        /* ─── LINK MODAL ─── */
+        #linkModal {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        #linkModal.show { display: flex; }
+        .modal-box {
+            background: #1a202c;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 22px;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+        .modal-box h3 { color: white; font-size: 14px; font-weight: 600; }
+        .modal-input {
+            padding: 9px 12px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            outline: none;
+            font-family: 'Arial', sans-serif;
+            width: 100%;
+        }
+        .modal-input::placeholder { color: rgba(255,255,255,0.3); }
+        .modal-row { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 9px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Arial', sans-serif; }
+        .modal-cancel { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
+        .modal-ok { background: #27ae60; color: white; }
+
         /* ─── TOOLBAR ─── */
         .toolbar {
             position: fixed;
@@ -412,39 +496,19 @@
             align-items: center;
             gap: 8px;
             width: 100%;
+            font-family: 'Arial', sans-serif;
         }
 
-        .btn-back {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-        }
+        .btn-back { background: rgba(255, 255, 255, 0.08); color: white; }
+        .btn-back:hover { background: rgba(255, 255, 255, 0.15); }
+        .btn-color { background: rgba(255, 255, 255, 0.08); color: white; }
+        .btn-color:hover { background: rgba(255, 255, 255, 0.15); }
+        .btn-link { background: rgba(255, 255, 255, 0.08); color: white; }
+        .btn-link:hover { background: rgba(255, 255, 255, 0.15); }
+        .btn-download { background: #27ae60; color: white; }
+        .btn-download:hover { background: #219a52; }
 
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-color {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-        }
-
-        .btn-color:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-download {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-download:hover {
-            background: #219a52;
-        }
-
-        .toolbar-divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-        }
+        .toolbar-divider { height: 1px; background: rgba(255, 255, 255, 0.1); }
 
         .color-options {
             display: none;
@@ -453,9 +517,7 @@
             padding: 4px 0;
         }
 
-        .color-options.show {
-            display: flex;
-        }
+        .color-options.show { display: flex; }
 
         .color-dot {
             width: 24px;
@@ -466,40 +528,23 @@
             transition: transform 0.2s;
         }
 
-        .color-dot:hover {
-            transform: scale(1.2);
-        }
+        .color-dot:hover { transform: scale(1.2); }
 
         @media print {
-            .toolbar {
-                display: none !important;
-            }
-
-            .no-print {
-                display: none !important;
-            }
-
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .resume {
-                box-shadow: none;
-            }
+            .toolbar, #linkModal, .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .resume { box-shadow: none; width: 210mm; }
+            .drag-handle, .right-drag-handle { display: none !important; }
         }
 
-        /* ─── MOBILE RESPONSIVE ─── */
-        /* ─── MOBILE RESPONSIVE ─── */
+        /* ─── MOBILE ─── */
         @media (max-width: 768px) {
-
             body {
                 padding: 110px 8px 20px 8px !important;
                 display: block;
                 overflow-x: auto;
                 background: #f0f4f8;
             }
-
             .resume {
                 width: 794px !important;
                 min-width: 794px;
@@ -507,8 +552,6 @@
                 transform-origin: top left;
                 margin: 0 auto;
             }
-
-            /* toolbar top fixed */
             .toolbar {
                 position: fixed !important;
                 top: 10px !important;
@@ -516,28 +559,20 @@
                 transform: translateX(-50%) !important;
                 right: auto !important;
                 bottom: auto !important;
-
                 width: auto !important;
                 flex-direction: row !important;
                 align-items: center;
                 justify-content: center;
-
                 padding: 10px !important;
                 gap: 8px !important;
-
                 z-index: 9999;
             }
-
             .toolbar-btn {
                 width: auto !important;
                 font-size: 11px !important;
                 padding: 8px 10px !important;
             }
-
-            .toolbar-divider {
-                display: none;
-            }
-
+            .toolbar-divider { display: none; }
             .color-options {
                 position: absolute;
                 top: 55px;
@@ -555,25 +590,42 @@
 
 <body>
 
+    <!-- ─── LINK MODAL ─── -->
+    <div id="linkModal">
+        <div class="modal-box">
+            <h3>🔗 Add Link to Contact</h3>
+            <select class="modal-input" id="linkIcon">
+                <option value="🔗">🔗 Link (generic)</option>
+                <option value="💼">💼 LinkedIn</option>
+                <option value="💻">💻 GitHub</option>
+                <option value="🌐">🌐 Website / Portfolio</option>
+                <option value="📧">📧 Email</option>
+                <option value="🐦">🐦 Twitter / X</option>
+            </select>
+            <input class="modal-input" id="linkLabel" placeholder="Display text (e.g. linkedin.com/in/name)" />
+            <input class="modal-input" id="linkUrl" placeholder="URL (e.g. https://linkedin.com/in/...)" />
+            <div class="modal-row">
+                <button class="modal-btn modal-cancel" onclick="closeLinkModal()">Cancel</button>
+                <button class="modal-btn modal-ok" onclick="insertLink()">Add Link</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ─── TOOLBAR ─── -->
     <div class="toolbar no-print">
         <button class="toolbar-btn btn-back" onclick="window.location.href='dashboard.html'">← Back</button>
         <div class="toolbar-divider"></div>
         <button class="toolbar-btn btn-color" onclick="toggleColors()">🎨 Theme</button>
         <div class="color-options" id="colorOptions">
-            <div class="color-dot" style="background:#27ae60" onclick="changeTheme('#27ae60','#1a202c','#2d3748')">
-            </div>
-            <div class="color-dot" style="background:#e94560" onclick="changeTheme('#e94560','#1a1a2e','#2d2d42')">
-            </div>
-            <div class="color-dot" style="background:#2E75B6" onclick="changeTheme('#2E75B6','#0f2744','#1a3a5c')">
-            </div>
-            <div class="color-dot" style="background:#8e44ad" onclick="changeTheme('#8e44ad','#2d1b4e','#3d2460')">
-            </div>
-            <div class="color-dot" style="background:#f39c12" onclick="changeTheme('#f39c12','#2d1f0a','#3d2a10')">
-            </div>
-            <div class="color-dot" style="background:#00b4d8" onclick="changeTheme('#00b4d8','#012a36','#013a4a')">
-            </div>
+            <div class="color-dot" style="background:#27ae60" onclick="changeTheme('#27ae60','#1a202c','#2d3748')"></div>
+            <div class="color-dot" style="background:#e94560" onclick="changeTheme('#e94560','#1a1a2e','#2d2d42')"></div>
+            <div class="color-dot" style="background:#2E75B6" onclick="changeTheme('#2E75B6','#0f2744','#1a3a5c')"></div>
+            <div class="color-dot" style="background:#8e44ad" onclick="changeTheme('#8e44ad','#2d1b4e','#3d2460')"></div>
+            <div class="color-dot" style="background:#f39c12" onclick="changeTheme('#f39c12','#2d1f0a','#3d2a10')"></div>
+            <div class="color-dot" style="background:#00b4d8" onclick="changeTheme('#00b4d8','#012a36','#013a4a')"></div>
         </div>
+        <div class="toolbar-divider"></div>
+        <button class="toolbar-btn btn-link" onclick="openLinkModal()">🔗 Add Link</button>
         <div class="toolbar-divider"></div>
         <button class="toolbar-btn btn-download" onclick="downloadPDF()">⬇ Download PDF</button>
     </div>
@@ -597,10 +649,11 @@
             </div>
 
             <!-- Sidebar Content -->
-            <div class="sidebar-content">
+            <div class="sidebar-content" id="sidebarSections" style="padding-left:28px;">
 
                 <!-- Contact -->
-                <div class="sidebar-section">
+                <div class="sidebar-section" draggable="true">
+                    <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
                     <button class="sidebar-section-del-btn no-print"
                         onclick="this.closest('.sidebar-section').remove()">×</button>
                     <div class="sidebar-section-title" contenteditable="true">Contact</div>
@@ -635,7 +688,8 @@
                 </div>
 
                 <!-- Skills -->
-                <div class="sidebar-section">
+                <div class="sidebar-section" draggable="true">
+                    <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
                     <button class="sidebar-section-del-btn no-print"
                         onclick="this.closest('.sidebar-section').remove()">×</button>
                     <div class="sidebar-section-title" contenteditable="true">Skills</div>
@@ -661,7 +715,8 @@
                 </div>
 
                 <!-- Languages -->
-                <div class="sidebar-section">
+                <div class="sidebar-section" draggable="true">
+                    <span class="drag-handle no-print" title="Drag to reorder">⠿</span>
                     <button class="sidebar-section-del-btn no-print"
                         onclick="this.closest('.sidebar-section').remove()">×</button>
                     <div class="sidebar-section-title" contenteditable="true">Languages</div>
@@ -687,10 +742,11 @@
         </div>
 
         <!-- ─── CONTENT ─── -->
-        <div class="content">
+        <div class="content" id="rightSections" style="padding-left:36px;">
 
             <!-- Profile -->
-            <div class="section">
+            <div class="section" draggable="true">
+                <span class="right-drag-handle no-print" title="Drag to reorder">⠿</span>
                 <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
                 <div class="section-title" contenteditable="true">Profile</div>
                 <div class="field-value" contenteditable="true" style="line-height:1.8; color:#555;">
@@ -700,7 +756,8 @@
             </div>
 
             <!-- Experience -->
-            <div class="section">
+            <div class="section" draggable="true">
+                <span class="right-drag-handle no-print" title="Drag to reorder">⠿</span>
                 <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
                 <div class="section-title" contenteditable="true">Work Experience</div>
                 <div id="expList">
@@ -721,7 +778,8 @@
             </div>
 
             <!-- Education -->
-            <div class="section">
+            <div class="section" draggable="true">
+                <span class="right-drag-handle no-print" title="Drag to reorder">⠿</span>
                 <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
                 <div class="section-title" contenteditable="true">Education</div>
                 <div id="eduList">
@@ -741,7 +799,8 @@
             </div>
 
             <!-- Projects -->
-            <div class="section">
+            <div class="section" draggable="true">
+                <span class="right-drag-handle no-print" title="Drag to reorder">⠿</span>
                 <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
                 <div class="section-title" contenteditable="true">Projects</div>
                 <div id="projectList">
@@ -762,7 +821,8 @@
             </div>
 
             <!-- Certifications -->
-            <div class="section">
+            <div class="section" draggable="true">
+                <span class="right-drag-handle no-print" title="Drag to reorder">⠿</span>
                 <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
                 <div class="section-title" contenteditable="true">Certifications</div>
                 <div id="certList">
@@ -784,11 +844,87 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-        // ─── TOKEN CHECK ───
         const token = localStorage.getItem('token');
         if (!token) window.location.href = 'index.html';
 
         let accentColor = '#27ae60';
+        let dragSrc = null;
+
+        // ─── DRAG & DROP ───
+        function initDrag(container, sectionClass) {
+            container.addEventListener('dragstart', e => {
+                dragSrc = e.target.closest(sectionClass);
+                if (!dragSrc) return;
+                setTimeout(() => dragSrc.classList.add('dragging'), 0);
+                e.dataTransfer.effectAllowed = 'move';
+            });
+            container.addEventListener('dragend', () => {
+                container.querySelectorAll(sectionClass).forEach(s => s.classList.remove('dragging', 'drag-over'));
+                dragSrc = null;
+            });
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const target = e.target.closest(sectionClass);
+                if (!target || target === dragSrc) return;
+                container.querySelectorAll(sectionClass).forEach(s => s.classList.remove('drag-over'));
+                target.classList.add('drag-over');
+            });
+            container.addEventListener('dragleave', e => {
+                const t = e.target.closest(sectionClass);
+                if (t) t.classList.remove('drag-over');
+            });
+            container.addEventListener('drop', e => {
+                e.preventDefault();
+                const target = e.target.closest(sectionClass);
+                if (!target || target === dragSrc) return;
+                target.classList.remove('drag-over');
+                const all = [...container.querySelectorAll(':scope > ' + sectionClass)];
+                const si = all.indexOf(dragSrc), ti = all.indexOf(target);
+                if (si < ti) target.after(dragSrc); else target.before(dragSrc);
+            });
+
+            // Touch drag
+            let touchDrag = null, touchClone = null, lastOver = null;
+            container.addEventListener('touchstart', e => {
+                const h = e.target.closest('.drag-handle, .right-drag-handle');
+                if (!h) return;
+                touchDrag = h.closest(sectionClass);
+                if (!touchDrag) return;
+                touchClone = touchDrag.cloneNode(true);
+                const isLight = sectionClass === '.section';
+                touchClone.style.cssText = 'position:fixed;opacity:0.7;pointer-events:none;z-index:9999;width:' + touchDrag.offsetWidth + 'px;border:2px dashed ' + accentColor + ';border-radius:6px;' + (isLight ? 'background:white;' : 'background:#2d3748;');
+                document.body.appendChild(touchClone);
+                touchDrag.classList.add('dragging');
+                e.preventDefault();
+            }, { passive: false });
+            container.addEventListener('touchmove', e => {
+                if (!touchDrag) return;
+                e.preventDefault();
+                const t = e.touches[0];
+                touchClone.style.left = (t.clientX - touchDrag.offsetWidth / 2) + 'px';
+                touchClone.style.top = (t.clientY - 30) + 'px';
+                const el = document.elementFromPoint(t.clientX, t.clientY);
+                const over = el ? el.closest(sectionClass) : null;
+                if (lastOver && lastOver !== touchDrag) lastOver.classList.remove('drag-over');
+                if (over && over !== touchDrag) { over.classList.add('drag-over'); lastOver = over; }
+            }, { passive: false });
+            container.addEventListener('touchend', () => {
+                if (!touchDrag) return;
+                if (touchClone) { touchClone.remove(); touchClone = null; }
+                touchDrag.classList.remove('dragging');
+                if (lastOver && lastOver !== touchDrag) {
+                    lastOver.classList.remove('drag-over');
+                    const all = [...container.querySelectorAll(':scope > ' + sectionClass)];
+                    const si = all.indexOf(touchDrag), ti = all.indexOf(lastOver);
+                    if (si < ti) lastOver.after(touchDrag); else lastOver.before(touchDrag);
+                    lastOver = null;
+                }
+                touchDrag = null;
+            });
+        }
+
+        initDrag(document.getElementById('sidebarSections'), '.sidebar-section');
+        initDrag(document.getElementById('rightSections'), '.section');
 
         // ─── PHOTO ───
         const handlePhoto = (input) => {
@@ -813,27 +949,42 @@
             document.getElementById('sidebar').style.background = sidebarBg;
             document.getElementById('sidebarPhotoSection').style.background = darkBg;
             document.getElementById('photoPreview').style.borderColor = accent;
-
-            document.querySelectorAll('.section-title').forEach(el => {
-                el.style.color = accent;
-                el.style.borderBottomColor = accent;
-            });
-            document.querySelectorAll('.sidebar-section-title').forEach(el => {
-                el.style.color = accent;
-            });
+            document.querySelectorAll('.section-title').forEach(el => { el.style.color = accent; el.style.borderBottomColor = accent; });
+            document.querySelectorAll('.sidebar-section-title').forEach(el => { el.style.color = accent; });
             document.querySelectorAll('.exp-role').forEach(el => { el.style.color = accent; });
+            document.querySelectorAll('.btn-download').forEach(el => { el.style.background = accent; });
+            document.querySelectorAll('.modal-ok').forEach(el => { el.style.background = accent; });
             document.getElementById('colorOptions').classList.remove('show');
         };
+
+        // ─── LINK MODAL ───
+        const openLinkModal = () => {
+            document.getElementById('linkLabel').value = '';
+            document.getElementById('linkUrl').value = '';
+            document.getElementById('linkModal').classList.add('show');
+        };
+        const closeLinkModal = () => document.getElementById('linkModal').classList.remove('show');
+        const insertLink = () => {
+            const icon = document.getElementById('linkIcon').value;
+            const label = document.getElementById('linkLabel').value.trim() || 'My Link';
+            const url = document.getElementById('linkUrl').value.trim();
+            const d = document.createElement('div');
+            d.className = 'sidebar-contact-item';
+            if (url) {
+                d.innerHTML = `<span class="sidebar-contact-icon">${icon}</span><a href="${url}" target="_blank" class="sidebar-contact-link">${label}</a><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+            } else {
+                d.innerHTML = `<span class="sidebar-contact-icon">${icon}</span><span class="sidebar-contact-text" contenteditable="true">${label}</span><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
+            }
+            document.getElementById('contactList').appendChild(d);
+            closeLinkModal();
+        };
+        document.getElementById('linkModal').addEventListener('click', e => { if (e.target === document.getElementById('linkModal')) closeLinkModal(); });
 
         // ─── ADD CONTACT ───
         const addContact = () => {
             const div = document.createElement('div');
             div.className = 'sidebar-contact-item';
-            div.innerHTML = `
-            <span class="sidebar-contact-icon">📌</span>
-            <span class="sidebar-contact-text" contenteditable="true">New Info</span>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<span class="sidebar-contact-icon">📌</span><span class="sidebar-contact-text" contenteditable="true">New Info</span><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('contactList').appendChild(div);
         };
 
@@ -841,10 +992,7 @@
         const addSkill = () => {
             const div = document.createElement('div');
             div.className = 'sidebar-field';
-            div.innerHTML = `
-            <div class="sidebar-field-value" contenteditable="true">New Skill</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="sidebar-field-value" contenteditable="true">New Skill</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('skillsList').appendChild(div);
         };
 
@@ -852,10 +1000,7 @@
         const addLanguage = () => {
             const div = document.createElement('div');
             div.className = 'sidebar-field';
-            div.innerHTML = `
-            <div class="sidebar-field-value" contenteditable="true">New Language</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="sidebar-field-value" contenteditable="true">New Language</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('langList').appendChild(div);
         };
 
@@ -863,17 +1008,7 @@
         const addExperience = () => {
             const div = document.createElement('div');
             div.className = 'exp-item';
-            div.innerHTML = `
-            <div class="exp-header">
-                <div>
-                    <div class="exp-company" contenteditable="true">Company Name</div>
-                    <div class="exp-role" contenteditable="true" style="color:${accentColor}">Your Role</div>
-                </div>
-                <div class="exp-date" contenteditable="true">2024 - Present</div>
-            </div>
-            <div class="exp-desc" contenteditable="true">Describe your responsibilities here.</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="exp-header"><div><div class="exp-company" contenteditable="true">Company Name</div><div class="exp-role" contenteditable="true" style="color:${accentColor}">Your Role</div></div><div class="exp-date" contenteditable="true">2024 - Present</div></div><div class="exp-desc" contenteditable="true">Describe your responsibilities here.</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('expList').appendChild(div);
         };
 
@@ -881,17 +1016,7 @@
         const addEducation = () => {
             const div = document.createElement('div');
             div.className = 'exp-item';
-            div.innerHTML = `
-            <div class="exp-header">
-                <div>
-                    <div class="exp-company" contenteditable="true">College Name</div>
-                    <div class="exp-role" contenteditable="true" style="color:${accentColor}">Degree Name</div>
-                </div>
-                <div class="exp-date" contenteditable="true">2022 - 2025</div>
-            </div>
-            <div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="exp-header"><div><div class="exp-company" contenteditable="true">College Name</div><div class="exp-role" contenteditable="true" style="color:${accentColor}">Degree Name</div></div><div class="exp-date" contenteditable="true">2022 - 2025</div></div><div class="exp-desc" contenteditable="true">CGPA: 8.0 / 10</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('eduList').appendChild(div);
         };
 
@@ -899,17 +1024,7 @@
         const addProject = () => {
             const div = document.createElement('div');
             div.className = 'exp-item';
-            div.innerHTML = `
-            <div class="exp-header">
-                <div>
-                    <div class="exp-company" contenteditable="true">Project Name</div>
-                    <div class="exp-role" contenteditable="true" style="color:${accentColor}">Tech Stack</div>
-                </div>
-                <div class="exp-date" contenteditable="true">2024</div>
-            </div>
-            <div class="exp-desc" contenteditable="true">Project description here.</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="exp-header"><div><div class="exp-company" contenteditable="true">Project Name</div><div class="exp-role" contenteditable="true" style="color:${accentColor}">Tech Stack</div></div><div class="exp-date" contenteditable="true">2024</div></div><div class="exp-desc" contenteditable="true">Project description here.</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('projectList').appendChild(div);
         };
 
@@ -917,10 +1032,7 @@
         const addCert = () => {
             const div = document.createElement('div');
             div.className = 'field';
-            div.innerHTML = `
-            <div class="field-value" contenteditable="true">Certification Name — Issuer (Year)</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="field-value" contenteditable="true">Certification Name — Issuer (Year)</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             document.getElementById('certList').appendChild(div);
         };
 
@@ -928,28 +1040,15 @@
         const addSidebarSection = () => {
             const div = document.createElement('div');
             div.className = 'sidebar-section';
-            div.innerHTML = `
-            <button class="sidebar-section-del-btn no-print" onclick="this.closest('.sidebar-section').remove()">×</button>
-            <div class="sidebar-section-title" contenteditable="true" style="color:${accentColor}">New Section</div>
-            <div class="sidebar-custom-items">
-                <div class="sidebar-field">
-                    <div class="sidebar-field-value" contenteditable="true">Write content here...</div>
-                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn-sidebar no-print" onclick="addSidebarItem(this)">+ Add</button>
-        `;
+            div.draggable = true;
+            div.innerHTML = `<span class="drag-handle no-print">⠿</span><button class="sidebar-section-del-btn no-print" onclick="this.closest('.sidebar-section').remove()">×</button><div class="sidebar-section-title" contenteditable="true" style="color:${accentColor}">New Section</div><div class="sidebar-custom-items"><div class="sidebar-field"><div class="sidebar-field-value" contenteditable="true">Write content here...</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button></div></div><button class="add-btn-sidebar no-print" onclick="addSidebarItem(this)">+ Add</button>`;
             document.getElementById('sidebarCustomSections').appendChild(div);
         };
 
-        // ─── ADD SIDEBAR ITEM ───
         const addSidebarItem = (btn) => {
             const div = document.createElement('div');
             div.className = 'sidebar-field';
-            div.innerHTML = `
-            <div class="sidebar-field-value" contenteditable="true">New Item</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="sidebar-field-value" contenteditable="true">New Item</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             btn.previousElementSibling.appendChild(div);
         };
 
@@ -957,65 +1056,92 @@
         const addRightSection = () => {
             const div = document.createElement('div');
             div.className = 'section';
-            div.innerHTML = `
-            <button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button>
-            <div class="section-title" contenteditable="true" style="color:${accentColor}; border-bottom-color:${accentColor}">New Section</div>
-            <div class="custom-items">
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <div class="exp-company" contenteditable="true">Item Title</div>
-                            <div class="exp-role" contenteditable="true" style="color:${accentColor}">Subtitle</div>
-                        </div>
-                        <div class="exp-date" contenteditable="true">Date</div>
-                    </div>
-                    <div class="exp-desc" contenteditable="true">Description here...</div>
-                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-                </div>
-            </div>
-            <button class="add-btn-right no-print" onclick="addRightItem(this)">+ Add Item</button>
-        `;
+            div.draggable = true;
+            div.innerHTML = `<span class="right-drag-handle no-print">⠿</span><button class="section-del-btn no-print" onclick="this.closest('.section').remove()">×</button><div class="section-title" contenteditable="true" style="color:${accentColor}; border-bottom-color:${accentColor}">New Section</div><div class="custom-items"><div class="exp-item"><div class="exp-header"><div><div class="exp-company" contenteditable="true">Item Title</div><div class="exp-role" contenteditable="true" style="color:${accentColor}">Subtitle</div></div><div class="exp-date" contenteditable="true">Date</div></div><div class="exp-desc" contenteditable="true">Description here...</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button></div></div><button class="add-btn-right no-print" onclick="addRightItem(this)">+ Add Item</button>`;
             document.getElementById('rightCustomSections').appendChild(div);
         };
 
-        // ─── ADD RIGHT ITEM ───
         const addRightItem = (btn) => {
             const div = document.createElement('div');
             div.className = 'exp-item';
-            div.innerHTML = `
-            <div class="exp-header">
-                <div>
-                    <div class="exp-company" contenteditable="true">Item Title</div>
-                    <div class="exp-role" contenteditable="true" style="color:${accentColor}">Subtitle</div>
-                </div>
-                <div class="exp-date" contenteditable="true">Date</div>
-            </div>
-            <div class="exp-desc" contenteditable="true">Description here...</div>
-            <button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>
-        `;
+            div.innerHTML = `<div class="exp-header"><div><div class="exp-company" contenteditable="true">Item Title</div><div class="exp-role" contenteditable="true" style="color:${accentColor}">Subtitle</div></div><div class="exp-date" contenteditable="true">Date</div></div><div class="exp-desc" contenteditable="true">Description here...</div><button class="delete-btn no-print" onclick="this.parentElement.remove()">×</button>`;
             btn.previousElementSibling.appendChild(div);
         };
 
-        // ─── PDF DOWNLOAD ───
-        const downloadPDF = () => {
-            document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
-            const element = document.getElementById('resume');
-            const options = {
-                margin: 0,
-                filename: 'resume.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false, scrollY: 0 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(options).from(element).save().then(() => {
-                document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
-                if (document.getElementById('photoPreview').src) {
-                    document.getElementById('photoPlaceholder').style.display = 'none';
-                }
+        // ─── PDF DOWNLOAD (FIXED) ───
+        // ─── PDF DOWNLOAD FINAL FIX ───
+const downloadPDF = async () => {
+
+    // Hide controls
+    document.querySelectorAll('.no-print').forEach(el => {
+        el.style.display = 'none';
+    });
+
+    document.getElementById('linkModal').style.display = 'none';
+
+    const resume = document.getElementById('resume');
+
+    // Backup styles
+    const oldTransform = resume.style.transform;
+    const oldWidth = resume.style.width;
+    const oldMinWidth = resume.style.minWidth;
+
+    // Remove mobile scaling
+    resume.style.transform = 'scale(1)';
+    resume.style.width = '794px';
+    resume.style.minWidth = '794px';
+
+    // Wait for repaint
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    const options = {
+        margin: 0,
+
+        filename: 'resume.pdf',
+
+        image: {
+            type: 'jpeg',
+            quality: 1
+        },
+
+        html2canvas: {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            scrollY: 0,
+            width: 794,
+            windowWidth: 794
+        },
+
+        jsPDF: {
+            unit: 'px',
+            format: [794, 1123],
+            orientation: 'portrait'
+        }
+    };
+
+    html2pdf()
+        .set(options)
+        .from(resume)
+        .save()
+        .then(() => {
+
+            // Restore styles
+            resume.style.transform = oldTransform;
+            resume.style.width = oldWidth;
+            resume.style.minWidth = oldMinWidth;
+
+            // Show controls again
+            document.querySelectorAll('.no-print').forEach(el => {
+                el.style.display = '';
             });
-        };
+
+            if (document.getElementById('photoPreview').src) {
+                document.getElementById('photoPlaceholder').style.display = 'none';
+            }
+        });
+};
     </script>
 
 </body>
-
 </html>
